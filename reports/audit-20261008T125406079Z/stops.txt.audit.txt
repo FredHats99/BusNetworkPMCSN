@@ -1,0 +1,4 @@
+columns=11
+stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,stop_url,wheelchair_boarding,stop_timezone,location_type,parent_station
+rows=8301
+time_values_at_or_beyond_24h=0

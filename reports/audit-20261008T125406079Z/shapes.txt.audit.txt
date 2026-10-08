@@ -1,0 +1,4 @@
+columns=5
+shape_id,shape_pt_lat,shape_pt_lon,shape_pt_sequence,shape_dist_traveled
+rows=535674
+time_values_at_or_beyond_24h=0

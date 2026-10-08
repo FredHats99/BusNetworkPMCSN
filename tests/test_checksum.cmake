@@ -1,0 +1,4 @@
+file(SHA256 "${FIXTURE}" actual)
+if(NOT actual STREQUAL "edeaaff3f1774ad2888673770c6d64097e391bc362d7d6fb34982ddf0efd18cb")
+  message(FATAL_ERROR "SHA256 fixture mismatch: ${actual}")
+endif()

@@ -1,0 +1,4 @@
+columns=10
+trip_id,arrival_time,departure_time,stop_id,stop_sequence,stop_headsign,pickup_type,drop_off_type,shape_dist_traveled,timepoint
+rows=5004475
+time_values_at_or_beyond_24h=624956

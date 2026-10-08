@@ -1,0 +1,4 @@
+columns=3
+service_id,date,exception_type
+rows=3435
+time_values_at_or_beyond_24h=0

@@ -1,0 +1,9 @@
+# Proposta: collector continuativo ancora da implementare.
+interval_seconds: 60
+timezone: Europe/Rome
+raw_directory: data/raw
+sources:
+  static: https://romamobilita.it/sites/default/files/rome_static_gtfs.zip
+  vehicles: https://romamobilita.it/sites/default/files/rome_rtgtfs_vehicle_positions_feed.pb
+  updates: https://romamobilita.it/sites/default/files/rome_rtgtfs_trip_updates_feed.pb
+  alerts: https://romamobilita.it/sites/default/files/rome_rtgtfs_service_alerts_feed.pb

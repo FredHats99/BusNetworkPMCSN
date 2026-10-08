@@ -1,0 +1,4 @@
+columns=8
+route_id,agency_id,route_short_name,route_long_name,route_type,route_url,route_color,route_text_color
+rows=430
+time_values_at_or_beyond_24h=0

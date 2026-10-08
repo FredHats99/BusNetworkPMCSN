@@ -1,0 +1,86 @@
+catalog_version: 1
+access_date: 2026-10-08
+author: Roma Servizi per la Mobilita
+source_page: https://romamobilita.it/sistemi-e-tecnologie/open-data/
+license_status: not_confirmed_for_research_or_redistribution
+continuous_collection: not_started
+resources:
+  - id: static
+    url: https://romamobilita.it/sites/default/files/rome_static_gtfs.zip
+    path: data/raw/audit-20261008T124020Z/static.zip
+    fetched_at_utc: '10/08/2026 12:40:20'
+    sha256: BCC5781F8B0979BFC292CF9E8B45EEDC3EADB5D9AC1CA7294172F4D88CAEFE34
+    bytes: 46358630
+    schema: GTFS Schedule CSV
+    coverage: single_snapshot
+    quality: structural_audit_passed_semantic_checks_limited
+  - id: vehicles
+    url: https://romamobilita.it/sites/default/files/rome_rtgtfs_vehicle_positions_feed.pb
+    path: data/raw/audit-20261008T124020Z/vehicles.pb
+    fetched_at_utc: '10/08/2026 12:40:55'
+    sha256: 8A850B9EDBED84CCBFEC4B5DD6183DC86E38A1A206B40874FA6187748B637B7B
+    bytes: 130947
+    schema: GTFS Realtime protobuf
+    coverage: single_snapshot
+    quality: structural_audit_passed_semantic_checks_limited
+  - id: updates
+    url: https://romamobilita.it/sites/default/files/rome_rtgtfs_trip_updates_feed.pb
+    path: data/raw/audit-20261008T124020Z/updates.pb
+    fetched_at_utc: '10/08/2026 12:40:56'
+    sha256: 6AE98329EB3C372A7EC5C22C519F9D5A29886E96F25A8C16EE133DC82C7F2E94
+    bytes: 886422
+    schema: GTFS Realtime protobuf
+    coverage: single_snapshot
+    quality: structural_audit_passed_semantic_checks_limited
+  - id: alerts
+    url: https://romamobilita.it/sites/default/files/rome_rtgtfs_service_alerts_feed.pb
+    path: data/raw/audit-20261008T124020Z/alerts.pb
+    fetched_at_utc: '10/08/2026 12:40:57'
+    sha256: C1A98B25A5679C16FD6DA38F7D252F16A24D978CEEB72C29629BA5A4C87D1F37
+    bytes: 77246
+    schema: GTFS Realtime protobuf
+    coverage: single_snapshot
+    quality: structural_audit_passed_semantic_checks_limited
+  - id: vehicles-second
+    url: https://romamobilita.it/sites/default/files/rome_rtgtfs_vehicle_positions_feed.pb
+    path: data/raw/audit-20261008T124020Z/vehicles-second.pb
+    fetched_at_utc: null # timestamp client non registrato nel primo controllo manuale
+    sha256: CA159B6B19923EBAF8AAA3323734C3235C20A934C68E474DC21EC4102CD538E5
+    feed_timestamp_unix: 1791463413
+    coverage: second_snapshot_only
+  - id: static-integration
+    url: https://romamobilita.it/sites/default/files/rome_static_gtfs.zip
+    path: data/raw/audit-20261008T125406079Z/static.zip
+    fetched_at_utc: '10/08/2026 12:54:06'
+    completed_at_utc: '10/08/2026 12:54:34'
+    sha256: BCC5781F8B0979BFC292CF9E8B45EEDC3EADB5D9AC1CA7294172F4D88CAEFE34
+    schema: GTFS Schedule CSV
+    coverage: single_snapshot
+    quality: audit_script_passed
+  - id: vehicles-integration
+    url: https://romamobilita.it/sites/default/files/rome_rtgtfs_vehicle_positions_feed.pb
+    path: data/raw/audit-20261008T125406079Z/vehicles.pb
+    fetched_at_utc: '10/08/2026 12:54:35'
+    completed_at_utc: '10/08/2026 12:54:36'
+    sha256: 61E50CBA94D1435CB79B855809C9B90169C6727789B3165C50D4A92CC7E57464
+    schema: GTFS Realtime protobuf
+    coverage: single_snapshot
+    quality: audit_script_passed
+  - id: updates-integration
+    url: https://romamobilita.it/sites/default/files/rome_rtgtfs_trip_updates_feed.pb
+    path: data/raw/audit-20261008T125406079Z/updates.pb
+    fetched_at_utc: '10/08/2026 12:54:36'
+    completed_at_utc: '10/08/2026 12:54:37'
+    sha256: 5294B78CAC86FDC0C4FB7C8FA7634A392903609C6A4B1340B7487096AE01CDF4
+    schema: GTFS Realtime protobuf
+    coverage: single_snapshot
+    quality: audit_script_passed
+  - id: alerts-integration
+    url: https://romamobilita.it/sites/default/files/rome_rtgtfs_service_alerts_feed.pb
+    path: data/raw/audit-20261008T125406079Z/alerts.pb
+    fetched_at_utc: '10/08/2026 12:54:37'
+    completed_at_utc: '10/08/2026 12:54:37'
+    sha256: C3821F3132492FFA2C5F096C8E520BC2ECCB40E94F0D265035014B9247095FF1
+    schema: GTFS Realtime protobuf
+    coverage: single_snapshot
+    quality: audit_script_passed

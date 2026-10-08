@@ -1,0 +1,4 @@
+columns=7
+agency_id,agency_name,agency_url,agency_timezone,agency_lang,agency_phone,agency_fare_url
+rows=5
+time_values_at_or_beyond_24h=0

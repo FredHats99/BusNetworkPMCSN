@@ -1,0 +1,5 @@
+* text=auto
+/tests/fixtures/checksum.txt text eol=lf
+*.c text eol=lf
+*.h text eol=lf
+*.cmake text eol=lf

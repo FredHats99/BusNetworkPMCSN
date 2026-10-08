@@ -1,0 +1,8 @@
+duplicate_stop_ids=0
+duplicate_route_ids=0
+duplicate_trip_ids=0
+trips_missing_route=0
+trips_missing_service=0
+trips_missing_shape=0
+stop_times_missing_trip=0
+stop_times_missing_stop=0

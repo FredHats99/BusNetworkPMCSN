@@ -1,0 +1,2 @@
+trip_id,arrival_time,departure_time,stop_id,stop_sequence
+synthetic,25:01:02,25:01:03,1,1

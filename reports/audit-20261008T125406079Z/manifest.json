@@ -1,0 +1,38 @@
+﻿[
+    {
+        "feed":  "static",
+        "url":  "https://romamobilita.it/sites/default/files/rome_static_gtfs.zip",
+        "fetched_at_utc":  "2026-10-08T12:54:06.0968654Z",
+        "completed_at_utc":  "2026-10-08T12:54:34.9064850Z",
+        "exit_code":  0,
+        "path":  "data/raw/audit-20261008T125406079Z/static.zip",
+        "sha256":  "BCC5781F8B0979BFC292CF9E8B45EEDC3EADB5D9AC1CA7294172F4D88CAEFE34"
+    },
+    {
+        "feed":  "vehicles",
+        "url":  "https://romamobilita.it/sites/default/files/rome_rtgtfs_vehicle_positions_feed.pb",
+        "fetched_at_utc":  "2026-10-08T12:54:35.4383791Z",
+        "completed_at_utc":  "2026-10-08T12:54:36.2094398Z",
+        "exit_code":  0,
+        "path":  "data/raw/audit-20261008T125406079Z/vehicles.pb",
+        "sha256":  "61E50CBA94D1435CB79B855809C9B90169C6727789B3165C50D4A92CC7E57464"
+    },
+    {
+        "feed":  "updates",
+        "url":  "https://romamobilita.it/sites/default/files/rome_rtgtfs_trip_updates_feed.pb",
+        "fetched_at_utc":  "2026-10-08T12:54:36.2896854Z",
+        "completed_at_utc":  "2026-10-08T12:54:37.0689681Z",
+        "exit_code":  0,
+        "path":  "data/raw/audit-20261008T125406079Z/updates.pb",
+        "sha256":  "5294B78CAC86FDC0C4FB7C8FA7634A392903609C6A4B1340B7487096AE01CDF4"
+    },
+    {
+        "feed":  "alerts",
+        "url":  "https://romamobilita.it/sites/default/files/rome_rtgtfs_service_alerts_feed.pb",
+        "fetched_at_utc":  "2026-10-08T12:54:37.1094391Z",
+        "completed_at_utc":  "2026-10-08T12:54:37.5526923Z",
+        "exit_code":  0,
+        "path":  "data/raw/audit-20261008T125406079Z/alerts.pb",
+        "sha256":  "C3821F3132492FFA2C5F096C8E520BC2ECCB40E94F0D265035014B9247095FF1"
+    }
+]

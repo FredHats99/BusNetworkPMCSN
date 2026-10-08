@@ -1,0 +1,10 @@
+/build*/
+/data/raw/*
+/data/interim/*
+/data/processed/*
+!/data/raw/.gitkeep
+!/data/interim/.gitkeep
+!/data/processed/.gitkeep
+/.idea/
+/.env
+*.part
