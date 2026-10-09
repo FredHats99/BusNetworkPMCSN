@@ -2,7 +2,7 @@
 
 Progetto **C17**, build CMake, test CTest. Specifica: [PMCSN_Roma_Bus_SPEC.md](PMCSN_Roma_Bus_SPEC.md).
 
-Piano riallineato alla specifica ufficiale AA 2025/2026: [matrice dei requisiti](docs/requisiti_ufficiali.md). Progetto individuale; transitorio obbligatorio, miglioramento algoritmico facoltativo, presentazione massimo 20 minuti. Dopo l'audit preliminare, il prossimo passo è la Fase 1: sistema, obiettivi, riferimenti metodologici e disegno degli esperimenti.
+Piano riallineato alla specifica ufficiale AA 2025/2026: [matrice dei requisiti](docs/requisiti_ufficiali.md). Progetto individuale; transitorio obbligatorio, miglioramento algoritmico facoltativo, presentazione massimo 20 minuti. Fase 1 di pianificazione conclusa: [piano dello studio](docs/study_plan.md), [protocollo statistico](docs/statistical_protocol.md) e campione di sei linee. Il prossimo passo è la Fase 2: modello concettuale, input e configurazione eseguibile. Nessuna simulazione ancora eseguita.
 
 ## Build
 

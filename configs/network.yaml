@@ -1,3 +1,25 @@
-# Da scegliere dopo audit della copertura.
-route_ids: []
-agency_ids: []
+# Perimetro congelato sullo snapshot; input simulativi ancora da specificare.
+status: snapshot_scope_selected_not_executable
+long_term_scope: all_bus_routes_joint_simulation
+source: data/interim/audit-static
+selection_script: scripts/select_sample.py
+selection_report: reports/network_sample.json
+audit_report: reports/network_sample_audit.json
+scope_report: reports/network_sample.md
+timetable_export: data/processed/sample_timetable.csv
+service_date: '2026-10-12'
+departure_window_start: '07:00:00'
+departure_window_end_exclusive: '11:00:00'
+route_type: 3
+route_ids: ['81', '628', '87', '70', '5BUS', '19BUS']
+ordinary_route_ids: ['81', '628', '87', '70']
+replacement_route_ids: ['5BUS', '19BUS']
+agency_ids: ['OP1']
+directions: [0, 1]
+pattern_policy: retain_all_ordered_stop_pickup_dropoff_patterns
+pattern_count: 15
+operational_topology_status: snapshot_only_not_operationally_validated
+boundary_initialization: pending_phase_2_include_trips_already_in_progress
+passenger_queue_policy: separate_by_route_and_direction
+cross_route_interactions: common_environment_on_validated_shared_arcs
+interaction_domain_status: pending_phase_2_geometry_and_input_specification

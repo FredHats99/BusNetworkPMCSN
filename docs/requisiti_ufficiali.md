@@ -11,8 +11,8 @@ SHA-256 della fonte verificata: `B3490DA5003771F65EEE4B9A39D3ED5EDF406B9EE1A8137
 | R01 | Individuare il sistema oggetto dello studio | p. 1, punto 1 | Obbligatorio; 1.3, 2.1 |
 | R02 | Individuare obiettivi, motivazioni e miglioramenti attesi | p. 1, punto 2; pp. 1–2, relazione | Obbligatorio; 1.4, 1.8, 5.5, 7.1 |
 | R03 | Progettare esperimenti pertinenti al caso e agli obiettivi | p. 1, punto 3 | Obbligatorio; 1.5–1.7, 5.1–5.3 |
-| R04 | Costruire il modello seguendo gli algoritmi 1.1 e 1.2 del testo Leemis–Park | p. 1, punto 4 e nota 1 | Obbligatorio; 1.2, 2.1, 3.1. Contenuto degli algoritmi ancora da consultare |
-| R05 | Usare le linee guida Kurkowski–Camp–Colagrosso, con particolare attenzione alla sezione III | p. 1, dopo punto 6 e nota 2 | Obbligatorio; 1.2, 1.7. Articolo ancora da consultare |
+| R04 | Costruire il modello seguendo gli algoritmi 1.1 e 1.2 del testo Leemis–Park | p. 1, punto 4 e nota 1 | Obbligatorio; 1.2, 2.1, 3.1. Procedure metodologiche consultate e mappate in `methodology_leemis_park.md`; PDF fornito: revisione 2004, Algorithm 1.1.1/1.1.2, identità con edizione 2006 non verificata. Esecuzione dei passi ancora aperta |
+| R05 | Usare le linee guida Kurkowski–Camp–Colagrosso, con particolare attenzione alla sezione III | p. 1, dopo punto 6 e nota 2 | Obbligatorio; 1.2, 1.7. Sezione III consultata il 2026-10-09 e mappata in `methodology_kurkowski.md`; applicazione futura da verificare |
 | R06 | Analizzare comportamento iniziale nel tempo, eventuale convergenza e quando si raggiunge | p. 1, punto 5 | Obbligatorio anche per individuali; Fase 4 |
 | R07 | Mostrare transitorio ed esperimenti sia con grafici sia con tabelle numeriche riassuntive | p. 1, punto 6 | Obbligatorio; 4.6, 5.4, 7.3 |
 | R08 | Individuale oppure gruppo di massimo 3; per gruppi comunicazione al docente e tutti i partecipanti inclusi nelle email | p. 1, partecipanti | Modalità individuale confermata; 1.1. Adempimenti di gruppo non applicabili |
@@ -31,7 +31,7 @@ SHA-256 della fonte verificata: `B3490DA5003771F65EEE4B9A39D3ED5EDF406B9EE1A8137
 - **Scelte del progetto:** Roma Bus, C17, DES, code a capacità finita, GTFS e indicatori scelti. Devono essere pertinenti e motivati, ma non sono prescrizioni specifiche del PDF.
 - **Estensioni opzionali:** raccolta realtime prolungata, 3–5 linee, holding/controllo degli headway e ottimizzazione. Nell'individuale non sostituiscono né devono ritardare gli obblighi fondamentali.
 - **Modalità temporale:** il PDF chiede di studiare la convergenza, non autorizza a presupporla. Una giornata non stazionaria o uno scenario sovraccarico richiedono diagnosi esplicita e orizzonte motivato.
-- **Riferimenti da leggere:** il PDF cita gli algoritmi e l'articolo ma non ne contiene il testo. La casella 1.2 resta aperta; non è stata dedotta una sequenza di passi attribuita arbitrariamente al libro.
+- **Riferimenti:** il PDF ufficiale cita gli algoritmi e l'articolo ma non ne contiene il testo. Il 2026-10-09 consultati separatamente i due testi forniti dall'utente e mappati i contenuti effettivi. Il PDF Leemis–Park riporta revisione 2004 e numerazione 1.1.1/1.1.2, diversa dalla bibliografia ufficiale 2006/1.1–1.2; differenza documentata senza dichiarare verificata l'identità tra edizioni. Lettura e applicazione dei passi sono stati distinti.
 
 ## Bibliografia prescritta e suggerita nel PDF
 

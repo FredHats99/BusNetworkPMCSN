@@ -1,2 +1,92 @@
-status: not_implemented
-scenarios: []
+schema_version: 1
+status: phase_1_design_consolidated_not_executable
+study_plan: docs/study_plan.md
+design_date: '2026-10-09'
+parameter_status: assumed_pending_phase_2
+baseline:
+  network: four_ordinary_two_replacement_routes_both_directions
+  network_config: configs/network.yaml
+  service_date: '2026-10-12'
+  demand_profile: null
+  od_profile: null
+  vehicle_capacity: null
+  travel_time_mean_by_arc: null
+  travel_time_cv_positive: null
+  dwell_parameters: null
+  perturbation_marginal_distribution: null
+  shared_arc_domain: pending_phase_2_geometry_validation
+time:
+  mode: finite_horizon
+  preliminary_horizon_seconds: 14400
+  diagnostic_bin_seconds: 300
+  warmup_seconds: null
+  final_horizon_gate: phase_4_transient_analysis
+  terminal_policy: pending_phase_2_censoring_and_drain_definition
+scenarios:
+  - id: D075
+    demand_multiplier: 0.75
+    travel_variability: positive_baseline
+    perturbation_dependence: independent_between_routes
+  - id: BASE
+    demand_multiplier: 1.0
+    travel_variability: positive_baseline
+    perturbation_dependence: independent_between_routes
+  - id: D125
+    demand_multiplier: 1.25
+    travel_variability: positive_baseline
+    perturbation_dependence: independent_between_routes
+  - id: REGULAR
+    demand_multiplier: 1.0
+    travel_variability: zero_same_arc_means
+    perturbation_dependence: none
+  - id: SHARED
+    demand_multiplier: 1.0
+    travel_variability: positive_baseline
+    perturbation_dependence: shared_on_validated_common_arcs
+  - id: SHARED_D125
+    demand_multiplier: 1.25
+    travel_variability: positive_baseline
+    perturbation_dependence: shared_on_validated_common_arcs
+comparisons:
+  - [D075, BASE]
+  - [D125, BASE]
+  - [REGULAR, BASE]
+  - [SHARED, BASE]
+  - [SHARED_D125, D125]
+dependence_comparison:
+  marginal_input_distributions: identical
+  mean_arc_times: identical
+  demand_od_capacity_departure_timetable: identical_within_comparison
+  domain: same_validated_common_arcs_in_both_scenarios
+  environmental_time_bins_seconds: 300
+  interpretation: common_environment_not_bus_induced_congestion
+responses:
+  primary: cohort_restricted_mean_wait_seconds
+  secondary:
+    - time_average_queue_passengers
+    - passenger_denied_boarding_fraction
+    - headway_cv_by_stop
+    - terminal_unserved_fraction
+statistics:
+  methodological_basis: docs/statistical_protocol.md
+  protocol_status: consolidated_preliminary_with_phase_2_3_execution_gates
+  pilot_replications: 40
+  pilot_role: variance_and_cost_estimation_not_final_results
+  production: fixed_size_new_independent_replications_after_pilot
+  production_replications: null # Computed from pilot, same N for all scenarios.
+  sample_size_method: leemis_park_example_8_1_9_with_student_planning_check
+  confidence_level: 0.95
+  confidence_level_status: local_choice_supported_by_algorithm_8_1_1
+  confidence_interval_method: student_algorithm_8_1_1_on_replication_outputs
+  confidence_scope: marginal
+  primary_halfwidth_absolute_target_seconds: 10
+  precision_applies_to: scenario_primary_means_and_prespecified_primary_differences
+  random_streams: [passenger_arrivals, passenger_destinations, independent_arc_times, shared_environment, random_initial_state]
+  rng_algorithm: leemis_park_rngs_candidate_subject_to_adequacy_gate
+  master_seed: 123456789
+  seed_policy: plant_once_continue_stream_states_across_replications_scenarios_and_phases
+  stream_jump: 8367782
+  cumulative_draw_budget_per_stream_exclusive: 8367782
+  seed_manifest: reports/seed_manifest.csv # Future output, not yet generated.
+  pairing: independent_scenarios_index_matched_differences_without_crn
+  sequential_stopping_on_production_intervals: false

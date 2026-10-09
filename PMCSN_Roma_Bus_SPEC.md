@@ -301,14 +301,18 @@ Il collector e l'estensione a 3–5 linee sono attività di supporto opzionali, 
 
 ### Fase 1 — Definire sistema, obiettivi e disegno degli esperimenti
 
+**Pianificazione Fase 1 conclusa il 2026-10-09:** perimetro, obiettivi, disegno preliminare, protocollo e registro delle ipotesi consolidati. Fonti consultate tracciate; versione Leemis–Park distinta dall'edizione citata. Nessun simulatore o esperimento dichiarato eseguito. Input eseguibili e gate scientifici nelle Fasi 2–5.
+
 - [x] **1.1 — Modalità [R08]:** progetto individuale confermato dall'utente e registrato in `docs/decisions.md`; adempimenti di gruppo non applicabili.
-- [ ] **1.2 — Riferimenti metodologici [R04, R05]:** consultare gli algoritmi 1.1 e 1.2 di Leemis–Park e la sezione III di Kurkowski–Camp–Colagrosso; creare una corrispondenza tra i loro passi e gli artefatti del progetto. Il PDF cita questi testi ma non ne riporta il contenuto: non dichiararli già letti e non inventare i passi.
-- [ ] **1.3 — Sistema [R01]:** delimitare la sottorete Roma Bus, fermate direzionali, linee, passeggeri, servizio, confini e interazioni. Iniziare da un perimetro gestibile; motivare eventuali ampliamenti.
-- [ ] **1.4 — Obiettivi [R02]:** scegliere domande misurabili, motivazioni e miglioramenti attesi; associare ogni domanda a indicatori, unità e criterio di confronto (es. attesa, regolarità, mancati imbarchi).
-- [ ] **1.5 — Natura temporale [R03, R13]:** scegliere simulazione a orizzonte finito, studio del regime stazionario o periodico e spiegare perché è pertinente al servizio autobus. Distinguere durata della raccolta dati, orizzonte simulato e tempo di presentazione.
-- [ ] **1.6 — Disegno sperimentale preliminare [R03]:** fissare baseline, fattori, livelli, variabili di risposta e scenari in `configs/experiments.yaml` prima di scegliere parametri in base ai risultati. Il numero di scenari deriva dagli obiettivi, non da un minimo numerico attribuito al PDF.
-- [ ] **1.7 — Protocollo statistico [R03, R05]:** pianificare repliche, flussi RNG/seed, intervalli di confidenza e precisione richiesta; specificare confronti appaiati/common random numbers quando opportuni. Warm-up e orizzonte definitivo saranno motivati dall'analisi del transitorio.
-- [ ] **1.8 — Piano dello studio [R02, R03, R16]:** salvare obiettivi, ipotesi e disegno preliminare in `docs/study_plan.md`; controllare pertinenza PMCSN e fattibilità. Prevedere già la Fase 6 se il progetto è di gruppo.
+- [x] **1.2 — Riferimenti metodologici [R04, R05]:** consultate e mappate le procedure metodologiche del testo Leemis–Park fornito dall'utente e la sezione III di Kurkowski–Camp–Colagrosso. La versione Leemis–Park riporta dicembre 2004 e Algorithm 1.1.1/1.1.2; differenza con la citazione ufficiale 2006/1.1–1.2 tracciata, identità tra edizioni non verificata. Il completamento riguarda consultazione e mappatura, non esecuzione dei passi.
+  - [x] **Kurkowski–Camp–Colagrosso:** sezione III letta integralmente dal PDF fornito dall'utente il 2026-10-09; indicazioni, pagine e applicazioni distinte in `docs/methodology_kurkowski.md`.
+  - [x] **Leemis–Park:** procedure di sviluppo del modello e conduzione dello studio lette dal PDF fornito dall'utente; passi 1–11, pagine, versione e applicazioni in `docs/methodology_leemis_park.md`.
+- [x] **1.3 — Sistema [R01]:** selezionate sei linee, entrambe le direzioni e tutte le 15 varianti nello snapshot del servizio 2026-10-12. Confini, passeggeri e interazioni iniziali in `docs/study_plan.md`; verifica e limiti operativi in `reports/network_sample.md`. Estensione futura all'intera rete richiesta dall'utente; input simulativi da specificare in Fase 2.
+- [x] **1.4 — Obiettivi [R02]:** domande su domanda, variabilità e ambiente condiviso, indicatori e decisioni in `docs/study_plan.md`; risposta primaria limitata alla finestra e quota non servita sempre riportata.
+- [x] **1.5 — Natura temporale [R03, R13]:** studio finito 07:00–11:00 motivato; raccolta, simulazione e presentazione distinti. Stato iniziale/arresto in Fase 2; orizzonte definitivo e transitorio in Fase 4.
+- [x] **1.6 — Disegno sperimentale preliminare [R03]:** sei scenari e cinque confronti in `configs/experiments.yaml`, inclusi indipendente/condiviso a domanda centrale e alta; input marginali invariati e parametri assoluti da congelare in Fase 2.
+- [x] **1.7 — Protocollo statistico [R03, R05]:** `docs/statistical_protocol.md`: IC Student da Algorithm 8.1.1, dimensionamento dal pilota su Example 8.1.9, repliche finite da 8.3 e flussi da 3.2. Scelte locali esplicite 40 piloti, 95%, 10 s; casualità indipendente senza CRN, produzione N fissato dal pilota, gate RNG prima delle run.
+- [x] **1.8 — Piano dello studio [R02, R03, R16]:** piano, ipotesi, configurazioni e fattibilità allineati; Fase 6 facoltativa nell'individuale. Sono completati gli artefatti di pianificazione, non i gate o i risultati delle fasi successive.
 
 **Completamento:** caso e obiettivi espliciti, esperimenti progettati, modalità registrata e metodologia collegata ai riferimenti richiesti.
 
@@ -435,10 +439,10 @@ Il collector e l'estensione a 3–5 linee sono attività di supporto opzionali, 
 
 ---
 
-## 14. Prossima milestone dopo l'allineamento ufficiale
+## 14. Prossima milestone dopo la pianificazione Fase 1
 
-Leggere la matrice `docs/requisiti_ufficiali.md` e procedere dalla **Fase 1**: la Fase 0 tecnica è già stata eseguita e non va ripetuta. La partecipazione individuale è già confermata: delimitare sistema e obiettivi, consultare i riferimenti metodologici e progettare gli esperimenti prima di sviluppare il DES. Non rendere una raccolta realtime di quattro settimane o l'estensione a 3–5 linee prerequisiti accademici non presenti nel PDF.
+Procedere dalla **Fase 2**: Fase 0 tecnica e Fase 1 di pianificazione sono concluse. Specificare modello concettuale, input e configurazione eseguibile delle sei linee, seguendo le corrispondenze metodologiche documentate. Non rendere una raccolta realtime di quattro settimane o l'estensione all'intera rete prerequisiti accademici non presenti nel PDF.
 
-**Output atteso:** `docs/study_plan.md` con caso, obiettivi misurabili, fattori/livelli, metriche, strategia temporale preliminare, piano di verifica/validazione e analisi del transitorio; modalità di partecipazione registrata; corrispondenza verificata ai riferimenti richiesti. In seguito implementare il modello base in C, valutarne il transitorio e svolgere gli esperimenti.
+**Output atteso:** `docs/model_spec.md`, input tracciati e configurazioni eseguibili, con distribuzioni, capacità, domanda/OD, ambiente condiviso, inizializzazione e arresto. Piano e protocollo statistico sono in `docs/study_plan.md` e `docs/statistical_protocol.md`; nessun gate esecutivo è già superato. In seguito implementare il DES C, verificarlo e validarlo, studiare il transitorio ed eseguire gli esperimenti.
 
 **Definizione di completamento:** ogni obiettivo ha esperimenti e risultati attesi documentabili; nessun testo citato è dichiarato letto senza esserlo; ogni nuova checkbox viene spuntata soltanto dopo evidenze. Per i gruppi pianificare l'evoluzione algoritmica e la ripetizione dello studio; la consegna di relazione/codice e le comunicazioni al docente rimangono adempimenti distinti dalla preparazione dei materiali.

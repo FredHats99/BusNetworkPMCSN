@@ -1,0 +1,341 @@
+{
+  "source": "data\\interim\\audit-static",
+  "service_date": "20261012",
+  "departure_window": "[07:00,11:00)",
+  "route_type": 3,
+  "calendar_policy": "calendar_dates only; source has no calendar.txt",
+  "criterion": "four ordinary numeric-label routes then two tram replacements; ordinary seed adjacent to at least two replacements; greedy frequency + shared directed consecutive stop pairs",
+  "score_formula": "departures/max_ordinary_departures + min(shared_directed_stop_pairs_with_selected_union,20)/20; ties by route_id",
+  "selection_steps": [
+    {
+      "route_id": "81",
+      "class": "ordinary_numeric_label",
+      "shared_directed_stop_pairs_with_previous": 0,
+      "score": 0.3225806451612903
+    },
+    {
+      "route_id": "628",
+      "class": "ordinary_numeric_label",
+      "shared_directed_stop_pairs_with_previous": 19,
+      "score": 1.3478494623655912
+    },
+    {
+      "route_id": "87",
+      "class": "ordinary_numeric_label",
+      "shared_directed_stop_pairs_with_previous": 17,
+      "score": 1.2801075268817204
+    },
+    {
+      "route_id": "70",
+      "class": "ordinary_numeric_label",
+      "shared_directed_stop_pairs_with_previous": 18,
+      "score": 1.3623655913978494
+    },
+    {
+      "route_id": "5BUS",
+      "class": "tram_replacement",
+      "shared_directed_stop_pairs_with_previous": 2,
+      "score": 0.9064516129032257
+    },
+    {
+      "route_id": "19BUS",
+      "class": "tram_replacement",
+      "shared_directed_stop_pairs_with_previous": 34,
+      "score": 1.3763440860215055
+    }
+  ],
+  "excluded_known_topology_mismatch": [
+    "3NAV"
+  ],
+  "eligible_routes": 201,
+  "selected": [
+    {
+      "route_id": "81",
+      "name": "81",
+      "agency_id": "OP1",
+      "departures": 30,
+      "departures_by_direction": {
+        "0": 15,
+        "1": 15
+      },
+      "stop_ids_count": 79,
+      "shape_ids_count": 2
+    },
+    {
+      "route_id": "628",
+      "name": "628",
+      "agency_id": "OP1",
+      "departures": 37,
+      "departures_by_direction": {
+        "0": 19,
+        "1": 18
+      },
+      "stop_ids_count": 84,
+      "shape_ids_count": 2
+    },
+    {
+      "route_id": "87",
+      "name": "87",
+      "agency_id": "OP1",
+      "departures": 40,
+      "departures_by_direction": {
+        "0": 21,
+        "1": 19
+      },
+      "stop_ids_count": 66,
+      "shape_ids_count": 3
+    },
+    {
+      "route_id": "70",
+      "name": "70",
+      "agency_id": "OP1",
+      "departures": 43,
+      "departures_by_direction": {
+        "1": 23,
+        "0": 20
+      },
+      "stop_ids_count": 51,
+      "shape_ids_count": 3
+    },
+    {
+      "route_id": "5BUS",
+      "name": "5BUS",
+      "agency_id": "OP1",
+      "departures": 75,
+      "departures_by_direction": {
+        "0": 37,
+        "1": 38
+      },
+      "stop_ids_count": 42,
+      "shape_ids_count": 2
+    },
+    {
+      "route_id": "19BUS",
+      "name": "19BUS",
+      "agency_id": "OP1",
+      "departures": 35,
+      "departures_by_direction": {
+        "0": 19,
+        "1": 16
+      },
+      "stop_ids_count": 91,
+      "shape_ids_count": 3
+    }
+  ],
+  "shared_stop_ids": [
+    {
+      "routes": [
+        "81",
+        "628"
+      ],
+      "count": 21
+    },
+    {
+      "routes": [
+        "81",
+        "87"
+      ],
+      "count": 21
+    },
+    {
+      "routes": [
+        "81",
+        "70"
+      ],
+      "count": 17
+    },
+    {
+      "routes": [
+        "81",
+        "5BUS"
+      ],
+      "count": 3
+    },
+    {
+      "routes": [
+        "81",
+        "19BUS"
+      ],
+      "count": 3
+    },
+    {
+      "routes": [
+        "628",
+        "87"
+      ],
+      "count": 14
+    },
+    {
+      "routes": [
+        "628",
+        "70"
+      ],
+      "count": 11
+    },
+    {
+      "routes": [
+        "628",
+        "5BUS"
+      ],
+      "count": 0
+    },
+    {
+      "routes": [
+        "628",
+        "19BUS"
+      ],
+      "count": 0
+    },
+    {
+      "routes": [
+        "87",
+        "70"
+      ],
+      "count": 20
+    },
+    {
+      "routes": [
+        "87",
+        "5BUS"
+      ],
+      "count": 0
+    },
+    {
+      "routes": [
+        "87",
+        "19BUS"
+      ],
+      "count": 1
+    },
+    {
+      "routes": [
+        "70",
+        "5BUS"
+      ],
+      "count": 0
+    },
+    {
+      "routes": [
+        "70",
+        "19BUS"
+      ],
+      "count": 2
+    },
+    {
+      "routes": [
+        "5BUS",
+        "19BUS"
+      ],
+      "count": 34
+    }
+  ],
+  "shared_directed_stop_pairs": [
+    {
+      "routes": [
+        "81",
+        "628"
+      ],
+      "count": 19
+    },
+    {
+      "routes": [
+        "81",
+        "87"
+      ],
+      "count": 17
+    },
+    {
+      "routes": [
+        "81",
+        "70"
+      ],
+      "count": 15
+    },
+    {
+      "routes": [
+        "81",
+        "5BUS"
+      ],
+      "count": 2
+    },
+    {
+      "routes": [
+        "81",
+        "19BUS"
+      ],
+      "count": 2
+    },
+    {
+      "routes": [
+        "628",
+        "87"
+      ],
+      "count": 11
+    },
+    {
+      "routes": [
+        "628",
+        "70"
+      ],
+      "count": 9
+    },
+    {
+      "routes": [
+        "628",
+        "5BUS"
+      ],
+      "count": 0
+    },
+    {
+      "routes": [
+        "628",
+        "19BUS"
+      ],
+      "count": 0
+    },
+    {
+      "routes": [
+        "87",
+        "70"
+      ],
+      "count": 18
+    },
+    {
+      "routes": [
+        "87",
+        "5BUS"
+      ],
+      "count": 0
+    },
+    {
+      "routes": [
+        "87",
+        "19BUS"
+      ],
+      "count": 0
+    },
+    {
+      "routes": [
+        "70",
+        "5BUS"
+      ],
+      "count": 0
+    },
+    {
+      "routes": [
+        "70",
+        "19BUS"
+      ],
+      "count": 1
+    },
+    {
+      "routes": [
+        "5BUS",
+        "19BUS"
+      ],
+      "count": 33
+    }
+  ],
+  "total_unique_stop_ids": 310,
+  "total_departures": 260
+}
