@@ -1,0 +1,32 @@
+{
+  "returncode": 0,
+  "identical": {
+    "jsonl": true,
+    "csv": true
+  },
+  "seconds_after": 4.154576699947938,
+  "release_comparison": {
+    "returncode": 0,
+    "identical": {
+      "jsonl": true,
+      "csv": false
+    },
+    "seconds_release": 3.573768900008872
+  },
+  "release_strict_comparison": {
+    "returncode": 0,
+    "identical": {
+      "jsonl": true,
+      "csv": true
+    },
+    "seconds_release": 3.763556299963966
+  },
+  "release_buffered_comparison": {
+    "returncode": 0,
+    "identical": {
+      "jsonl": true,
+      "csv": true
+    },
+    "seconds_release_buffered": 3.602129500010051
+  }
+}

@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "gate": "3.8",
+  "criteria_version": "1.1",
+  "status": "fixed_before_independent_confirmation",
+  "date": "2026-10-22",
+  "purpose": "confirmatory_gate_decision_not_pilot_or_production",
+  "root_seed": 123456789,
+  "discard_draws_each_used_stream": 33554432,
+  "replicas_per_case": 672,
+  "scenarios": [
+    "D075",
+    "BASE",
+    "D125",
+    "REGULAR",
+    "SHARED",
+    "SHARED_D125"
+  ],
+  "initializations": [
+    "empty_passengers",
+    "loaded_synthetic"
+  ],
+  "comparisons": [
+    [
+      "BASE",
+      "REGULAR"
+    ],
+    [
+      "SHARED",
+      "BASE"
+    ],
+    [
+      "SHARED_D125",
+      "D125"
+    ]
+  ],
+  "stochastic_comparisons": [
+    [
+      "SHARED",
+      "BASE"
+    ],
+    [
+      "SHARED_D125",
+      "D125"
+    ]
+  ],
+  "cdf_probabilities": [
+    0.1,
+    0.25,
+    0.5,
+    0.75,
+    0.9
+  ],
+  "margins": {
+    "factor_mean_absolute": 0.02,
+    "factor_cv_absolute": 0.03,
+    "cdf_probability_absolute": 0.03,
+    "arc_travel_mean_seconds": 10.0
+  },
+  "inference": {
+    "unit": "one_statistic_per_replica_per_group",
+    "interval": "two_sided_student_on_replica_statistics_or_index_matched_independent_differences",
+    "family_confidence": 0.95,
+    "multiplicity": "bonferroni_over_all_prespecified_assertions_including_missing_cells",
+    "acceptance": "entire_interval_strictly_inside_equivalence_band",
+    "failure": "entire_interval_outside_equivalence_band",
+    "otherwise": "inconclusive",
+    "empty_or_missing_replica_group": "insufficient_coverage_no_zero_imputation",
+    "minimum_replicas": 672,
+    "minimum_observations_per_replica_for_cv": 2,
+    "no_automatic_replica_extension": true
+  },
+  "mandatory_groups": {
+    "marginal_reference_checks": [
+      "network",
+      "route_direction",
+      "inside_and_outside_shared_domain"
+    ],
+    "marginal_comparisons": [
+      "network",
+      "route_direction",
+      "inside_and_outside_shared_domain"
+    ],
+    "arc_mean_checks": "all_route_direction_directed_stop_pairs_with_at_least_one_nominal_eligible_segment_start_before_T",
+    "arc_travel_comparisons": "same_fixed_arc_set_in_both_scenarios"
+  },
+  "population": "all_stochastic_or_regular_segment_starts_in_window_including_legs_finishing_at_or_after_T_initial_residual_legs_excluded",
+  "diagnostics_not_acceptance": [
+    "per_arc_cdf_and_cv",
+    "new_key_only_distribution",
+    "factor_reuse_fraction",
+    "reference_time_composition",
+    "environment_bin_strata"
+  ],
+  "exact_requirements": [
+    "positive_finite_times_and_factors",
+    "duration_equals_reference_times_factor",
+    "bin_equals_floor_departure_over_300",
+    "canonical_keys_match_input_geometry_and_mode",
+    "same_key_same_factor_in_replica",
+    "all_reuses_recorded_and_rng_draws_equal_two_per_new_key",
+    "REGULAR_factor_one_and_zero_travel_rng_draws",
+    "continual_rng_state_across_all_cases",
+    "no_duplicate_or_missing_replica_or_segment_records",
+    "input_hashes_and_common_parameters_match_within_comparison",
+    "baseline_software_tests_pass"
+  ],
+  "overall_acceptance": "all_exact_requirements_pass_and_every_mandatory_equivalence_assertion_passes",
+  "limitations": [
+    "Margins are local engineering choices, not academic requirements",
+    "Previous smoke outputs informed design; new draws start beyond their observed used-stream ranges",
+    "Student coverage is approximate for nonnormal replica statistics; 672 replicas do not prove normality",
+    "Finite CDF grid does not establish equality at every quantile or in extreme tails",
+    "No acceptance of empirical passenger demand or real travel times",
+    "Any failure or inconclusive cell blocks full acceptance; margins and sample size are not relaxed after seeing results",
+    "Precision planning uses estimated dispersion, not a guarantee of final half-width or equivalence; no further automatic extension"
+  ],
+  "protocol": "docs/gate38_confirmation_protocol.md",
+  "planning_campaign": "data/processed/phase3/gate38_v1",
+  "prior_final_stream_draws": [
+    31812118,
+    31653526,
+    3915562,
+    2737232
+  ],
+  "planning": {
+    "target_halfwidth_fraction": 0.5,
+    "estimated_minimum_N": 670,
+    "fixed_N": 672,
+    "evidence_sha256": "3486a35b3c5b7f09b5aff7efa9fd09a63e30fb5676442841acad5faf366702fc",
+    "planning_data_included_in_final_intervals": false
+  }
+}

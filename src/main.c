@@ -1,4 +1,5 @@
 #include "rome_bus_pmcsn/audit.h"
+#include "rome_bus_pmcsn/simulation.h"
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
@@ -66,8 +67,13 @@ static int audit_csv(const char *path) {
     printf("rows=%zu\ntime_values_at_or_beyond_24h=%zu\n", rows, beyond24); return 0;
 }
 int main(int argc, char **argv) {
+    if (argc > 1 && (!strcmp(argv[1], "simulate") || !strcmp(argv[1], "validate") || !strcmp(argv[1], "diagnose"))) {
+        int rc = pm_simulation_cli(argc, argv);
+        if (rc == 2) fprintf(stderr, "Invalid simulation arguments. Use --help.\n");
+        return rc;
+    }
     if (argc == 2 && !strcmp(argv[1], "--help")) {
-        puts("rome_bus_pmcsn download-static OUTPUT.zip\nrome_bus_pmcsn download-feed vehicles|updates|alerts OUTPUT.pb\nrome_bus_pmcsn audit-feeds FILE.pb\nrome_bus_pmcsn feed-trip-ids FILE.pb\nrome_bus_pmcsn audit-static FILE.txt\nPhase 0: structural and scalar audit; relational validation remains separate."); return 0;
+        puts("rome_bus_pmcsn download-static OUTPUT.zip\nrome_bus_pmcsn download-feed vehicles|updates|alerts OUTPUT.pb\nrome_bus_pmcsn audit-feeds FILE.pb\nrome_bus_pmcsn feed-trip-ids FILE.pb\nrome_bus_pmcsn audit-static FILE.txt\nrome_bus_pmcsn validate-keys DIRECTORY\nrome_bus_pmcsn simulate controlled --rate R --headway H --capacity C --horizon T [--seed S] [--replicas N] [--trace NEW.csv]\nrome_bus_pmcsn validate controlled\nrome_bus_pmcsn simulate|validate network INPUT.txt [--seed S] [--replicas N] [--trace NEW.csv]\nControlled model: use consistent time units; network: service-day seconds.\nJSONL on stdout; validate checks implementation invariants, not empirical validity."); return 0;
     }
     if (argc == 3 && !strcmp(argv[1], "download-static")) return download_feed("static", argv[2]);
     if (argc == 4 && !strcmp(argv[1], "download-feed")) return download_feed(argv[2], argv[3]);

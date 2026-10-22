@@ -1,13 +1,19 @@
 # BusNetworkPMCSN
 
+Fase 3 conclusa nel perimetro sintetico dichiarato il 2026-10-22: simulatore C a eventi discreti, caso controllato
+e rete, test e confronti analitici. [Comandi, evidenze e limiti](docs/phase3_implementation.md).
+Nessun pilota o produzione. [Gate 3.8 accettato, versione 1.1](reports/gate38_results.md):
+8064 nuove repliche indipendenti, 8904 controlli superati, nessuno inconcludente.
+[Diagnosi e dimensionamento](reports/gate38_confirmation_plan.md) conservano la
+separazione dalle 384 repliche precedenti. Prossima fase: analisi del transitorio.
+
 Fase 2 conclusa come specifica il 2026-10-22:
 [contratto operativo e riproduzione](docs/phase2_operational_contract.md),
-[input GTFS e sintetici](docs/phase2_inputs.md). Prossimo passo: simulatore C
-e verifica di Fase 3. Nessuna simulazione eseguita.
+[input GTFS e sintetici](docs/phase2_inputs.md).
 
 Progetto **C17**, build CMake, test CTest. Specifica: [PMCSN_Roma_Bus_SPEC.md](PMCSN_Roma_Bus_SPEC.md).
 
-Piano riallineato alla specifica ufficiale AA 2025/2026: [matrice dei requisiti](docs/requisiti_ufficiali.md). Progetto individuale; transitorio obbligatorio, miglioramento algoritmico facoltativo, presentazione massimo 20 minuti. Fasi 1–2 concluse come pianificazione e specifica: [piano dello studio](docs/study_plan.md), [protocollo statistico](docs/statistical_protocol.md) e campione di sei linee. Il prossimo passo è la Fase 3. Nessun gate del simulatore è già superato.
+Piano riallineato alla specifica ufficiale AA 2025/2026: [matrice dei requisiti](docs/requisiti_ufficiali.md). Progetto individuale; transitorio obbligatorio, miglioramento algoritmico facoltativo, presentazione massimo 20 minuti. Fasi 1–2 concluse come pianificazione e specifica: [piano dello studio](docs/study_plan.md), [protocollo statistico](docs/statistical_protocol.md) e campione di sei linee. Stato dei gate di Fase 3 nel documento di implementazione.
 
 ## Build
 
@@ -54,4 +60,7 @@ powershell -ExecutionPolicy Bypass -File scripts/audit.ps1
 
 ## Stato
 
-Nessun collector continuativo o simulatore. Report reale: `reports/feed_audit.md`; catalogo: `data/catalog.yaml`. Fonte: [Roma Mobilità Open Data](https://romamobilita.it/sistemi-e-tecnologie/open-data/); riuso scientifico e redistribuzione da chiarire alla luce delle condizioni pubblicate.
+Simulatore offline: `simulate controlled`, `simulate network`, `validate controlled`
+e `validate network`. Input con `python scripts/export_simulation.py`; verifiche
+estese con `python scripts/verify_controlled.py` e `python scripts/verify_network.py`.
+Nessun collector continuativo. Report reale: `reports/feed_audit.md`; catalogo: `data/catalog.yaml`. Fonte: [Roma Mobilità Open Data](https://romamobilita.it/sistemi-e-tecnologie/open-data/); riuso scientifico e redistribuzione da chiarire alla luce delle condizioni pubblicate.

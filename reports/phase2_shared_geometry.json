@@ -1,0 +1,16 @@
+{
+  "status": "snapshot_geometry_checked_not_operational_road_validation",
+  "criteria": {
+    "anchor_limit_m": 60.0,
+    "sampled_deviation_limit_m": 25.0,
+    "length_ratio_limit": 1.1,
+    "samples_per_segment": 101,
+    "clustering": "complete_pairwise_agreement_not_transitive_proximity"
+  },
+  "shared_groups": 62,
+  "shared_stop_pairs": 62,
+  "geometry_variants_rejected": 0,
+  "operating_trip_segments": 9880,
+  "mapped_shared_trip_segments": 3978,
+  "shared_geometry_sha256": "ef3db1426be116e9ef687121a61a1975d9240f2bba89246e587f8266e4197535"
+}

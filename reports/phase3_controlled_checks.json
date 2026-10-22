@@ -1,0 +1,83 @@
+{
+  "model": "controlled_finite_empty",
+  "status": "verification_only",
+  "time_unit": "consistent_arbitrary_unit",
+  "cases": [
+    {
+      "rate": 0.2,
+      "headway": 10,
+      "capacity": 10,
+      "horizon": 200,
+      "replicas": 1000,
+      "root_seed": 123456789,
+      "final_arrival_stream_draws": 40859,
+      "metrics": {
+        "residual": {
+          "theory": 2.0000099150769044,
+          "observed": 1.9989999999999986,
+          "standard_error": 0.04513353560309714,
+          "within_6se": true
+        },
+        "mean_queue": {
+          "theory": 1.0000094192645188,
+          "observed": 0.9982595950524548,
+          "standard_error": 0.005927658678711549,
+          "within_6se": true
+        }
+      }
+    },
+    {
+      "rate": 0.8,
+      "headway": 10,
+      "capacity": 10,
+      "horizon": 200,
+      "replicas": 1000,
+      "root_seed": 123456789,
+      "final_arrival_stream_draws": 160320,
+      "metrics": {
+        "residual": {
+          "theory": 8.877765073515791,
+          "observed": 8.836999999999989,
+          "standard_error": 0.11279695986219726,
+          "within_6se": true
+        },
+        "mean_queue": {
+          "theory": 4.771633861667141,
+          "observed": 4.754254307088117,
+          "standard_error": 0.035648923136528635,
+          "within_6se": true
+        }
+      }
+    },
+    {
+      "rate": 1.2,
+      "headway": 10,
+      "capacity": 10,
+      "horizon": 200,
+      "replicas": 1000,
+      "root_seed": 123456789,
+      "final_arrival_stream_draws": 240045,
+      "metrics": {
+        "residual": {
+          "theory": 51.30084335633668,
+          "observed": 50.334999999999965,
+          "standard_error": 0.46495909708485306,
+          "within_6se": true
+        },
+        "mean_queue": {
+          "theory": 26.117679653070713,
+          "observed": 25.65876792083799,
+          "standard_error": 0.2565725184853312,
+          "within_6se": true
+        }
+      }
+    }
+  ],
+  "passed": true,
+  "limitations": [
+    "No empirical validation",
+    "No network or trajectory marginal gate",
+    "Each case replays a separate verification campaign with the same root",
+    "Six-standard-error envelope is a regression diagnostic, not an acceptance CI"
+  ]
+}

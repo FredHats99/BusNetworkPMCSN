@@ -1,0 +1,26 @@
+{
+  "status": "passed_input_consistency_not_simulator_validation",
+  "active_day_trips": 1125,
+  "derived_travel_segments": 9880,
+  "minimum_reference_travel_seconds": 9,
+  "shared_geometry_groups": 62,
+  "initial_buses": 48,
+  "queues": 413,
+  "fleet_classes": {
+    "standard_12m": 565,
+    "articulated_18m": 560
+  },
+  "checks": [
+    "source_and_output_hashes",
+    "independent_prior_audit_counts",
+    "complete_unique_fleet_assignment",
+    "nominal_demand_normalization",
+    "positive_finite_rates_eight_bins",
+    "travel_reference_coverage_and_gtfs_reconstruction",
+    "lognormal_analytical_mean_cv_and_regular_multiplier",
+    "shared_geometry_provenance_thresholds_and_membership",
+    "initial_state_destinations_capacity_fifo_and_cohort",
+    "operational_rules_complete_and_finite_horizon"
+  ],
+  "synthetic_scenarios_sha256": "976490c2f8713ea10165a5a40ca5acecc0325b8825720ba02dee845ce3ffdddc"
+}

@@ -1,0 +1,47 @@
+{
+  "status": "phase2_inputs_frozen_not_simulation_results",
+  "date": "2026-10-22",
+  "source_gtfs_sha256": {
+    "routes.txt": "50cec5711227fed1d1c55537b695869dda74d87bd5bb4d9688443d642b477134",
+    "trips.txt": "b7a825fac2ac828e280446d3d57dcf7336b489e172f7bbbe1df77e96214f9e3d",
+    "stop_times.txt": "e8839a7000523458cf49baa875428a5ec36a402a8b35dfc5bca6269d48359e61",
+    "stops.txt": "34847d95295992e3df5c7e0cc4a509261de1efc6edca53a63a168b26da608f64",
+    "calendar_dates.txt": "0d8920ed3e7e946f229e034081d0f34c427aabf52be9ff47be44b769519a0a44",
+    "shapes.txt": "e02ac54cc9664f80e556eac52b4bad21b454e5ad38686f82d4bad607ee6c3b3d"
+  },
+  "configurations_sha256": {
+    "configs/phase2_assumptions.json": "635e7db611f97a44f72e3ceed901659adcb1732742ff4073fe5d668fc12d5d0f",
+    "configs/network.yaml": "ab00a66dfce15d3b76609031aa3b6bdd13d21b3793346f550de4aa3b73a00215",
+    "configs/simulation.yaml": "c998785bb95889b6be3ea5ae6f98aaadd3509d6f917ea36273ee836ed0902bd4",
+    "configs/experiments.yaml": "7794d228ccac51b6919f701f725f7c5e294a2897744ae5444af952913d59d9ac"
+  },
+  "generated_sha256": {
+    "manifest.json": "747291df802e48d14f83fc2b6d5cc62a70327312e85f4936cf4525a7190dc38d",
+    "trips.json": "64e5ce56c79471373ac65ecfd566baa0f286b4d4cdbfbbb00f1b195627de4d68",
+    "patterns.json": "f13f11c8554c089b6575217e29c0d1c7feb1b8a8b4662b565c0db42ca23ca3ce",
+    "stops.json": "54353384ce7d8d211cd4bf48955de64f7f5c8efc1e9abc6c599de72dfdbf8ce7",
+    "arcs.json": "0fe4e497aa205a5bffb36ccd4a2dd503407096f24e434157d356074140a7ba25",
+    "queues.json": "eb4b68d2c8daafdcba58dcf773da03f5945c9c401c43ae6627a57faa0dccc935",
+    "shapes.json": "948b234e979d3e248a7ed5145fb27be3068fe499761790ddb136918e48748476",
+    "shared_geometry.json": "ef3db1426be116e9ef687121a61a1975d9240f2bba89246e587f8266e4197535",
+    "travel_reference.json": "e74a26b3eb447a1768f67d0c1175399c615062d57acaa9881cb5b156c8000530",
+    "synthetic_scenarios.json": "976490c2f8713ea10165a5a40ca5acecc0325b8825720ba02dee845ce3ffdddc",
+    "initial_states.json": "3cd170070c79fdb8c1d07e92213dbdebbff696c018ce791ba84b1e13cdaa401b"
+  },
+  "specification_and_tools_sha256": {
+    "docs/phase2_operational_contract.md": "8cb70a510f20c504fd3f10bca03d6f67812bd1c337280ebbf4a0d53ecfe5ec12",
+    "scripts/prepare_phase2.py": "65bb06ae86403b315453a86c7d4a2632f75412bbbc1aff1ebcf1dac63576c811",
+    "scripts/prepare_shared_geometry.py": "e3e34254c77daba5de36663a76d7e54f2b32e02722fc2ad544b8fc9bf6e55440",
+    "scripts/prepare_phase2_scenarios.py": "3ae43a5e6004b62d6802ca4b425aba40a019c9adf17ef8d6e9de9e733e8a27ae",
+    "scripts/prepare_initial_states.py": "9e39673ff45aa11bc8e5f51e8655d968589330185fd77b6889a4f37b773719da",
+    "scripts/audit_phase2_inputs.py": "2943f8e8fb827ec2bb2e389235cfc567b14c7ec1855102951b96a6ea66fc17f1",
+    "tests/test_phase2_geometry.py": "55d1d7dc2fabce71fb1cecbb7611663d8deb66e30ee2bccea9bcc8900d6dbf08"
+  },
+  "phase3_gates": [
+    "c_simulator_implementation_and_verification",
+    "rng_adequacy",
+    "actual_factor_marginals",
+    "plausibility_and_runtime"
+  ],
+  "phase4_gate": "transient_horizon_and_initial_state_assessment"
+}

@@ -1,0 +1,20 @@
+{
+  "status": "passed",
+  "checks": {
+    "criteria_frozen": true,
+    "margins_and_design_unchanged": true,
+    "same_8904_assertion_inventory": true,
+    "all_8904_passed": true,
+    "all_intervals_inside_margins": true,
+    "all_precision_targets_met": true,
+    "sources_match_collection": true,
+    "executable_matches": true,
+    "planning_excluded": true,
+    "disjoint_rng_prefix": true,
+    "historical_v1_preserved": true
+  },
+  "new_replicas": 8064,
+  "criteria_sha256": "c92c1cdd259c336db5f330809bdfc3d79e10fefa4dc0947ba2ec7cb6b5a1376a",
+  "inventory_sha256": "d42660d48acae8386463b05d4dd7785740eb3d2a15a7ad886271066a795b4c26",
+  "max_halfwidth_fraction": 0.4387946812822211
+}

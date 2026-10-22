@@ -1,7 +1,10 @@
-param([switch]$Analyze)
+param([switch]$Analyze, [string]$ClionRoot)
 $ErrorActionPreference = 'Stop'
 $taskRoot = Split-Path $PSScriptRoot -Parent
-$taskClion = Join-Path $env:LOCALAPPDATA 'Programs/CLion/bin'
+$taskClion = if ($ClionRoot) { Join-Path $ClionRoot 'bin' } else { Join-Path $env:LOCALAPPDATA 'Programs/CLion/bin' }
+if (-not (Test-Path $taskClion) -and -not $ClionRoot) {
+    $taskClion = Join-Path $env:USERPROFILE 'AppData/Local/Programs/CLion/bin'
+}
 $taskCmake = Join-Path $taskClion 'cmake/win/x64/bin/cmake.exe'
 $taskNinja = Join-Path $taskClion 'ninja/win/x64/ninja.exe'
 $taskGcc = Join-Path $taskClion 'mingw/bin/gcc.exe'

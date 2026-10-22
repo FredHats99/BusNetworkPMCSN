@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "source": "data/interim/audit-static",
+  "source_sha256": {
+    "routes.txt": "50cec5711227fed1d1c55537b695869dda74d87bd5bb4d9688443d642b477134",
+    "trips.txt": "b7a825fac2ac828e280446d3d57dcf7336b489e172f7bbbe1df77e96214f9e3d",
+    "stop_times.txt": "e8839a7000523458cf49baa875428a5ec36a402a8b35dfc5bca6269d48359e61",
+    "stops.txt": "34847d95295992e3df5c7e0cc4a509261de1efc6edca53a63a168b26da608f64",
+    "calendar_dates.txt": "0d8920ed3e7e946f229e034081d0f34c427aabf52be9ff47be44b769519a0a44",
+    "shapes.txt": "e02ac54cc9664f80e556eac52b4bad21b454e5ad38686f82d4bad607ee6c3b3d"
+  },
+  "service_date": "20261012",
+  "window_seconds": [
+    25200,
+    39600
+  ],
+  "demand_bin_seconds": 1800,
+  "trip_counts": {
+    "window_departure": 260,
+    "window_finish_after_end": 63,
+    "outside_window": 817,
+    "already_in_progress": 48
+  },
+  "patterns": 17,
+  "stops": 310,
+  "arcs": 323,
+  "queues": 413,
+  "repeated_stop_patterns": 0,
+  "window_departure_patterns": 15,
+  "operating_patterns": 16,
+  "zero_programmed_gaps": 0,
+  "scheduled_dwell_nonzero": 0,
+  "output_sha256": {
+    "trips.json": "64e5ce56c79471373ac65ecfd566baa0f286b4d4cdbfbbb00f1b195627de4d68",
+    "patterns.json": "f13f11c8554c089b6575217e29c0d1c7feb1b8a8b4662b565c0db42ca23ca3ce",
+    "stops.json": "54353384ce7d8d211cd4bf48955de64f7f5c8efc1e9abc6c599de72dfdbf8ce7",
+    "arcs.json": "0fe4e497aa205a5bffb36ccd4a2dd503407096f24e434157d356074140a7ba25",
+    "queues.json": "eb4b68d2c8daafdcba58dcf773da03f5945c9c401c43ae6627a57faa0dccc935",
+    "shapes.json": "948b234e979d3e248a7ed5145fb27be3068fe499761790ddb136918e48748476"
+  },
+  "limitations": [
+    "programmed_not_observed_times",
+    "stop_pairs_not_validated_road_arcs",
+    "od_union_requires_trip_compatibility",
+    "no_empirical_fit"
+  ]
+}

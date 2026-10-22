@@ -334,14 +334,28 @@ configurazioni e `reports/phase2_freeze.json`. Nessuna simulazione eseguita.
 
 ### Fase 3 — Implementare, verificare e validare il simulatore C
 
-- [ ] **3.1 — Motore DES [R04, R11]:** implementare `struct` e funzioni C, calendario a coda di priorità e ordine deterministico degli eventi simultanei; documentare scelte critiche, ownership e gestione degli errori.
-- [ ] **3.2 — Servizio autobus:** implementare inizio/fine corsa, percorsi, tempi di viaggio e soste, servizio GTFS e orari oltre mezzanotte; introdurre risorse condivise solo secondo il modello concettuale.
-- [ ] **3.3 — Code dei passeggeri, se previste dagli obiettivi:** implementare arrivi, classi, FIFO/politica esplicita, discesa prima della salita, servizio batch, capacità, trasferimenti e mancato imbarco. Introdurre feedback sul dwell solo dopo verifiche delle componenti.
-- [ ] **3.4 — RNG e misure:** salvare seed/flussi, statistiche per replica e serie temporali necessarie al transitorio; raccogliere occupazione, lunghezza code, throughput, attesa e regolarità con denominatori espliciti.
-- [ ] **3.5 — Verifica [R10]:** confrontare casi deterministici calcolabili a mano; testare ordine eventi, capacità e conservazione, domanda zero, sovraccarico, casi limite e riproducibilità. Verifica significa correttezza dell'implementazione rispetto al modello.
-- [ ] **3.6 — Validazione [R10]:** valutare plausibilità del modello rispetto al sistema e agli obiettivi, con confronti analitici pertinenti e dati indipendenti se disponibili; riportare errori, limiti e ciò che non è validabile. I test software da soli non validano il sistema reale.
-- [ ] **3.7 — CLI e report:** implementare `simulate` e `validate` con input configurabili, risultati salvati e comando riproducibile; mantenere separate esecuzioni di debug, calibrazione e valutazione.
-- [ ] **3.8 — Gate del modello base:** accettare il modello con criteri fissati nel piano; documentare correzioni prima degli esperimenti finali. Non dichiarare validata la domanda soltanto perché gli headway sono compatibili.
+Aggiornamento 2026-10-22: implementazione e verifiche in
+`docs/phase3_implementation.md`, risultati in `reports/phase3_*checks.json`.
+I punti sotto mantengono il testo degli obiettivi; la validazione è limitata
+agli scenari sintetici. Il gate 3.8 è accettato secondo la conferma v1.1.
+
+- [x] **3.1 — Motore DES [R04, R11]:** implementare `struct` e funzioni C, calendario a coda di priorità e ordine deterministico degli eventi simultanei; documentare scelte critiche, ownership e gestione degli errori.
+- [x] **3.2 — Servizio autobus:** implementare inizio/fine corsa, percorsi, tempi di viaggio e soste, servizio GTFS e orari oltre mezzanotte; introdurre risorse condivise solo secondo il modello concettuale.
+- [x] **3.3 — Code dei passeggeri, se previste dagli obiettivi:** implementare arrivi, classi, FIFO/politica esplicita, discesa prima della salita, servizio batch, capacità, trasferimenti e mancato imbarco. Introdurre feedback sul dwell solo dopo verifiche delle componenti. Trasferimenti esclusi dal contratto operativo.
+- [x] **3.4 — RNG e misure:** salvare seed/flussi, statistiche per replica e serie temporali necessarie al transitorio; raccogliere occupazione, lunghezza code, throughput, attesa e regolarità con denominatori espliciti.
+- [x] **3.5 — Verifica [R10]:** confrontare casi deterministici calcolabili a mano; testare ordine eventi, capacità e conservazione, domanda zero, sovraccarico, casi limite e riproducibilità. Verifica significa correttezza dell'implementazione rispetto al modello.
+- [x] **3.6 — Validazione [R10]:** valutare plausibilità del modello rispetto al sistema e agli obiettivi, con confronti analitici pertinenti e dati indipendenti se disponibili; riportare errori, limiti e ciò che non è validabile. I test software da soli non validano il sistema reale. Limiti empirici esplicitati nel report di implementazione.
+- [x] **3.7 — CLI e report:** implementare `simulate` e `validate` con input configurabili, risultati salvati e comando riproducibile; mantenere separate esecuzioni di debug, calibrazione e valutazione.
+- [x] **3.8 — Gate del modello base:** accettare il modello con criteri fissati nel piano; documentare correzioni prima degli esperimenti finali. Non dichiarare validata la domanda soltanto perché gli headway sono compatibili.
+
+Gate 3.8 accettato il 2026-10-22: conferma congelata in
+`configs/gate38_confirmation.json`, protocollo in `docs/gate38_confirmation_protocol.md`, esiti in
+`reports/gate38_results.md` e inventario completo in `reports/gate38_assertions.csv`.
+Su 8064 nuove repliche passano requisiti esatti e tutti gli 8904 asserti, compresi
+i 634 precedentemente inconcludenti. Le 384 repliche v1 servono soltanto a
+pianificazione e diagnosi e sono conservate separatamente. Margini e inventario
+immutati. Accettazione nel perimetro sintetico dichiarato, senza validazione
+empirica di domanda/OD/tempi reali. Transitorio e produzione restano da eseguire.
 
 **Completamento:** simulatore base verificato, validazione documentata e serie temporali disponibili. L'audit feed già svolto non completa questa fase.
 
@@ -444,8 +458,11 @@ configurazioni e `reports/phase2_freeze.json`. Nessuna simulazione eseguita.
 
 ## 14. Prossima milestone dopo la specifica Fase 2
 
-Procedere dalla **Fase 3**: Fase 0 tecnica, Fase 1 di pianificazione e Fase 2 di specifica sono concluse. Implementare prima il caso controllato in C e confrontarlo con la matematica, poi estendere a tratta e rete. Non rendere raccolta realtime o intera rete prerequisiti accademici non presenti nel PDF.
+Procedere allo studio del transitorio di **Fase 4**:
+Fasi 0–3 concluse nel perimetro dichiarato, simulatore controllato e rete implementati e verifiche
+documentate in `docs/phase3_implementation.md`. Non rendere raccolta realtime
+o intera rete prerequisiti accademici non presenti nel PDF.
 
-**Output atteso:** simulatore C verificato e validazione documentata sulla specifica `docs/phase2_operational_contract.md`. Piano e protocollo in `docs/study_plan.md` e `docs/statistical_protocol.md`; nessun gate esecutivo già superato. Prima della produzione verificare RNG e marginali, studiare il transitorio e riesaminare confini e orizzonte.
+**Output atteso:** simulatore C verificato e validazione documentata sulla specifica `docs/phase2_operational_contract.md`. Piano e protocollo in `docs/study_plan.md` e `docs/statistical_protocol.md`; gate delle marginali accettato entro i criteri v1.1, validazione empirica limitata dai dati. Prima della produzione studiare il transitorio e riesaminare confini e orizzonte.
 
 **Definizione di completamento:** ogni obiettivo ha esperimenti e risultati attesi documentabili; nessun testo citato è dichiarato letto senza esserlo; ogni nuova checkbox viene spuntata soltanto dopo evidenze. Per i gruppi pianificare l'evoluzione algoritmica e la ripetizione dello studio; la consegna di relazione/codice e le comunicazioni al docente rimangono adempimenti distinti dalla preparazione dei materiali.

@@ -1,0 +1,14 @@
+{
+  "initial_buses": 48,
+  "empty_initial_passengers": 0,
+  "loaded_onboard_passengers": 3240,
+  "loaded_queued_passengers_by_scenario": {
+    "BASE": 1613,
+    "REGULAR": 1613,
+    "SHARED": 1613,
+    "D075": 1134,
+    "D125": 2068,
+    "SHARED_D125": 2068
+  },
+  "initial_states_sha256": "3cd170070c79fdb8c1d07e92213dbdebbff696c018ce791ba84b1e13cdaa401b"
+}

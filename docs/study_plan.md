@@ -1,5 +1,13 @@
 # Piano dello studio — Fase 1
 
+Aggiornamento di Fase 3, 2026-10-22: caso controllato e rete implementati e
+verifiche eseguite; RNG di rete sostituito con MRG32k3a dopo il controllo del
+budget Lehmer. [Evidenze e stato delle verifiche](phase3_implementation.md).
+Gate 3.8 accettato con conferma v1.1: 8064 nuove repliche, tutti gli 8904 asserti
+superati con margini immutati. Le repliche precedenti restano solo pianificazione.
+Le affermazioni storiche «nessun esperimento» sotto si riferiscono alle Fasi 1–2;
+nessun pilota o produzione eseguito, transitorio ancora da studiare.
+
 Aggiornamento 2026-10-22: la specifica degli input prevista nelle note sotto è
 completata dal [contratto operativo di Fase 2](phase2_operational_contract.md).
 RNG, marginali sulle traiettorie, validazione e transitorio restano gate delle

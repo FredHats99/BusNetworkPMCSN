@@ -1,5 +1,21 @@
 # Protocollo statistico preliminare consolidato per lo studio
 
+Revisione di Fase 3, 2026-10-22: il candidato Lehmer descritto sotto resta nel
+solo riferimento controllato. Il suo budget non è adeguato alla campagna di rete;
+per la rete si adotta MRG32k3a con stream distanti 2^127, radice vettoriale con
+sei componenti 123456789, medesima assegnazione funzionale dei flussi e
+continuazione fra repliche. Motivazione, fonti e verifiche in
+[implementazione di Fase 3](phase3_implementation.md). Questa revisione prevale
+sulla scelta candidata sotto; disegno, IC e ordine della campagna non cambiano.
+Le prove eseguite sono diagnostiche, non pilota o produzione.
+
+Gate 3.8 accettato nella conferma indipendente v1.1: 672 nuove repliche per
+ciascuno dei dodici casi, 8064 totali. Tutti gli 8904 asserti entro i margini
+prefissati con IC simultanei Bonferroni; tutte le semiampiezze entro metà margine.
+Le 384 repliche v1 sono usate solo per dimensionare la conferma e non entrano
+negli IC decisionali. Protocollo in `gate38_confirmation_protocol.md`, esiti in
+`../reports/gate38_results.md`. Il pilota e la produzione qui sotto restano futuri.
+
 Aggiornamento 2026-10-22: la specifica eseguibile degli input è congelata nel
 [contratto operativo](phase2_operational_contract.md). Per l'attesa primaria
 «istante_salita» è il completamento dell'imbarco, non la selezione del
