@@ -1,5 +1,10 @@
 # Piano dello studio — Fase 1
 
+Aggiornamento 2026-10-22: la specifica degli input prevista nelle note sotto è
+completata dal [contratto operativo di Fase 2](phase2_operational_contract.md).
+RNG, marginali sulle traiettorie, validazione e transitorio restano gate delle
+fasi successive; nessun esperimento eseguito.
+
 Data: 2026-10-09. Stato: Fase 1 consolidata come piano preliminare dello studio;
 input e configurazione eseguibile da specificare in Fase 2.
 Progetto individuale C17. Requisiti: `requisiti_ufficiali.md`, R01–R06, R13, R16.

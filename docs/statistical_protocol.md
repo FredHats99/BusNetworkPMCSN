@@ -1,5 +1,14 @@
 # Protocollo statistico preliminare consolidato per lo studio
 
+Aggiornamento 2026-10-22: la specifica eseguibile degli input è congelata nel
+[contratto operativo](phase2_operational_contract.md). Per l'attesa primaria
+«istante_salita» è il completamento dell'imbarco, non la selezione del
+passeggero: la permanenza nella coda include i 2 secondi di salita. A t = 11:00
+non si elaborano eventi: salite incompiute sono non servite nella finestra.
+Passeggeri iniziali sempre distinti dalla coorte primaria. Il warm-up iniziale
+è zero, da riesaminare in Fase 4. Numero di produzione e gate RNG restano aperti
+nelle fasi successive; nessuna replica eseguita.
+
 Data: 2026-10-09. Piano di Fase 1; nessuna replica eseguita. Specifica eseguibile,
 budget RNG e validazione del codice restano gate delle Fasi 2–3.
 

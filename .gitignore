@@ -8,3 +8,5 @@
 /.idea/
 /.env
 *.part
+__pycache__/
+*.pyc

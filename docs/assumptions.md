@@ -1,5 +1,19 @@
 # Registro delle ipotesi — chiusura Fase 1, 2026-10-09
 
+Stato corrente 2026-10-22: [contratto dei parametri e regole congelate](phase2_operational_contract.md)
+e `configs/phase2_assumptions.json` completano la Fase 2. I registri datati
+sotto descrivono lo stato alle date indicate, non attività ancora aperte.
+Tutti i valori numerici non derivati dal file GTFS sono esplicitamente assunti;
+nessuna calibrazione empirica o simulazione è dichiarata eseguita.
+
+Aggiornamento 2026-10-16: estrazione e bozza sintetica in
+[input di Fase 2](phase2_inputs.md) e `configs/phase2_assumptions.json`.
+Le righe sotto conservano lo stato di chiusura Fase 1; i nuovi valori sono
+proposte sintetiche, non parametri calibrati. Capacità rappresentative 109/162,
+mix alternato circa 50–50, tassi Poisson normalizzati a carico nominale 0,85,
+otto fasce piatte e OD uniforme sono ora espliciti. Tempi/soste e confini
+operativi non sono ancora consolidati.
+
 Ogni parametro esecutivo di Fase 2 deve riportare unità, fonte, versione, stato
 osservato/stimato/assunto/calibrato e incertezza. Nulla è dichiarato calibrato.
 "Osservato nel GTFS" significa contenuto del file programmato, non servizio reale.

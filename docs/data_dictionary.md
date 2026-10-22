@@ -1,5 +1,18 @@
 # Contratto dati iniziale
 
+## Input offline di Fase 2
+
+Contratto, provenienza e limiti: [phase2_inputs.md](phase2_inputs.md).
+Gli identificativi restano stringhe; i tempi sono secondi dal giorno locale
+di servizio (anche oltre 86400), non timestamp UTC. Le intensità sintetiche
+sono passeggeri/secondo e le capacità sono posti passeggeri totali.
+Gli orari GTFS sono programmati. Gli archi esportati sono coppie consecutive
+di fermate, non segmenti stradali già validati. Le medie di headway mancanti
+sono `null`, distinte da zero. I parametri assunti hanno una configurazione
+separata dai dati osservati nel file GTFS.
+
+## Feed grezzi e normalizzazione realtime prevista
+
 Raw ZIP/protobuf immutabili in directory per acquisizione UTC. Metadati JSON: feed, path, fetched_at_utc (inizio richiesta), codice di uscita e SHA-256. I dati voluminosi non sono versionati.
 
 | Campo normalizzato previsto | Tipo/unità | Significato |

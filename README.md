@@ -1,8 +1,13 @@
 # BusNetworkPMCSN
 
+Fase 2 conclusa come specifica il 2026-10-22:
+[contratto operativo e riproduzione](docs/phase2_operational_contract.md),
+[input GTFS e sintetici](docs/phase2_inputs.md). Prossimo passo: simulatore C
+e verifica di Fase 3. Nessuna simulazione eseguita.
+
 Progetto **C17**, build CMake, test CTest. Specifica: [PMCSN_Roma_Bus_SPEC.md](PMCSN_Roma_Bus_SPEC.md).
 
-Piano riallineato alla specifica ufficiale AA 2025/2026: [matrice dei requisiti](docs/requisiti_ufficiali.md). Progetto individuale; transitorio obbligatorio, miglioramento algoritmico facoltativo, presentazione massimo 20 minuti. Fase 1 di pianificazione conclusa: [piano dello studio](docs/study_plan.md), [protocollo statistico](docs/statistical_protocol.md) e campione di sei linee. Il prossimo passo è la Fase 2: modello concettuale, input e configurazione eseguibile. Nessuna simulazione ancora eseguita.
+Piano riallineato alla specifica ufficiale AA 2025/2026: [matrice dei requisiti](docs/requisiti_ufficiali.md). Progetto individuale; transitorio obbligatorio, miglioramento algoritmico facoltativo, presentazione massimo 20 minuti. Fasi 1–2 concluse come pianificazione e specifica: [piano dello studio](docs/study_plan.md), [protocollo statistico](docs/statistical_protocol.md) e campione di sei linee. Il prossimo passo è la Fase 3. Nessun gate del simulatore è già superato.
 
 ## Build
 

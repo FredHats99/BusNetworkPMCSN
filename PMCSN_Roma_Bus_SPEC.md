@@ -318,14 +318,17 @@ Il collector e l'estensione a 3–5 linee sono attività di supporto opzionali, 
 
 ### Fase 2 — Specificare il modello e preparare gli input
 
-- [ ] **2.1 — Modello concettuale [R04]:** descrivere entità, stato, risorse, code, discipline, capacità, arrivi, routing, eventi e ipotesi in `docs/model_spec.md`, seguendo i passi dei riferimenti consultati in 1.2.
-- [ ] **2.2 — Topologia e servizio:** estrarre la sottorete GTFS con calendari, direzioni e varianti; salvare grafo, linee e motivazione in `configs/network.yaml`. Non inventare connessioni per prossimità o contese senza fondamento.
-- [ ] **2.3 — Contratti dei parametri:** definire unità e fonti di tempi arco, dwell, frequenza, capacità, domanda e OD; etichettare ogni valore come osservato, stimato, assunto o calibrato.
-- [ ] **2.4 — Scelta del percorso dati:** decidere quali input richiedano misure realtime e quali possano essere scenari motivati. Se si usano dati reali, verificare condizioni di riuso, qualità e provenienza; altrimenti predisporre input sintetici dichiarati, mantenendo le conclusioni condizionate alle ipotesi.
-- [ ] **2.5 — Raccolta opzionale:** se necessaria agli obiettivi, implementare collector C con timeout/backoff, raw atomici, checksum, recovery e report; valutare un pilota 48–72 h e la campagna successiva. Sono proposte operative, non durate imposte dal docente.
-- [ ] **2.6 — Pipeline empirica, se usata:** normalizzare UTC/data di servizio, unire statico/realtime per istanza di corsa, filtrare anomalie e inferire eventi con incertezza; conservare le previsioni separate dai passaggi osservati. Applicare G1 prima del fit empirico.
-- [ ] **2.7 — Stima e scenari:** analizzare distribuzioni e dipendenze con campioni adeguati; fissare split temporali se si calibra su dati. In mancanza di domanda osservata definire scenari plausibili e sensibilità, senza pretendere di identificarla dai soli ritardi.
-- [ ] **2.8 — Specifica eseguibile:** congelare una prima configurazione di rete, parametri, inizializzazione e condizioni di arresto, pronta per il modello base e gli esperimenti di Fase 1.
+**Specifica conclusa il 2026-10-22:** `docs/phase2_operational_contract.md`,
+configurazioni e `reports/phase2_freeze.json`. Nessuna simulazione eseguita.
+
+- [x] **2.1 — Modello concettuale [R04]:** entità, stato, code, routing ed eventi in `docs/model_spec.md`, `docs/network_queue_model.md` e contratto operativo congelato. Casi matematici separati per la verifica.
+- [x] **2.2 — Topologia e servizio:** calendario, 260 partenze, 48 corse iniziali e 16 varianti operative estratti. Dominio condiviso di 62 gruppi con controllo geometrico esplicito dello snapshot, non validazione operativa. Configurazione in `configs/network.yaml` e manifest riproducibili.
+- [x] **2.3 — Contratti dei parametri:** unità, fonti e stato dei valori nel contratto e in `configs/phase2_assumptions.json`. Tempi programmati distinti da osservazioni reali; parametri sintetici espliciti e nessuna calibrazione dichiarata.
+- [x] **2.4 — Scelta del percorso dati:** GTFS archiviato più scenari sintetici tracciati, senza fit realtime. Condizioni d'uso nello stato del catalogo; nessuna nuova redistribuzione raw. Conclusioni condizionate alle ipotesi.
+- [x] **2.5 — Raccolta opzionale: non applicabile al percorso scelto.** Nessun collector o campagna dichiarato eseguito; le durate proposte non sono prerequisiti.
+- [x] **2.6 — Pipeline empirica: non applicabile.** Nessun fit, storico o gate G1 dichiarato superato. Estrazione programmata offline senza trattare previsioni come passaggi osservati.
+- [x] **2.7 — Stima e scenari:** Poisson per fascia, OD uniforme, capacità e lognormale sintetiche; sei scenari e cinque confronti conservati, sensibilità documentata. Nessuna saturazione presupposta e nessuna domanda inferita dai ritardi.
+- [x] **2.8 — Specifica eseguibile:** configurazioni per il futuro simulatore C, stati vuoto/caricato, capolinea, eventi e arresto congelati; hash in `reports/phase2_freeze.json`. Controlli in `reports/phase2_input_checks.json`. Implementazione, RNG e marginali effettive restano gate di Fase 3; transitorio in Fase 4.
 
 **Completamento:** modello base e input tracciabili; eventuali limiti dei dati non impediscono la formulazione di uno studio a scenari ben dichiarato.
 
@@ -439,10 +442,10 @@ Il collector e l'estensione a 3–5 linee sono attività di supporto opzionali, 
 
 ---
 
-## 14. Prossima milestone dopo la pianificazione Fase 1
+## 14. Prossima milestone dopo la specifica Fase 2
 
-Procedere dalla **Fase 2**: Fase 0 tecnica e Fase 1 di pianificazione sono concluse. Specificare modello concettuale, input e configurazione eseguibile delle sei linee, seguendo le corrispondenze metodologiche documentate. Non rendere una raccolta realtime di quattro settimane o l'estensione all'intera rete prerequisiti accademici non presenti nel PDF.
+Procedere dalla **Fase 3**: Fase 0 tecnica, Fase 1 di pianificazione e Fase 2 di specifica sono concluse. Implementare prima il caso controllato in C e confrontarlo con la matematica, poi estendere a tratta e rete. Non rendere raccolta realtime o intera rete prerequisiti accademici non presenti nel PDF.
 
-**Output atteso:** `docs/model_spec.md`, input tracciati e configurazioni eseguibili, con distribuzioni, capacità, domanda/OD, ambiente condiviso, inizializzazione e arresto. Piano e protocollo statistico sono in `docs/study_plan.md` e `docs/statistical_protocol.md`; nessun gate esecutivo è già superato. In seguito implementare il DES C, verificarlo e validarlo, studiare il transitorio ed eseguire gli esperimenti.
+**Output atteso:** simulatore C verificato e validazione documentata sulla specifica `docs/phase2_operational_contract.md`. Piano e protocollo in `docs/study_plan.md` e `docs/statistical_protocol.md`; nessun gate esecutivo già superato. Prima della produzione verificare RNG e marginali, studiare il transitorio e riesaminare confini e orizzonte.
 
 **Definizione di completamento:** ogni obiettivo ha esperimenti e risultati attesi documentabili; nessun testo citato è dichiarato letto senza esserlo; ogni nuova checkbox viene spuntata soltanto dopo evidenze. Per i gruppi pianificare l'evoluzione algoritmica e la ripetizione dello studio; la consegna di relazione/codice e le comunicazioni al docente rimangono adempimenti distinti dalla preparazione dei materiali.

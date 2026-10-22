@@ -1,27 +1,37 @@
 schema_version: 1
-status: phase_1_design_consolidated_not_executable
+status: phase2_specification_frozen_simulator_not_implemented
 study_plan: docs/study_plan.md
 design_date: '2026-10-09'
-parameter_status: assumed_pending_phase_2
+parameter_status: declared_synthetic_inputs_frozen_2026_10_22_not_calibrated
+phase2_synthetic_draft: data/processed/phase2/synthetic_scenarios.json
+phase2_assumptions: configs/phase2_assumptions.json
+phase2_demand_note: nominal_peak_load_target_0.85_not_empirical_not_stability_proof
 baseline:
   network: four_ordinary_two_replacement_routes_both_directions
   network_config: configs/network.yaml
   service_date: '2026-10-12'
-  demand_profile: null
-  od_profile: null
-  vehicle_capacity: null
-  travel_time_mean_by_arc: null
-  travel_time_cv_positive: null
-  dwell_parameters: null
-  perturbation_marginal_distribution: null
-  shared_arc_domain: pending_phase_2_geometry_validation
+  demand_profile: data/processed/phase2/synthetic_scenarios.json#/queue_demand
+  od_profile: data/processed/phase2/synthetic_scenarios.json#/queue_demand
+  vehicle_capacity: data/processed/phase2/synthetic_scenarios.json#/fleet_assignments
+  travel_time_mean_by_arc:
+    source: data/processed/phase2/travel_reference.json
+    interpretation: per_trip_programmed_gap_minus_reference_dwell
+  travel_time_cv_positive: 0.2
+  dwell_parameters:
+    source: configs/phase2_assumptions.json
+    json_pointer: /dwell
+    status: user_agreed_synthetic_not_empirical
+  perturbation_marginal_distribution: lognormal_multiplier_mean_1_cv_0.2
+  shared_arc_domain: data/processed/phase2/shared_geometry.json
 time:
   mode: finite_horizon
   preliminary_horizon_seconds: 14400
   diagnostic_bin_seconds: 300
-  warmup_seconds: null
+  warmup_seconds: 0 # No automatic removal; reassess after phase-4 transient study.
   final_horizon_gate: phase_4_transient_analysis
-  terminal_policy: pending_phase_2_censoring_and_drain_definition
+  terminal_policy: stop_at_11_no_drain_record_residuals_restricted_waits
+  initial_state: empty_passengers
+  transient_comparison_state: loaded_synthetic
 scenarios:
   - id: D075
     demand_multiplier: 0.75

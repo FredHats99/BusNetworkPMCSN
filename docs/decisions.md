@@ -62,3 +62,23 @@
 - Scelte locali motivate e distinte dalle fonti: 40 piloti/scenario, 95% marginale, 10 s di semiampiezza per attese e confronti primari. Eliminati 30 piloti e tetto 500; casualità indipendente senza CRN. Precisione e costo saranno misurati, non presupposti.
 - RNG candidato rngs accademico, radice 123456789, flussi separati continuati fra run; disgiunzione, budget cumulativo e adeguatezza gate prima del pilota e della produzione. Nessun PRNG implementato/validato durante la pianificazione.
 - Aggiornati piano, ipotesi, configurazioni, README e caselle 1.4–1.8. Fase 1 conclusa come disegno preliminare; Fasi 2–5 ancora aperte. Nessuna replica eseguita e nessun parametro di domanda presentato come osservato/calibrato.
+
+## Congelamento della specifica Fase 2 — 2026-10-22
+
+- Su richiesta di chiudere i punti residui, adottate regole semplici e documentate
+  in `phase2_operational_contract.md`: imbarco iniziale istantaneo a orario GTFS,
+  mezzo dedicato per corsa, discesa finale sequenziale, priorità deterministiche.
+- Arresto in [07:00,11:00), senza drenaggio e con residui espliciti. Salita
+  completata come termine dell'attesa; prenotazione del passeggero evita doppi
+  imbarchi e resta nella coda fino al completamento.
+- Stati iniziali vuoto e caricato sintetico: stessi 48 bus nelle posizioni
+  programmate, 3.240 persone iniziali a bordo nello stato caricato e code
+  dipendenti dal livello di domanda; coorti iniziali separate. Non sono stati
+  osservati, equilibrati o ricostruiti con una simulazione del passato.
+- Verificate le shape: 62 gruppi di tratti compatibili fra linee, 3.978 segmenti
+  operativi mappati, con soglie geometriche esplicite. Non è validazione operativa
+  su strada. BASE/SHARED usano la stessa mappa, cambiando la dipendenza dei fattori.
+- Configurazioni e input congelati con hash; collector e pipeline empirica non
+  applicabili. Specifica di Fase 2 completa, nessuna replica o implementazione
+  del simulatore dichiarata. RNG e marginali effettive restano gate di Fase 3;
+  lo studio obbligatorio del transitorio resta in Fase 4.

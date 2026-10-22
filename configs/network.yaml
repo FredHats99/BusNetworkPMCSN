@@ -1,5 +1,5 @@
-# Perimetro congelato sullo snapshot; input simulativi ancora da specificare.
-status: snapshot_scope_selected_not_executable
+# Perimetro e input specificati sullo snapshot; simulatore ancora da implementare.
+status: phase2_specification_frozen_simulator_not_implemented
 long_term_scope: all_bus_routes_joint_simulation
 source: data/interim/audit-static
 selection_script: scripts/select_sample.py
@@ -19,7 +19,21 @@ directions: [0, 1]
 pattern_policy: retain_all_ordered_stop_pickup_dropoff_patterns
 pattern_count: 15
 operational_topology_status: snapshot_only_not_operationally_validated
-boundary_initialization: pending_phase_2_include_trips_already_in_progress
+boundary_initialization: data/processed/phase2/initial_states.json
 passenger_queue_policy: separate_by_route_and_direction
 cross_route_interactions: common_environment_on_validated_shared_arcs
-interaction_domain_status: pending_phase_2_geometry_and_input_specification
+interaction_domain_status: snapshot_shape_agreement_checked_not_operational_validation
+shared_geometry: data/processed/phase2/shared_geometry.json
+
+# Offline phase-2 export, including vehicles already on their routes at 07:00.
+phase2_manifest: data/processed/phase2/manifest.json
+phase2_trips: data/processed/phase2/trips.json
+phase2_patterns: data/processed/phase2/patterns.json
+phase2_stops: data/processed/phase2/stops.json
+phase2_arcs: data/processed/phase2/arcs.json
+phase2_shapes: data/processed/phase2/shapes.json
+phase2_queues: data/processed/phase2/queues.json
+phase2_window_departure_pattern_count: 15
+phase2_operating_pattern_count_with_initial_trips: 16
+phase2_full_day_pattern_count: 17
+phase2_arc_interpretation: consecutive_stop_pairs_not_validated_shared_road_geometry

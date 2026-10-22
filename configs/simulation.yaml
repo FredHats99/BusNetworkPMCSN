@@ -1,1 +1,52 @@
 status: not_implemented
+specification_status: phase2_specification_frozen_2026_10_22
+network: configs/network.yaml
+assumptions: configs/phase2_assumptions.json
+synthetic_inputs: data/processed/phase2/synthetic_scenarios.json
+initial_states: data/processed/phase2/initial_states.json
+shared_geometry: data/processed/phase2/shared_geometry.json
+operational_contract: docs/phase2_operational_contract.md
+units:
+  time: seconds_since_local_service_midnight
+  arrival_rate: passengers_per_second
+  capacity: passengers
+service_date: '2026-10-12'
+timezone: Europe/Rome
+window:
+  start_seconds: 25200
+  end_exclusive_seconds: 39600
+demand:
+  bin_seconds: 1800
+  profile_status: synthetic_flat_profile_eight_bins
+  process: independent_poisson_per_queue
+destination:
+  distribution: uniform_distinct_admissible_downstream_stop_ids
+  support_scope: initial_and_window_departure_patterns
+  boarding_rule: destination_must_be_later_on_actual_trip
+initialization:
+  default_mode: empty_passengers
+  initial_vehicle_count: 48
+  transient_comparison_mode: loaded_synthetic
+  source: data/processed/phase2/initial_states.json
+terminal:
+  policy: stop_at_11_without_drain
+  events_at_11: not_executed_half_open_window
+  record: [waiting_passengers, onboard_passengers, ongoing_trips, restricted_waits]
+readiness:
+  simulator_implemented: false
+  empirical_calibration: false
+  travel_dwell_decomposition: agreed_subtract_15_seconds_reference_dwell
+  actual_passenger_dependent_dwell: agreed_synthetic_coefficients_in_phase2_assumptions_dwell
+  shared_arc_geometry: snapshot_shape_agreement_checked_62_groups
+  boarding_closure: agreed_empty_compatible_queue_or_full_bus
+  scheduled_termini_and_dedicated_trips: agreed
+  initial_boarding: instantaneous_compatible_fifo_at_gtfs_departure
+  final_completion: open_2_seconds_then_alight_1_second_each_no_final_closing
+  simultaneous_events: explicit_priority_in_phase2_assumptions_events
+travel:
+  source: data/processed/phase2/travel_reference.json
+  positive_variability: lognormal_multiplier_mean_1_cv_0.2
+  regular: deterministic_reference_travel
+  coefficient_status: synthetic_working_default
+  environment_bin_seconds: 300
+  shared_domain: data/processed/phase2/shared_geometry.json
