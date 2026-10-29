@@ -7,14 +7,19 @@
 #define PMCSN_STREAMS 256
 #define PMCSN_STREAM_SPACING UINT64_C(8367782)
 typedef struct {
-    unsigned algorithm; /* 0: Lehmer verification reference; 1: MRG32k3a network */
+    unsigned algorithm; /* 0: Lehmer 256-stream controlled; 1: Lehmer four-block network */
     uint32_t root_seed;
     uint32_t state[PMCSN_STREAMS];
-    uint32_t mrg[PMCSN_STREAMS][6];
     uint64_t draws[PMCSN_STREAMS];
+    uint64_t ceiling[4]; /* Network invocation caps; default to global block limits. */
 } PmRng;
 int pm_rng_init(PmRng *rng, uint32_t seed);
 int pm_rng_init_network(PmRng *rng, uint32_t seed);
+uint64_t pm_rng_network_offset(unsigned stream);
+uint64_t pm_rng_limit(const PmRng *rng, unsigned stream);
+/* Advance within a block in O(log count); failed operations leave RNG intact. */
+int pm_rng_advance(PmRng *rng, unsigned stream, uint64_t count);
+int pm_rng_set_ceiling(PmRng *rng, const uint64_t ceiling[4]);
 /* Returns -1 before a draw would reach the next stream's initial state. */
 int pm_rng_uniform(PmRng *rng, unsigned stream, double *value);
 

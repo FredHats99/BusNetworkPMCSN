@@ -11,35 +11,30 @@ import time
 from export_simulation import export, ROOT
 
 
-def matmul(a, b, modulus):
-    return [[sum(a[i][k] * b[k][j] for k in range(3)) % modulus for j in range(3)] for i in range(3)]
+OFFSETS = [0, 800000000, 1600000000, 1900000000]
+LENGTHS = [800000000, 800000000, 300000000, 247483646]
+MODULUS = 2147483647
 
 
-def check_streams(states, seed):
-    # Derive jumps from the one-step recurrence, independently of C jump constants.
-    matrices = [[[0, 1, 0], [0, 0, 1], [-810728, 1403580, 0]],
-                [[0, 1, 0], [0, 0, 1], [-1370589, 0, 527612]]]
-    moduli = [4294967087, 4294944443]
-    for c in range(2):
-        for _ in range(127):
-            matrices[c] = matmul(matrices[c], matrices[c], moduli[c])
-    expected = [seed] * 6
-    for row in states:
-        if row["state"] != expected or row["draws"] != 0:
-            raise AssertionError("MRG stream jump/initial state mismatch")
-        expected = [sum(matrices[c][i][j] * expected[3*c+j] for j in range(3)) % moduli[c]
-                    for c in range(2) for i in range(3)]
+def check_streams(states, seed, expected_draws=0):
+    if len(states) != 4:
+        raise AssertionError("Expected exactly four Lehmer network streams")
+    for i, row in enumerate(states):
+        count = row["draws"]
+        if (row.get("stream") != i or row.get("offset") != OFFSETS[i] or
+            row.get("limit") != LENGTHS[i]-1 or count < 0 or count >= LENGTHS[i] or
+            (expected_draws is not None and count != expected_draws) or
+            row["state"] != seed*pow(48271, OFFSETS[i]+count, MODULUS) % MODULUS):
+            raise AssertionError("Lehmer block, state, count or jump mismatch")
 
 
 def check_recurrence(initial, final):
-    for stream in range(4):
-        s = initial[stream]["state"].copy()
-        for _ in range(final[stream]["draws"] - initial[stream]["draws"]):
-            p = (1403580*s[1] - 810728*s[0]) % 4294967087
-            q = (527612*s[5] - 1370589*s[3]) % 4294944443
-            s = [s[1], s[2], p, s[4], s[5], q]
-        if s != final[stream]["state"]:
-            raise AssertionError("MRG recurrence or draw accounting mismatch")
+    if len(initial) != 4 or len(final) != 4:
+        raise AssertionError("Expected four states")
+    for a, b in zip(initial, final):
+        count = b["draws"]-a["draws"]
+        if count < 0 or b["state"] != a["state"]*pow(48271, count, MODULUS) % MODULUS:
+            raise AssertionError("Lehmer recurrence or draw accounting mismatch")
 
 
 def main():
@@ -67,6 +62,7 @@ def main():
             output = [json.loads(line) for line in run.stdout.splitlines()]
             check_streams(output[0]["rng_initial"], 123456789)
             check_recurrence(output[0]["rng_initial"], output[-1]["rng_final"])
+            check_streams(output[-1]["rng_final"], 123456789, expected_draws=None)
             for i, row in enumerate(output):
                 if i and row["rng_initial"] != output[i-1]["rng_final"]:
                     raise AssertionError("Streams reset between replicas")
@@ -103,7 +99,7 @@ def main():
                           "cumulative_stream_draws": [x["draws"] for x in output[-1]["rng_final"][:5]],
                           "input_sha256": hashlib.sha256(path.read_bytes()).hexdigest()})
             print(name, "passed", file=sys.stderr)
-    report = {"status": "verification_and_plausibility_only", "rng": "MRG32k3a", "replicas_per_empty_scenario": args.replicas,
+    report = {"status": "verification_and_plausibility_only", "rng": "lehmer48271-m2147483647-network-partition-v2", "replicas_per_empty_scenario": args.replicas,
               "source_sha256": {str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest()
                                 for p in [*sorted((ROOT / "src/simulation").glob("*.c")),
                                           ROOT / "include/rome_bus_pmcsn/simulation.h", ROOT / "scripts/export_simulation.py",

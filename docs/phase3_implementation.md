@@ -1,18 +1,24 @@
-# Fase 3 — simulatore C e verifiche
+# Fase 3 - simulatore C e verifiche
 
-Data: 2026-10-22. Implementati caso controllato e rete del contratto di Fase 2.
-Le esecuzioni conservate sono verifiche e conferma del gate, non pilota o produzione.
-Il gate 3.8 è accettato secondo la versione 1.1 e il perimetro dichiarato.
+Aggiornamento 2026-10-28: rete riportata a Lehmer come nelle lezioni 16/17.
+[Piano congelato](lehmer_migration.md). Gate 3.8 v2.0 accettato: 8064 nuove
+repliche, tutti gli 8904 asserti superati, zero fallimenti e inconcludenti.
+Tutti gli obiettivi di semiampiezza entro meta margine raggiunti;
+rapporto massimo semiampiezza/margine 0.4132802459.
+[Report del gate](../reports/gate38_results.md),
+[audit della migrazione e budget residui](../reports/lehmer_migration.md).
 
-Aggiornamento del gate 3.8: dopo la diagnosi v1 (384 repliche, 634 controlli
-inconcludenti), eseguita la [conferma indipendente v1.1](gate38_confirmation_protocol.md)
-con 672 nuove repliche per caso, 8064 totali. [Esito dettagliato](../reports/gate38_results.md):
-8904 asserti superati, zero non superati e zero inconcludenti; requisiti esatti
-superati e tutti gli obiettivi di semiampiezza entro metà margine raggiunti.
-Le 384 repliche di pianificazione non entrano negli IC finali.
-[Piano e diagnosi mirata](../reports/gate38_confirmation_plan.md) e
-[report storico v1](../reports/gate38_v1_results.md) sono conservati separatamente.
-La validazione empirica resta limitata dai dati; l'analisi del transitorio resta Fase 4.
+Caso controllato e rete verificati; 13 test CTest, 12 test Python e build
+con analisi statica superati. La partizione a quattro blocchi del ciclo
+Lehmer e' una scelta locale verificata, non una prescrizione delle slide.
+Il consumo consistente del periodo richiede dimensionamento dei budget
+residui prima degli esperimenti successivi; disgiunzione non significa
+prova di indipendenza statistica.
+
+La conferma MRG32k3a v1.1 del 2026-10-22 e' storica, conservata in
+`reports/mrg32k3a_v1_1`, separata dalla diagnosi v1 di 384 repliche.
+Nessun pooling fra versioni. Validazione empirica limitata dai dati;
+transitorio in Fase 4, nessun pilota o produzione.
 
 ## Riproduzione
 
@@ -21,8 +27,8 @@ powershell -ExecutionPolicy Bypass -File scripts/build.ps1
 powershell -ExecutionPolicy Bypass -File scripts/build.ps1 -Analyze
 python scripts/verify_controlled.py
 python scripts/verify_network.py
-python scripts/gate38.py
-python scripts/gate38.py --criteria configs/gate38_confirmation.json --exe build/release/rome_bus_pmcsn.exe --output-dir data/processed/phase3/REPRODUCTION_NEW_DIRECTORY
+python scripts/gate38.py --output-dir data/processed/phase3/REPRODUCTION_NEW_DIRECTORY
+python scripts/gate38.py --criteria configs/gate38_lehmer.json --exe build/release/rome_bus_pmcsn.exe --output-dir data/processed/phase3/REPRODUCTION_NEW_DIRECTORY
 python scripts/export_simulation.py --scenario BASE --output data/processed/phase3/base.txt
 ./build/debug/rome_bus_pmcsn.exe simulate network data/processed/phase3/base.txt --trace data/processed/phase3/base.csv > data/processed/phase3/base.jsonl
 ./build/debug/rome_bus_pmcsn.exe validate controlled
@@ -76,8 +82,9 @@ Limiti controllati: 4096 code/bus, 256 visite/destinazioni, identificativi di
 L'export verifica gli hash di trips, scenari sintetici, stati iniziali e viaggi
 contro il congelamento di Fase 2. Non modifica quel congelamento. Il proprio
 manifest contiene hash, scenario, inizializzazione e indici di code/corse/stop.
-`configs/simulation.yaml` rimane lo snapshot storico della specifica Fase 2:
-non è letto direttamente dalla nuova CLI.
+`configs/simulation.yaml` e `configs/experiments.yaml` restano snapshot
+storici congelati di Fase 2. I loro parametri RNG candidati sono superati
+da `configs/gate38_lehmer.json` e dal piano di migrazione; non sono letti direttamente dalla nuova CLI.
 
 PMNET1 usa record separati da whitespace, indici da zero, senza commenti:
 
@@ -100,32 +107,28 @@ Otto tassi in fasce da 1800 s; finestre fino a 14400 s. Soste congelate 2/1/2/3 
 l'export rifiuta coefficienti diversi. REGULAR usa CV zero. Gli input voluminosi
 e le tracce restano in `data/processed/phase3`, ignorati da Git e rigenerabili.
 
-## RNG: revisione prima degli esperimenti
+## RNG: Lehmer della rete e del caso controllato
 
-Il controllato conserva il candidato Lehmer accademico: a=48271, m=2147483647,
-jump 22925, budget cumulativo strettamente minore di 8367782 per stream.
+La rete usa Lehmer a=48271, m=2147483647 e decomposizione q=44488,
+r=3399 delle lezioni 16/17 del corso. Il caso controllato mantiene la
+partizione storica in 256 stream, jump 22925 e budget inferiore a 8367782.
 TestRandom con seed 1 e 10000 estrazioni termina nello stato 399268537.
-Si conta anche l'estrazione che oltrepassa l'orizzonte.
 
-La prima prova BASE con Lehmer consumava 76789 uniformi per gli arrivi. La
-proiezione indicativa `240 * 76789 = 18429360` supera lo spazio fra stream.
-Si è quindi applicata la sostituzione prevista dal protocollo prima di pilota
-e produzione: la rete usa MRG32k3a di L'Ecuyer, periodo circa 2^191, con 256
-stream separati dai salti pubblicati di 2^127. Non è un PRNG nuovo.
+La rete ha quattro blocchi: offset 0, 800000000, 1600000000, 1900000000;
+lunghezze 800000000, 800000000, 300000000, 247483646. Stream 0 arrivi,
+1 destinazioni, 2 ambiente indipendente, 3 condiviso. Il salto e il prefisso
+sono calcolati con esponenziazione modulare, conservando il conteggio delle
+estrazioni. Lo stato iniziale deterministico non richiede un quinto stream.
+Gli output riportano stato scalare, offset, limite e consumo di ogni blocco.
 
-La radice 123456789 produce un vettore iniziale con sei componenti uguali;
-gli altri stream derivano solo dai salti. Stream 0 arrivi, 1 OD, 2 ambiente
-indipendente, 3 condiviso. Nessuna estrazione per lo stato iniziale deterministico.
-Il contatore a 64 bit arresta ogni stream prima dell'overflow, molto prima di
-2^127. Tutte le sei componenti e i consumi di tutti gli stream sono salvati.
-I prodotti modulari e le ricorrenze C17 sono valutati entro i limiti a 64 bit.
+Si arresta prima del confine, senza reset o cambio seed. La partizione
+impedisce sovrapposizioni ma non prova indipendenza statistica; il periodo
+finito richiede budget espliciti per ogni campagna successiva.
+[Piano, dimensionamento e limiti](lehmer_migration.md).
 
-Fonti primarie consultate per ricorrenze, costanti e salti:
-[RngStreams degli autori](https://github.com/umontreal-simul/RngStreams),
-[sorgente di riferimento](https://raw.githubusercontent.com/umontreal-simul/RngStreams/master/src/RngStream.cpp),
-[documentazione SSJ](https://umontreal-simul.github.io/ssj/docs/master/classumontreal_1_1ssj_1_1rng_1_1MRG32k3a.html).
-Riferimenti: L'Ecuyer, Operations Research 47(1), 1999; L'Ecuyer, Simard, Chen,
-Kelton, Operations Research 50(6), 2002. Non si dichiara lettura integrale degli articoli.
+La precedente versione MRG32k3a era stata introdotta per superare il limite
+della partizione in 256 stream; i risultati v1.1 sono ora storici in
+`reports/mrg32k3a_v1_1`. Nessun dato MRG viene unito al campione Lehmer.
 
 Box–Muller usa due uniformi per fattore nuovo senza conservare la seconda normale.
 Ogni fattore è riusato per chiave nella replica; il bin dipende dalla partenza
@@ -151,8 +154,9 @@ della coda = somma delle attese limitate, compresi i residui.
 `reports/phase3_network_checks.json`: quattro repliche vuote e una caricata per
 ognuno dei sei scenari; ripetizione tracciata della prima replica. Controlli di
 conservazione per coorte, capacità, continuità degli stream e riproducibilità
-con/senza traccia. Le inizializzazioni di tutti i 256 stream sono confrontate
-con salti ricalcolati indipendentemente tramite interi arbitrari Python.
+con/senza traccia. Le inizializzazioni e gli stati finali dei quattro blocchi
+sono confrontati con potenze modulari ricalcolate in Python. La fattorizzazione
+del periodo e il test degli esponenti ne verificano la lunghezza completa.
 Le campagne separate ripetono la radice: non si calcolano contrasti indipendenti
 fra scenari. Non sono le 40 repliche pilota. Tempi wall-clock nel report,
 inclusi avvio e serializzazione; non sono benchmark generalizzabili.
@@ -176,8 +180,9 @@ esatto dell'occupazione (passeggeri-secondi). Fasi: 1 arrivo,
 
 Momenti dei fattori selezionati, inclusi i riusi: le prime tolleranze smoke
 0.02 sulla media e 0.03 sul CV della prima replica passavano ma non bastavano
-all'accettazione. La conferma v1.1 ora verifica su statistiche di replica tutti
-gli asserti prefissati, con IC simultanei e medesimi margini: tutti superati.
+all'accettazione. La conferma storica v1.1 verificava su statistiche di replica tutti
+gli asserti prefissati con IC simultanei. La nuova conferma Lehmer usa
+lo stesso inventario e gli stessi margini; esito nel report corrente.
 L'accettazione riguarda le marginali aggregate alla griglia CDF dichiarata e
 le medie dei tempi per arco, non identità esatta di ogni distribuzione o code estreme.
 Nessuna tolleranza è stata allargata sulla base dei risultati.
@@ -188,3 +193,15 @@ con sosta dipendente dal carico. Il riferimento analitico indipendente eseguito
 Nessun dato indipendente disponibile calibra o valida domanda, OD o tempi reali:
 la plausibilità è condizionata agli scenari sintetici. L'audit GTFS verifica il
 calendario, non i passeggeri reali. L'analisi del transitorio resta Fase 4.
+
+## Estensione successiva: checkpoint e runner di Fase 4
+
+Il 2026-10-28 sono stati aggiunti checkpoint al confine fra repliche e limiti
+RNG per invocazione, senza cambiare la ricorrenza o i parametri del generatore.
+Il gate sopra resta riferito all'eseguibile congelato della raccolta, ora
+conservato con i suoi sorgenti in `data/processed/phase3/gate38_lehmer_v2/software_snapshot`.
+`python scripts/verify_gate_snapshot.py` verifica tale provenienza dopo le
+modifiche al working tree. I test della nuova estensione, distinti dalla
+campagna del gate, sono in `reports/rng_checkpoint_checks.json`.
+Protocollo, limiti del recupero e stato di esecuzione in
+[preparazione della Fase 4](phase4_protocol.md).

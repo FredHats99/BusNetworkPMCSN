@@ -1,6 +1,14 @@
 # Piano dello studio — Fase 1
 
-Aggiornamento di Fase 3, 2026-10-22: caso controllato e rete implementati e
+Aggiornamento 2026-10-28: la rete usa ora Lehmer a=48271, m=2147483647,
+con quattro blocchi disgiunti; [piano completo](lehmer_migration.md).
+Gate corrente Lehmer v2.0 accettato: 8064 nuove repliche, tutti gli 8904
+asserti e tutti gli obiettivi di precisione superati. Audit e budget residui
+in [migrazione completata](../reports/lehmer_migration.md). I riferimenti MRG32k3a
+sotto riguardano soltanto la versione storica v1.1, conservata separatamente.
+
+
+Storico di Fase 3, 2026-10-22: caso controllato e rete implementati e
 verifiche eseguite; RNG di rete sostituito con MRG32k3a dopo il controllo del
 budget Lehmer. [Evidenze e stato delle verifiche](phase3_implementation.md).
 Gate 3.8 accettato con conferma v1.1: 8064 nuove repliche, tutti gli 8904 asserti
@@ -198,3 +206,17 @@ tipo temporale, protocollo e fattibilità sono espliciti. La Fase 2 renderà
 eseguibili rete e input; Fase 3 verifica
 bilanci, capacità e casi deterministici e documenta la validazione; Fase 4 motiva
 inizializzazione e orizzonte; Fase 5 produce grafici e tabelle con incertezza.
+
+## Piano operativo di Fase 4 congelato il 2026-10-28
+
+La preparazione di runner e budget e' completata: 192 repliche pianificate
+nella finestra finita 07:00-11:00 con entrambe le inizializzazioni e griglia
+300 secondi. Nessuna convergenza presupposta e nessun warm-up eliminato.
+[Protocollo e stato](phase4_protocol.md), [riserve quantitative](../reports/phase4_plan.md).
+Aggiornamento 2026-10-29: tutti i punti della Fase 4 sono completati nel
+perimetro finito, con 192 repliche scientifiche nuove. [Risultati e decisione](../reports/transient_analysis.md).
+Mantenuti 07:00-11:00, warm-up zero e residui; nessun equilibrio certificato.
+Per il confronto principale di Fase 5 si sceglie lo stato vuoto come
+condizione di controllo dichiarata, senza attribuirgli realismo empirico.
+Il caricato resta sensibilita separata, con differenze persistenti ad alta
+domanda. Pilota e produzione nuovi non sono ancora eseguiti.

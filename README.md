@@ -1,11 +1,28 @@
 # BusNetworkPMCSN
 
-Fase 3 conclusa nel perimetro sintetico dichiarato il 2026-10-22: simulatore C a eventi discreti, caso controllato
-e rete, test e confronti analitici. [Comandi, evidenze e limiti](docs/phase3_implementation.md).
-Nessun pilota o produzione. [Gate 3.8 accettato, versione 1.1](reports/gate38_results.md):
-8064 nuove repliche indipendenti, 8904 controlli superati, nessuno inconcludente.
-[Diagnosi e dimensionamento](reports/gate38_confirmation_plan.md) conservano la
-separazione dalle 384 repliche precedenti. Prossima fase: analisi del transitorio.
+Fase 3 conclusa nel perimetro sintetico dichiarato: dal 2026-10-28 anche la rete
+usa **Lehmer a=48271, m=2147483647**, come nelle lezioni 16/17 del corso.
+[Gate 3.8 Lehmer v2.0 accettato](reports/gate38_results.md): 8064 nuove repliche,
+8904 asserti superati, nessun fallimento o inconcludente; tutti gli obiettivi
+di precisione raggiunti con margini e inventario invariati.
+
+[Piano congelato](docs/lehmer_migration.md), [audit e budget residui](reports/lehmer_migration.md),
+[implementazione e comandi](docs/phase3_implementation.md).
+La conferma consuma una parte consistente del periodo finito di Lehmer:
+prima degli esperimenti successivi occorre dimensionare i consumi sui blocchi
+residui. La disgiunzione delle sequenze non prova indipendenza statistica.
+
+Le evidenze MRG32k3a del 2026-10-22 sono [conservate separatamente](reports/mrg32k3a_v1_1/README.md);
+nessun pooling con il nuovo campione. Nessuna validazione empirica di domanda/OD/tempi reali.
+
+Fase 4 completata il 2026-10-29: [studio del transitorio](reports/transient_analysis.md),
+192 repliche, grafici, tabelle e [basi accademiche del corso](docs/phase4_academic_basis.md).
+Studio finito 07:00-11:00, warm-up zero; accumulo e sensibilita iniziale persistente
+negli scenari ad alta domanda. Nessun regime stazionario certificato.
+Il successivo confronto principale e' condizionato allo stato vuoto; il caricato
+resta sensibilita separata. Pilota e produzione di Fase 5 ancora da eseguire.
+[Protocollo del runner](docs/phase4_protocol.md), [piano e riserve](reports/phase4_plan.md),
+[audit di completamento](reports/phase4_completion.json).
 
 Fase 2 conclusa come specifica il 2026-10-22:
 [contratto operativo e riproduzione](docs/phase2_operational_contract.md),

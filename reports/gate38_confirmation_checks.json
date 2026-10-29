@@ -1,20 +1,84 @@
 {
   "status": "passed",
+  "gate_status": "accepted",
+  "rng_version": "lehmer48271-m2147483647-network-partition-v2",
   "checks": {
-    "criteria_frozen": true,
-    "margins_and_design_unchanged": true,
-    "same_8904_assertion_inventory": true,
-    "all_8904_passed": true,
-    "all_intervals_inside_margins": true,
-    "all_precision_targets_met": true,
-    "sources_match_collection": true,
-    "executable_matches": true,
-    "planning_excluded": true,
-    "disjoint_rng_prefix": true,
-    "historical_v1_preserved": true
+    "full_period_verified": true,
+    "disjoint_blocks": true,
+    "unchanged_design": true,
+    "same_8904_assertions": true,
+    "sources_and_executable_match": true,
+    "all_replica_states_verified": true,
+    "no_resets_or_wrap": true,
+    "verification_prefix_excluded": true,
+    "historical_mrg_preserved": true,
+    "no_mrg_data_pooled": true
   },
   "new_replicas": 8064,
-  "criteria_sha256": "c92c1cdd259c336db5f330809bdfc3d79e10fefa4dc0947ba2ec7cb6b5a1376a",
+  "assertions_passed": 8904,
+  "precision_targets_met": 8904,
+  "criteria_sha256": "c71630e119afe64b9834213f64aad82394c652fc4adf48c006ffdabcf0725e8a",
   "inventory_sha256": "d42660d48acae8386463b05d4dd7785740eb3d2a15a7ad886271066a795b4c26",
-  "max_halfwidth_fraction": 0.4387946812822211
+  "verifier_sha256": "d45762f0da405c00d87f74071756331cc05a3feb17ff8e6ae8056d883df2df01",
+  "course_sources": [
+    {
+      "filename": "lect16generCas1_2526.pdf",
+      "sha256": "07b682a7de1c41040aa67c8a82bf258f7932f710dc562a4b30caedfcfb85636d"
+    },
+    {
+      "filename": "lect17generCas2_2526.pdf",
+      "sha256": "64127c3a32bf71c6d5b702a80a5f2b7e2c7acc6d342d1c67bb703899cee3f5c5"
+    }
+  ],
+  "blocks": [
+    {
+      "stream": 0,
+      "offset": 0,
+      "block_length": 800000000,
+      "prefix_reserved": 4000000,
+      "final_draws": 650055629,
+      "confirmation_draws": 646055629,
+      "remaining_draws": 149944370,
+      "last_output_cycle_index": 650055629,
+      "next_unused_cycle_index": 650055630
+    },
+    {
+      "stream": 1,
+      "offset": 800000000,
+      "block_length": 800000000,
+      "prefix_reserved": 4000000,
+      "final_draws": 646725197,
+      "confirmation_draws": 642725197,
+      "remaining_draws": 153274802,
+      "last_output_cycle_index": 1446725197,
+      "next_unused_cycle_index": 1446725198
+    },
+    {
+      "stream": 2,
+      "offset": 1600000000,
+      "block_length": 300000000,
+      "prefix_reserved": 4000000,
+      "final_draws": 64197344,
+      "confirmation_draws": 60197344,
+      "remaining_draws": 235802655,
+      "last_output_cycle_index": 1664197344,
+      "next_unused_cycle_index": 1664197345
+    },
+    {
+      "stream": 3,
+      "offset": 1900000000,
+      "block_length": 247483646,
+      "prefix_reserved": 4000000,
+      "final_draws": 39467934,
+      "confirmation_draws": 35467934,
+      "remaining_draws": 208015711,
+      "last_output_cycle_index": 1939467934,
+      "next_unused_cycle_index": 1939467935
+    }
+  ],
+  "limitations": [
+    "Disjoint deterministic sequences do not prove statistical independence",
+    "Finite period: remaining blocks must be budgeted before later experiments",
+    "No empirical demand/OD/travel-time validation, transient study, pilot or production"
+  ]
 }

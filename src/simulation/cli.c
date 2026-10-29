@@ -35,6 +35,59 @@ static int integer_value(const char *s, uint64_t *out) {
     if (errno || *end) return -1;
     *out = (uint64_t)n; return 0;
 }
+/* Replica-boundary RNG checkpoints, not snapshots of passengers/calendar. */
+static int load_checkpoint(const char *path, PmRng *rng) {
+    FILE *f = fopen(path, "rb"); if (!f) return -1;
+    PmRng candidate;
+    char line[512], magic[32], seed_text[32], extra;
+    uint64_t seed; int rc = -1;
+    if (!fgets(line, sizeof(line), f) ||
+        sscanf(line, "%31s %31s %c", magic, seed_text, &extra) != 2 ||
+        strcmp(magic, "PMLEHMER2") || integer_value(seed_text, &seed) ||
+        !seed || seed >= UINT64_C(2147483647) || pm_rng_init_network(&candidate, (uint32_t)seed)) goto done;
+    for (unsigned i = 0; i < 4; ++i) {
+        uint64_t values[5];
+        if (!fgets(line, sizeof(line), f)) goto done;
+        char *token = strtok(line, " \t\r\n");
+        for (unsigned j = 0; j < 5; ++j) {
+            if (!token || integer_value(token, &values[j])) goto done;
+            token = strtok(NULL, " \t\r\n");
+        }
+        if (token || values[0] != i || values[2] != pm_rng_network_offset(i) ||
+            values[3] != pm_rng_limit(&candidate, i) ||
+            pm_rng_advance(&candidate, i, values[4]) || values[1] != candidate.state[i]) goto done;
+    }
+    if (!fgets(line, sizeof(line), f) || (strcmp(line, "END\n") && strcmp(line, "END\r\n") && strcmp(line, "END"))) goto done;
+    int c;
+    while ((c = fgetc(f)) != EOF) if (c != ' ' && c != '\t' && c != '\r' && c != '\n') goto done;
+    if (ferror(f)) goto done;
+    *rng = candidate; rc = 0;
+done:
+    fclose(f); return rc;
+}
+static int save_checkpoint(FILE *f, const PmRng *rng) {
+    fprintf(f, "PMLEHMER2 %u\n", (unsigned)rng->root_seed);
+    for (unsigned i = 0; i < 4; ++i)
+        fprintf(f, "%u %u %llu %llu %llu\n", i, (unsigned)rng->state[i],
+                (unsigned long long)pm_rng_network_offset(i),
+                (unsigned long long)pm_rng_limit(rng, i), (unsigned long long)rng->draws[i]);
+    fputs("END\n", f);
+    return ferror(f) ? -1 : 0;
+}
+static int parse_ceilings(const char *text, uint64_t values[4]) {
+    char buffer[128];
+    if (strlen(text) >= sizeof(buffer)) return -1;
+    strcpy(buffer, text);
+    char *start = buffer;
+    for (unsigned i = 0; i < 4; ++i) {
+        char *comma = strchr(start, ',');
+        if ((i < 3) != (comma != NULL)) return -1;
+        if (comma) *comma = '\0';
+        if (integer_value(start, &values[i])) return -1;
+        if (comma) start = comma+1;
+    }
+    return 0;
+}
 static void states(FILE *f, const PmRng *r) {
     fputc('[', f);
     for (unsigned i = 0; i < PMCSN_STREAMS; ++i)
@@ -84,9 +137,8 @@ static int diagnostic_campaign(const char *plan_path, const char *travel_path) {
     if (c != EOF || ferror(plan)) goto done;
     PmRng rng;
     if (pm_rng_init_network(&rng, 123456789)) goto done;
-    double unused;
     for (unsigned stream = 0; stream < 4; ++stream)
-        for (uint64_t draw = 0; draw < skip; ++draw) if (pm_rng_uniform(&rng, stream, &unused)) goto done;
+        if (pm_rng_advance(&rng, stream, skip)) goto done;
     FILE *travel = new_file(travel_path);
     if (!travel) goto done;
     if (setvbuf(travel, NULL, _IOFBF, 1024*1024) || setvbuf(stdout, NULL, _IOFBF, 1024*1024)) {
@@ -113,7 +165,8 @@ int pm_simulation_cli(int argc, char **argv) {
     if (argc == 3 && !strcmp(argv[1], "validate") && !strcmp(argv[2], "controlled")) return validate();
     if (argc >= 4 && (!strcmp(argv[1], "simulate") || !strcmp(argv[1], "validate")) && !strcmp(argv[2], "network")) {
         uint64_t seed = 123456789, replicas = 1; unsigned seen = 0;
-        const char *trace_path = NULL, *travel_path = NULL;
+        const char *trace_path = NULL, *travel_path = NULL, *checkpoint_in = NULL, *checkpoint_out = NULL;
+        uint64_t ceilings[4];
         for (int i = 4; i < argc; i += 2) {
             if (i+1 == argc) return 2;
             unsigned bit;
@@ -121,16 +174,26 @@ int pm_simulation_cli(int argc, char **argv) {
             else if (!strcmp(argv[i], "--replicas")) { bit = 2; if (integer_value(argv[i+1], &replicas)) return 2; }
             else if (!strcmp(argv[i], "--trace")) { bit = 4; trace_path = argv[i+1]; }
             else if (!strcmp(argv[i], "--travel-trace")) { bit = 8; travel_path = argv[i+1]; }
+            else if (!strcmp(argv[i], "--rng-checkpoint-in")) { bit = 16; checkpoint_in = argv[i+1]; }
+            else if (!strcmp(argv[i], "--rng-checkpoint-out")) { bit = 32; checkpoint_out = argv[i+1]; }
+            else if (!strcmp(argv[i], "--rng-draw-ceilings")) { bit = 64; if (parse_ceilings(argv[i+1], ceilings)) return 2; }
             else return 2;
             if (seen & bit) return 2;
             seen |= bit;
         }
-        if (!replicas || seed == 0 || seed >= UINT64_C(4294944443) || (trace_path && replicas != 1)) return 2;
-        PmRng rng; if (pm_rng_init_network(&rng, (uint32_t)seed)) return 1;
+        if (!replicas || seed == 0 || seed >= UINT64_C(2147483647) || (trace_path && replicas != 1) ||
+            (checkpoint_in && (seen & 1))) return 2;
+        PmRng rng;
+        if (checkpoint_in ? load_checkpoint(checkpoint_in, &rng) : pm_rng_init_network(&rng, (uint32_t)seed)) {
+            fprintf(stderr, "Invalid RNG checkpoint or seed.\n"); return 1;
+        }
+        if ((seen & 64) && pm_rng_set_ceiling(&rng, ceilings)) return 2;
+        FILE *checkpoint = checkpoint_out ? new_file(checkpoint_out) : NULL;
+        if (checkpoint_out && !checkpoint) return 1;
         FILE *trace = trace_path ? new_file(trace_path) : NULL;
-        if (trace_path && !trace) return 1;
+        if (trace_path && !trace) { if (checkpoint) fclose(checkpoint); return 1; }
         FILE *travel = travel_path ? new_file(travel_path) : NULL;
-        if (travel_path && !travel) { if (trace) fclose(trace); return 1; }
+        if (travel_path && !travel) { if (trace) fclose(trace); if (checkpoint) fclose(checkpoint); return 1; }
         int rc = 0;
         for (uint64_t i = 0; i < replicas; ++i) {
             if (pm_network_run_diagnostic(argv[3], &rng, i, stdout, trace, travel)) {
@@ -140,6 +203,11 @@ int pm_simulation_cli(int argc, char **argv) {
         }
         if (trace && fclose(trace)) rc = 1;
         if (travel && fclose(travel)) rc = 1;
+        if (fflush(stdout)) rc = 1;
+        if (checkpoint) {
+            if (!rc && save_checkpoint(checkpoint, &rng)) rc = 1;
+            if (fclose(checkpoint)) rc = 1;
+        }
         return rc;
     }
     if (argc < 4 || strcmp(argv[1], "simulate") || strcmp(argv[2], "controlled")) return 2;

@@ -334,10 +334,18 @@ configurazioni e `reports/phase2_freeze.json`. Nessuna simulazione eseguita.
 
 ### Fase 3 — Implementare, verificare e validare il simulatore C
 
+Aggiornamento 2026-10-28: rete riportata a Lehmer secondo il piano
+`docs/lehmer_migration.md`. Gate corrente Lehmer v2.0 accettato: 8064 nuove repliche, tutti gli 8904
+asserti e gli obiettivi di precisione superati; audit e budget residui in
+`reports/lehmer_migration.md`.
+L'accettazione v1.1 descritta sotto riguarda solo MRG32k3a, ora archiviato
+in `reports/mrg32k3a_v1_1`.
+
+
 Aggiornamento 2026-10-22: implementazione e verifiche in
 `docs/phase3_implementation.md`, risultati in `reports/phase3_*checks.json`.
 I punti sotto mantengono il testo degli obiettivi; la validazione è limitata
-agli scenari sintetici. Il gate 3.8 è accettato secondo la conferma v1.1.
+agli scenari sintetici. Il gate corrente 3.8 e' accettato secondo la conferma Lehmer v2.0.
 
 - [x] **3.1 — Motore DES [R04, R11]:** implementare `struct` e funzioni C, calendario a coda di priorità e ordine deterministico degli eventi simultanei; documentare scelte critiche, ownership e gestione degli errori.
 - [x] **3.2 — Servizio autobus:** implementare inizio/fine corsa, percorsi, tempi di viaggio e soste, servizio GTFS e orari oltre mezzanotte; introdurre risorse condivise solo secondo il modello concettuale.
@@ -348,26 +356,37 @@ agli scenari sintetici. Il gate 3.8 è accettato secondo la conferma v1.1.
 - [x] **3.7 — CLI e report:** implementare `simulate` e `validate` con input configurabili, risultati salvati e comando riproducibile; mantenere separate esecuzioni di debug, calibrazione e valutazione.
 - [x] **3.8 — Gate del modello base:** accettare il modello con criteri fissati nel piano; documentare correzioni prima degli esperimenti finali. Non dichiarare validata la domanda soltanto perché gli headway sono compatibili.
 
-Gate 3.8 accettato il 2026-10-22: conferma congelata in
-`configs/gate38_confirmation.json`, protocollo in `docs/gate38_confirmation_protocol.md`, esiti in
-`reports/gate38_results.md` e inventario completo in `reports/gate38_assertions.csv`.
-Su 8064 nuove repliche passano requisiti esatti e tutti gli 8904 asserti, compresi
-i 634 precedentemente inconcludenti. Le 384 repliche v1 servono soltanto a
-pianificazione e diagnosi e sono conservate separatamente. Margini e inventario
-immutati. Accettazione nel perimetro sintetico dichiarato, senza validazione
-empirica di domanda/OD/tempi reali. Transitorio e produzione restano da eseguire.
+Gate 3.8 Lehmer v2.0 accettato il 2026-10-28: criteri congelati in
+`configs/gate38_lehmer.json`, piano in `docs/lehmer_migration.md`, esito in
+`reports/gate38_results.md`, audit e budget residui in `reports/lehmer_migration.md`.
+Su 8064 nuove repliche passano requisiti esatti e tutti gli 8904 asserti;
+tutti gli obiettivi di semiampiezza entro meta margine sono raggiunti.
+Margini, inventario e numerosita v1.1 invariati, nessun pooling con MRG.
+La conferma MRG32k3a v1.1 resta storica in `reports/mrg32k3a_v1_1`.
+L'accettazione riguarda soltanto il perimetro sintetico dichiarato; prima
+di transitorio e produzione riesaminare orizzonte e budget RNG residui.
 
 **Completamento:** simulatore base verificato, validazione documentata e serie temporali disponibili. L'audit feed già svolto non completa questa fase.
 
 ### Fase 4 — Analizzare obbligatoriamente il transitorio
 
-- [ ] **4.1 — Protocollo [R06]:** scegliere condizioni iniziali motivate e osservabili (es. sistema vuoto e, se utile, carico iniziale alternativo); registrare code, utilizzo, throughput, attese e indicatori autobus in funzione del tempo.
-- [ ] **4.2 — Esecuzioni pilota [R06]:** usare più repliche e una griglia temporale coerente; produrre traiettorie e riepiloghi che rendano visibile il comportamento iniziale, non soltanto medie globali.
-- [ ] **4.3 — Diagnosi [R06]:** valutare se le metriche raggiungano un regime coerente con le ipotesi e stimare quando. Distinguere stabilizzazione stazionaria, regime periodico e andamento non stazionario; mostrare anche eventuale mancata convergenza.
-- [ ] **4.4 — Warm-up [R06, R13]:** per studio stazionario motivare un eventuale tempo di esclusione con le evidenze; per giornata finita/servizio non stazionario mantenere il transitorio pertinente. Non applicare un taglio arbitrario per forzare la convergenza.
-- [ ] **4.5 — Orizzonte definitivo [R13]:** scegliere e motivare durata simulata e precisione dopo le prove; distinguere tempo di warm-up, finestra di osservazione e condizioni di arresto.
-- [ ] **4.6 — Grafici e tabelle [R07]:** riportare andamento temporale, variabilità tra repliche, punto/intervallo di stabilizzazione se esiste e dati numerici riassuntivi in `reports/transient_analysis.md`.
-- [ ] **4.7 — Gate del transitorio:** salvare conclusioni e aggiornare il protocollo di Fase 1. Se il sistema diverge o il regime non è stazionario, motivare la scelta di uno studio finito oppure correggere il modello/lo scenario e ripetere le prove.
+Preparazione 2026-10-28: checkpoint e runner verificati; protocollo in
+`docs/phase4_protocol.md`, piano congelato in `configs/phase4_plan.json`,
+192 repliche pianificate e riserve in `reports/phase4_plan.md`.
+Completamento 2026-10-29: 192/192 repliche eseguite e verificate; risultati,
+grafici e decisione in `reports/transient_analysis.md`, audit in
+`reports/phase4_completion.json`. Studio finito confermato, warm-up zero;
+nessun equilibrio certificato. Il confronto principale di Fase 5 sara'
+condizionato allo stato vuoto; sensibilita caricata documentata separatamente.
+
+
+- [x] **4.1 — Protocollo [R06]:** scegliere condizioni iniziali motivate e osservabili (es. sistema vuoto e, se utile, carico iniziale alternativo); registrare code, utilizzo, throughput, attese e indicatori autobus in funzione del tempo.
+- [x] **4.2 — Esecuzioni pilota [R06]:** usare più repliche e una griglia temporale coerente; produrre traiettorie e riepiloghi che rendano visibile il comportamento iniziale, non soltanto medie globali.
+- [x] **4.3 — Diagnosi [R06]:** valutare se le metriche raggiungano un regime coerente con le ipotesi e stimare quando. Distinguere stabilizzazione stazionaria, regime periodico e andamento non stazionario; mostrare anche eventuale mancata convergenza.
+- [x] **4.4 — Warm-up [R06, R13]:** per studio stazionario motivare un eventuale tempo di esclusione con le evidenze; per giornata finita/servizio non stazionario mantenere il transitorio pertinente. Non applicare un taglio arbitrario per forzare la convergenza.
+- [x] **4.5 — Orizzonte definitivo [R13]:** scegliere e motivare durata simulata e precisione dopo le prove; distinguere tempo di warm-up, finestra di osservazione e condizioni di arresto.
+- [x] **4.6 — Grafici e tabelle [R07]:** riportare andamento temporale, variabilità tra repliche, punto/intervallo di stabilizzazione se esiste e dati numerici riassuntivi in `reports/transient_analysis.md`.
+- [x] **4.7 — Gate del transitorio:** salvare conclusioni e aggiornare il protocollo di Fase 1. Se il sistema diverge o il regime non è stazionario, motivare la scelta di uno studio finito oppure correggere il modello/lo scenario e ripetere le prove.
 
 **Completamento:** comportamento iniziale mostrato graficamente e numericamente; conclusione esplicita su convergenza e tempi, senza presupporre che debba sempre esistere un equilibrio.
 
@@ -458,11 +477,11 @@ empirica di domanda/OD/tempi reali. Transitorio e produzione restano da eseguire
 
 ## 14. Prossima milestone dopo la specifica Fase 2
 
-Procedere allo studio del transitorio di **Fase 4**:
+Procedere al pilota e al dimensionamento della produzione di **Fase 5**:
 Fasi 0–3 concluse nel perimetro dichiarato, simulatore controllato e rete implementati e verifiche
 documentate in `docs/phase3_implementation.md`. Non rendere raccolta realtime
 o intera rete prerequisiti accademici non presenti nel PDF.
 
-**Output atteso:** simulatore C verificato e validazione documentata sulla specifica `docs/phase2_operational_contract.md`. Piano e protocollo in `docs/study_plan.md` e `docs/statistical_protocol.md`; gate delle marginali accettato entro i criteri v1.1, validazione empirica limitata dai dati. Prima della produzione studiare il transitorio e riesaminare confini e orizzonte.
+**Output disponibile:** simulatore C verificato, gate delle marginali accettato entro i criteri Lehmer v2.0 e transitorio studiato in `reports/transient_analysis.md`. Finestra finita e inizializzazione condizionale motivate; validazione empirica limitata dai dati. Prima della produzione eseguire il nuovo pilota e dimensionare N entro il budget RNG, secondo `docs/statistical_protocol.md`.
 
 **Definizione di completamento:** ogni obiettivo ha esperimenti e risultati attesi documentabili; nessun testo citato è dichiarato letto senza esserlo; ogni nuova checkbox viene spuntata soltanto dopo evidenze. Per i gruppi pianificare l'evoluzione algoritmica e la ripetizione dello studio; la consegna di relazione/codice e le comunicazioni al docente rimangono adempimenti distinti dalla preparazione dei materiali.

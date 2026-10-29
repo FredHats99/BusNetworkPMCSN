@@ -134,7 +134,7 @@ def render(directory, verbose=True):
         else:
             lines.append("Nessun IC obbligatorio è interamente fuori margine: non emerge una violazione conclusiva dei margini, "
                          "ma questo non dimostra equivalenza. Le medie puntuali oltre soglia con IC ampio non sono da sole prova di un bug.")
-    if "confirmation" in summary:
+    if "confirmation" in summary and criteria.get("planning_campaign"):
         confirm = summary["confirmation"]
         lines.extend(["", "## Separazione dalla pianificazione", "",
                       "Questa decisione usa soltanto il campione nuovo. Le 384 repliche v1 sono usate per diagnosi e dimensionamento, non per gli IC finali.",
@@ -168,6 +168,11 @@ def render(directory, verbose=True):
                   f"Criteri: `{criteria_source}`; protocollo: `{protocol_source}`; "
                   "esito strutturato: `reports/gate38_results.json`; tutti gli asserti: `reports/gate38_assertions.csv`.", "",
                   f"SHA256 criteri: `{summary['criteria_sha256']}`. SHA256 inventario: `{summary['inventory_sha256']}`."])
+    if "rng_version" in summary:
+        lines.extend(["", "## Generatore e budget", "", f"Generatore: `{summary['rng_version']}`.",
+                      "Blocchi Lehmer disgiunti; stati iniziali/finali verificati con esponenziazione modulare Python.",
+                      "Nessun campione MRG32k3a incluso nella decisione.",
+                      f"Obiettivi di semiampiezza: {summary['confirmation']['precision_targets_met']} / {summary['family_size']}."])
     (ROOT / "reports/gate38_results.md").write_text("\n".join(lines)+"\n", encoding="utf-8")
     renderer = dict(renderer_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
                     assertions_csv_sha256=hashlib.sha256(csv_path.read_bytes()).hexdigest(),

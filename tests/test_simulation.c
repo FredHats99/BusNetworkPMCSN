@@ -16,12 +16,26 @@ int main(void) {
     copy = rng;
     CHECK(pm_rng_uniform(&rng, 0, &u) != 0 && memcmp(&rng, &copy, sizeof(rng)) == 0);
     CHECK(pm_rng_uniform(&rng, 256, &u) != 0);
-    CHECK(pm_rng_init_network(&rng, 12345) == 0);
-    CHECK(pm_rng_uniform(&rng, 0, &u) == 0 && fabs(u-0.12701112204657714) < 1e-15);
-    CHECK(pm_rng_uniform(&rng, 0, &u) == 0 && fabs(u-0.3185275653967945) < 1e-15);
-    CHECK(pm_rng_uniform(&rng, 0, &u) == 0 && fabs(u-0.3091860155832701) < 1e-15);
-    rng.draws[0] = UINT64_MAX; copy = rng;
-    CHECK(pm_rng_uniform(&rng, 0, &u) != 0 && memcmp(&rng, &copy, sizeof(rng)) == 0);
+    CHECK(pm_rng_init_network(&rng, 2147483647) != 0);
+    CHECK(pm_rng_init_network(&rng, 1) == 0);
+    CHECK(pm_rng_uniform(&rng, 0, &u) == 0 && rng.state[0] == 48271);
+    CHECK(pm_rng_uniform(&rng, 4, &u) != 0);
+    for (unsigned stream = 0; stream < 4; ++stream) {
+        CHECK(pm_rng_init_network(&rng, 1) == 0);
+        copy = rng;
+        for (unsigned i = 0; i < 10000; ++i) CHECK(pm_rng_uniform(&rng, stream, &u) == 0);
+        CHECK(pm_rng_advance(&copy, stream, 10000) == 0);
+        CHECK(memcmp(&rng, &copy, sizeof(rng)) == 0);
+        CHECK(pm_rng_init_network(&rng, 1) == 0);
+        CHECK(pm_rng_advance(&rng, stream, pm_rng_limit(&rng, stream)-1) == 0);
+        CHECK(pm_rng_uniform(&rng, stream, &u) == 0);
+        copy = rng;
+        CHECK(pm_rng_uniform(&rng, stream, &u) != 0 && memcmp(&rng, &copy, sizeof(rng)) == 0);
+        CHECK(pm_rng_advance(&rng, stream, 1) != 0 && memcmp(&rng, &copy, sizeof(rng)) == 0);
+        CHECK(pm_rng_advance(&rng, stream, UINT64_MAX) != 0 && memcmp(&rng, &copy, sizeof(rng)) == 0);
+    }
+    CHECK(pm_rng_advance(&rng, 4, 0) != 0);
+    CHECK(pm_rng_advance(NULL, 0, 0) != 0);
 
     PmCalendar q = {0};
     PmEvent e = {0};

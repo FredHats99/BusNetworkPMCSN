@@ -404,10 +404,11 @@ static int load(Network *n, FILE *f) {
 
 static void rng_json(FILE *f, PmRng *rng) {
     fputc('[', f);
-    for (unsigned i = 0; i < PMCSN_STREAMS; ++i) {
-        fprintf(f, "%s{\"state\":[", i ? "," : "");
-        for (unsigned j = 0; j < 6; ++j) fprintf(f, "%s%u", j ? "," : "", (unsigned)rng->mrg[i][j]);
-        fprintf(f, "],\"draws\":%llu}", (unsigned long long)rng->draws[i]);
+    for (unsigned i = 0; i < 4; ++i) {
+        fprintf(f, "%s{\"stream\":%u,\"state\":%u,\"offset\":%llu,\"limit\":%llu,\"draws\":%llu}",
+                i ? "," : "", i, (unsigned)rng->state[i],
+                (unsigned long long)pm_rng_network_offset(i),
+                (unsigned long long)pm_rng_limit(rng, i), (unsigned long long)rng->draws[i]);
     }
     fputc(']', f);
 }
@@ -437,7 +438,7 @@ static int summary(Network *n, FILE *out, PmRng *initial) {
     }
     if (boarded != primary_onboard+n->completed || initial_boarded != onboard-primary_onboard+n->initial_completed ||
         fabs(area-wait) > 1e-7*fmax(1, area)) return -1;
-    fprintf(out, "{\"model\":\"network\",\"rng_version\":\"MRG32k3a-streams-2p127-integer-v1\",\"status\":\"verification_run_not_empirically_validated\","
+    fprintf(out, "{\"model\":\"network\",\"rng_version\":\"lehmer48271-m2147483647-network-partition-v2\",\"status\":\"verification_run_not_empirically_validated\","
             "\"root_seed\":%u,\"replica\":%llu,"
             "\"start\":%.17g,\"end\":%.17g,\"arrivals\":%llu,\"boarded\":%llu,\"unserved\":%llu,"
             "\"onboard\":%llu,\"reserved\":%llu,\"initial_waiting\":%llu,\"completed\":%llu,"

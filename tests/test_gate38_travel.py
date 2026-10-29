@@ -1,4 +1,5 @@
 """Instrumentation, shared keys, independent keys and batch continuation."""
+import copy
 import argparse
 import csv
 import io
@@ -14,6 +15,8 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--exe", type=Path, default=ROOT / "build/debug/rome_bus_pmcsn.exe")
 args, rest = parser.parse_known_args()
 EXE = args.exe.resolve()
+sys.path.insert(0, str(ROOT / "scripts"))
+from verify_network import check_streams, check_recurrence
 
 
 class TravelTests(unittest.TestCase):
@@ -74,6 +77,33 @@ class TravelTests(unittest.TestCase):
             self.assertEqual(a["rng_final"], b["rng_initial"])
         with travel.open() as f:
             self.assertEqual(len(list(csv.DictReader(f))), 8)
+
+    def test_full_period_and_partition(self):
+        period = 2147483646
+        self.assertEqual(2*3*3*7*11*31*151*331, period)
+        self.assertEqual(pow(48271, period, period+1), 1)
+        for prime in (2, 3, 7, 11, 31, 151, 331):
+            self.assertNotEqual(pow(48271, period//prime, period+1), 1)
+        from verify_network import OFFSETS, LENGTHS
+        self.assertEqual(OFFSETS, [sum(LENGTHS[:i]) for i in range(4)])
+        self.assertEqual(sum(LENGTHS), period)
+
+    def test_lehmer_partition_and_jump_against_python(self):
+        path = self.fixture(0)
+        for seed in (1, 12345, 123456789, 2147483646):
+            row = json.loads(self.run_cli("simulate", "network", path, "--seed", seed).stdout)
+            self.assertEqual(row["rng_version"], "lehmer48271-m2147483647-network-partition-v2")
+            check_streams(row["rng_initial"], seed)
+            check_streams(row["rng_final"], seed, expected_draws=None)
+            check_recurrence(row["rng_initial"], row["rng_final"])
+            bad = copy.deepcopy(row["rng_final"])
+            bad[2]["state"] = bad[2]["state"] % 2147483646 + 1
+            with self.assertRaises(AssertionError):
+                check_streams(bad, seed, expected_draws=None)
+        for seed in (0, 2147483647, 4294944442):
+            result = subprocess.run([str(EXE), "simulate", "network", str(path), "--seed", str(seed)], capture_output=True)
+            self.assertNotEqual(result.returncode, 0)
+            self.assertEqual(result.stdout, b"")
 
     def test_regular_uses_no_environment_draws(self):
         path = self.fixture(0)

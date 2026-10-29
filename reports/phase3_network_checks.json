@@ -1,18 +1,18 @@
 {
   "status": "verification_and_plausibility_only",
-  "rng": "MRG32k3a",
+  "rng": "lehmer48271-m2147483647-network-partition-v2",
   "replicas_per_empty_scenario": 4,
   "source_sha256": {
     "src\\simulation\\calendar.c": "f9af74f00e0efe3f9a9ee871df27ec7957a7fbdde509d6ac19e21b5ba26a2e80",
-    "src\\simulation\\cli.c": "a76d5711e0715a8d24b3614bfdbb71b519dab06abb44a6d527d73272a9ed8805",
+    "src\\simulation\\cli.c": "a406f8ab76c60179902b48ea3d59e27d01cb295543130c2ca7d10ccbc5674368",
     "src\\simulation\\controlled.c": "fb556b419b7a541deabdcf6be3dc40ce3169b43b53a4db35373f79c0094ded23",
-    "src\\simulation\\network.c": "2e83e9444ea7a3bd58d201798ed0d03e6bb4f8ed1f9f8525a23477edd929ff10",
-    "src\\simulation\\rng.c": "4f863118428ecc0cd02d2c9f6d9b94bac3855def93b8182566b8bd1151ae7131",
-    "include\\rome_bus_pmcsn\\simulation.h": "61cdc2105787c6548360d05ab3953c11d7f7d53d59a09c5b696c7978696d9b3f",
+    "src\\simulation\\network.c": "fbf7b79598d8fc203bfd9ad22e20463a520030d0f7fedcbc414d62c17a094c2f",
+    "src\\simulation\\rng.c": "85437881fb97db96680e9e701684d6bc25dbddf7f1dd9803d409d9847bec6199",
+    "include\\rome_bus_pmcsn\\simulation.h": "91d3bd3f10bbad824a190a3aabce436f588be9b778d3bb9067abf5c3aa3bff44",
     "scripts\\export_simulation.py": "08cc5047cb565af15f757211e116ef34c4a50794658333d1ba696f450291ddfa",
-    "scripts\\verify_network.py": "25e838d1b2b1c5d22bcc27393083169df312f8233708758e839558ab5a88825b"
+    "scripts\\verify_network.py": "9d3f71d45b3550527111c05118527d2f5cd43a4b6c30e342ca1f523ed2e467da"
   },
-  "exe_sha256": "bcf17e2b55970b264bc68e66294b459db90ddf72aecaf634d349e89c1254ac00",
+  "exe_sha256": "fceb2be38e18ef965811f7d5f3c3d48e1f2165e3b8735a9da119511746ac1aa6",
   "cases": [
     {
       "scenario": "BASE",
@@ -20,66 +20,65 @@
       "replicas": 4,
       "metrics": [
         {
-          "arrivals": 76341,
-          "boarded": 73609,
-          "unserved": 2732,
-          "completed": 67240,
-          "onboard": 6369,
-          "reserved": 9,
-          "mean_wait": 479.983485970827,
-          "queue_area": 36642419.302498914,
-          "restricted_wait_sum": 36642419.30249891,
-          "environment_keys": 7425
+          "arrivals": 76376,
+          "boarded": 73588,
+          "unserved": 2788,
+          "completed": 67392,
+          "onboard": 6196,
+          "reserved": 4,
+          "mean_wait": 471.7801268485411,
+          "queue_area": 36032678.96818407,
+          "restricted_wait_sum": 36032678.96818417,
+          "environment_keys": 7370
         },
         {
-          "arrivals": 76444,
-          "boarded": 73744,
-          "unserved": 2700,
-          "completed": 67526,
-          "onboard": 6218,
-          "reserved": 12,
-          "mean_wait": 458.9529920306025,
-          "queue_area": 35084202.52278735,
-          "restricted_wait_sum": 35084202.52278738,
-          "environment_keys": 7462
+          "arrivals": 76083,
+          "boarded": 73483,
+          "unserved": 2600,
+          "completed": 66964,
+          "onboard": 6519,
+          "reserved": 14,
+          "mean_wait": 479.3356929932078,
+          "queue_area": 36469297.53000221,
+          "restricted_wait_sum": 36469297.53000223,
+          "environment_keys": 7422
         },
         {
-          "arrivals": 76129,
-          "boarded": 73366,
-          "unserved": 2763,
-          "completed": 67004,
-          "onboard": 6362,
-          "reserved": 16,
-          "mean_wait": 482.40296696718934,
-          "queue_area": 36724855.47224506,
-          "restricted_wait_sum": 36724855.47224516,
-          "environment_keys": 7389
+          "arrivals": 76172,
+          "boarded": 73471,
+          "unserved": 2701,
+          "completed": 67076,
+          "onboard": 6395,
+          "reserved": 8,
+          "mean_wait": 481.2441151216053,
+          "queue_area": 36657326.73704301,
+          "restricted_wait_sum": 36657326.73704292,
+          "environment_keys": 7406
         },
         {
-          "arrivals": 76486,
-          "boarded": 73738,
-          "unserved": 2748,
-          "completed": 67426,
-          "onboard": 6312,
-          "reserved": 10,
-          "mean_wait": 468.0506261050981,
-          "queue_area": 35799320.18827457,
-          "restricted_wait_sum": 35799320.18827453,
-          "environment_keys": 7434
+          "arrivals": 76780,
+          "boarded": 74003,
+          "unserved": 2777,
+          "completed": 67460,
+          "onboard": 6543,
+          "reserved": 13,
+          "mean_wait": 475.3716500401011,
+          "queue_area": 36499035.29007898,
+          "restricted_wait_sum": 36499035.29007896,
+          "environment_keys": 7413
         }
       ],
-      "wall_seconds": 1.1438058000057936,
+      "wall_seconds": 0.8937055000569671,
       "selected_factor_first_replica": {
-        "traversals": 8044,
-        "mean": 0.9992228946788031,
-        "cv": 0.2028589368849549,
+        "traversals": 8054,
+        "mean": 0.9961018042902189,
+        "cv": 0.2002992500455926,
         "within_prespecified_smoke_tolerance": true
       },
       "cumulative_stream_draws": [
-        307052,
-        305400,
-        59420,
-        0,
+        307063,
+        305411,
+        59222,
         0
       ],
       "input_sha256": "6c90e6a65cde81509044c65d60d3dc5e119492bff06c3adaa8ac22b3c1fb300f"
@@ -90,30 +89,29 @@
       "replicas": 1,
       "metrics": [
         {
-          "arrivals": 76341,
-          "boarded": 73591,
-          "unserved": 2750,
-          "completed": 67078,
-          "onboard": 6513,
-          "reserved": 10,
-          "mean_wait": 487.6542656033246,
-          "queue_area": 37228014.290423386,
-          "restricted_wait_sum": 37228014.2904234,
-          "environment_keys": 7434
+          "arrivals": 76376,
+          "boarded": 73690,
+          "unserved": 2686,
+          "completed": 67400,
+          "onboard": 6290,
+          "reserved": 12,
+          "mean_wait": 485.7897077245102,
+          "queue_area": 37102674.7171671,
+          "restricted_wait_sum": 37102674.71716719,
+          "environment_keys": 7418
         }
       ],
-      "wall_seconds": 0.3144461000338197,
+      "wall_seconds": 0.2532908001448959,
       "selected_factor_first_replica": {
-        "traversals": 8047,
-        "mean": 0.9994951589391324,
-        "cv": 0.20121772938817678,
+        "traversals": 8057,
+        "mean": 0.9972674020217748,
+        "cv": 0.20077091286090207,
         "within_prespecified_smoke_tolerance": true
       },
       "cumulative_stream_draws": [
-        76754,
-        76341,
-        14868,
-        0,
+        76789,
+        76376,
+        14836,
         0
       ],
       "input_sha256": "54e02c71451e29a890c29777f5191fc043b196ebac2cdb725866353a9c6a62db"
@@ -124,66 +122,65 @@
       "replicas": 4,
       "metrics": [
         {
-          "arrivals": 57162,
-          "boarded": 55527,
-          "unserved": 1635,
-          "completed": 51133,
-          "onboard": 4394,
-          "reserved": 8,
-          "mean_wait": 405.6919020498028,
-          "queue_area": 23190160.50497085,
-          "restricted_wait_sum": 23190160.50497083,
-          "environment_keys": 7556
+          "arrivals": 57249,
+          "boarded": 55548,
+          "unserved": 1701,
+          "completed": 51072,
+          "onboard": 4476,
+          "reserved": 7,
+          "mean_wait": 401.50289063713774,
+          "queue_area": 22985638.986085497,
+          "restricted_wait_sum": 22985638.986085497,
+          "environment_keys": 7566
         },
         {
-          "arrivals": 57457,
-          "boarded": 55674,
-          "unserved": 1783,
-          "completed": 51238,
-          "onboard": 4436,
-          "reserved": 10,
-          "mean_wait": 406.08869005146687,
-          "queue_area": 23332637.86428715,
-          "restricted_wait_sum": 23332637.86428713,
-          "environment_keys": 7600
+          "arrivals": 57049,
+          "boarded": 55299,
+          "unserved": 1750,
+          "completed": 50874,
+          "onboard": 4425,
+          "reserved": 6,
+          "mean_wait": 407.63413183517997,
+          "queue_area": 23255119.587065198,
+          "restricted_wait_sum": 23255119.587065183,
+          "environment_keys": 7581
         },
         {
-          "arrivals": 57157,
-          "boarded": 55504,
-          "unserved": 1653,
-          "completed": 51213,
-          "onboard": 4291,
-          "reserved": 4,
-          "mean_wait": 405.2541145599169,
-          "queue_area": 23163109.42590121,
-          "restricted_wait_sum": 23163109.42590117,
-          "environment_keys": 7548
-        },
-        {
-          "arrivals": 57102,
-          "boarded": 55404,
-          "unserved": 1698,
-          "completed": 50946,
-          "onboard": 4458,
+          "arrivals": 57416,
+          "boarded": 55533,
+          "unserved": 1883,
+          "completed": 51172,
+          "onboard": 4361,
           "reserved": 9,
-          "mean_wait": 405.37038433716,
-          "queue_area": 23147459.686420467,
-          "restricted_wait_sum": 23147459.686420508,
-          "environment_keys": 7537
+          "mean_wait": 408.1773473767124,
+          "queue_area": 23435910.57698133,
+          "restricted_wait_sum": 23435910.57698132,
+          "environment_keys": 7598
+        },
+        {
+          "arrivals": 56960,
+          "boarded": 55278,
+          "unserved": 1682,
+          "completed": 50763,
+          "onboard": 4515,
+          "reserved": 7,
+          "mean_wait": 406.1790751145494,
+          "queue_area": 23135960.118524723,
+          "restricted_wait_sum": 23135960.118524734,
+          "environment_keys": 7536
         }
       ],
-      "wall_seconds": 0.9241135000484064,
+      "wall_seconds": 0.6737771998159587,
       "selected_factor_first_replica": {
-        "traversals": 8105,
-        "mean": 0.9994605140274944,
-        "cv": 0.20198343591108892,
+        "traversals": 8111,
+        "mean": 0.9973151665141208,
+        "cv": 0.20048143798635049,
         "within_prespecified_smoke_tolerance": true
       },
       "cumulative_stream_draws": [
-        230530,
-        228878,
-        60482,
-        0,
+        230326,
+        228674,
+        60562,
         0
       ],
       "input_sha256": "5138d7923452e9f58be0070a99685499f92eb258849eaab7da7c4c72e75d6309"
@@ -194,30 +191,29 @@
       "replicas": 1,
       "metrics": [
         {
-          "arrivals": 57162,
-          "boarded": 55279,
-          "unserved": 1883,
-          "completed": 50938,
-          "onboard": 4341,
+          "arrivals": 57249,
+          "boarded": 55513,
+          "unserved": 1736,
+          "completed": 51049,
+          "onboard": 4464,
           "reserved": 10,
-          "mean_wait": 405.50627414300004,
-          "queue_area": 23179549.642562192,
-          "restricted_wait_sum": 23179549.64256217,
-          "environment_keys": 7512
+          "mean_wait": 404.14370917687796,
+          "queue_area": 23136823.20666711,
+          "restricted_wait_sum": 23136823.206667088,
+          "environment_keys": 7558
         }
       ],
-      "wall_seconds": 0.2508893000194803,
+      "wall_seconds": 0.1939298000652343,
       "selected_factor_first_replica": {
-        "traversals": 8099,
-        "mean": 0.9988759530005675,
-        "cv": 0.2026474724154626,
+        "traversals": 8112,
+        "mean": 0.9973107883188681,
+        "cv": 0.20080472233707986,
         "within_prespecified_smoke_tolerance": true
       },
       "cumulative_stream_draws": [
-        57575,
-        57162,
-        15024,
-        0,
+        57662,
+        57249,
+        15116,
         0
       ],
       "input_sha256": "2d92bf24ac8a85cc2df623cd29a433fa06f024a1e92012a51b6914fc71332591"
@@ -228,66 +224,65 @@
       "replicas": 4,
       "metrics": [
         {
-          "arrivals": 95524,
-          "boarded": 88971,
-          "unserved": 6553,
-          "completed": 80763,
-          "onboard": 8208,
-          "reserved": 15,
-          "mean_wait": 696.7511631772393,
-          "queue_area": 66556458.11134261,
-          "restricted_wait_sum": 66556458.11134261,
-          "environment_keys": 7422
+          "arrivals": 95284,
+          "boarded": 89005,
+          "unserved": 6279,
+          "completed": 81158,
+          "onboard": 7847,
+          "reserved": 7,
+          "mean_wait": 687.9631693313639,
+          "queue_area": 65551882.62656946,
+          "restricted_wait_sum": 65551882.62656968,
+          "environment_keys": 7465
         },
         {
-          "arrivals": 95280,
-          "boarded": 88499,
-          "unserved": 6781,
-          "completed": 80610,
-          "onboard": 7889,
-          "reserved": 15,
-          "mean_wait": 700.9201136348597,
-          "queue_area": 66783668.42712919,
-          "restricted_wait_sum": 66783668.42712943,
-          "environment_keys": 7453
+          "arrivals": 95224,
+          "boarded": 88607,
+          "unserved": 6617,
+          "completed": 80607,
+          "onboard": 8000,
+          "reserved": 7,
+          "mean_wait": 700.4382878166457,
+          "queue_area": 66698535.519052304,
+          "restricted_wait_sum": 66698535.51905227,
+          "environment_keys": 7475
         },
         {
-          "arrivals": 95609,
-          "boarded": 88912,
-          "unserved": 6697,
-          "completed": 81101,
-          "onboard": 7811,
-          "reserved": 11,
-          "mean_wait": 711.7695941085271,
-          "queue_area": 68051579.12312193,
-          "restricted_wait_sum": 68051579.12312217,
-          "environment_keys": 7353
+          "arrivals": 95692,
+          "boarded": 88958,
+          "unserved": 6734,
+          "completed": 80961,
+          "onboard": 7997,
+          "reserved": 17,
+          "mean_wait": 697.3139147692362,
+          "queue_area": 66727363.132097825,
+          "restricted_wait_sum": 66727363.13209776,
+          "environment_keys": 7426
         },
         {
-          "arrivals": 95393,
-          "boarded": 88785,
-          "unserved": 6608,
-          "completed": 80810,
-          "onboard": 7975,
-          "reserved": 12,
-          "mean_wait": 706.3229080575951,
-          "queue_area": 67378261.16833802,
-          "restricted_wait_sum": 67378261.16833816,
-          "environment_keys": 7375
+          "arrivals": 95343,
+          "boarded": 88878,
+          "unserved": 6465,
+          "completed": 80700,
+          "onboard": 8178,
+          "reserved": 5,
+          "mean_wait": 714.3836273681652,
+          "queue_area": 68111478.1841628,
+          "restricted_wait_sum": 68111478.18416297,
+          "environment_keys": 7388
         }
       ],
-      "wall_seconds": 1.4044665000401437,
+      "wall_seconds": 1.136034799972549,
       "selected_factor_first_replica": {
-        "traversals": 8003,
-        "mean": 0.9989143214824897,
-        "cv": 0.20196274829832817,
+        "traversals": 8012,
+        "mean": 0.9969417757726218,
+        "cv": 0.20033851625468438,
         "within_prespecified_smoke_tolerance": true
       },
       "cumulative_stream_draws": [
-        383458,
-        381806,
-        59206,
-        0,
+        383195,
+        381543,
+        59508,
         0
       ],
       "input_sha256": "3e3b66bf60e86bc5258b80cc08b56be453696f0e157b7dba10214d2da5cb4bd9"
@@ -298,30 +293,29 @@
       "replicas": 1,
       "metrics": [
         {
-          "arrivals": 95524,
-          "boarded": 88724,
-          "unserved": 6800,
-          "completed": 80714,
-          "onboard": 8010,
-          "reserved": 13,
-          "mean_wait": 750.3175659488606,
-          "queue_area": 71673335.16969882,
-          "restricted_wait_sum": 71673335.16969897,
-          "environment_keys": 7464
+          "arrivals": 95284,
+          "boarded": 88743,
+          "unserved": 6541,
+          "completed": 80833,
+          "onboard": 7910,
+          "reserved": 8,
+          "mean_wait": 743.8179488272162,
+          "queue_area": 70873949.43605232,
+          "restricted_wait_sum": 70873949.43605247,
+          "environment_keys": 7397
         }
       ],
-      "wall_seconds": 0.3711918001063168,
+      "wall_seconds": 0.3103402000851929,
       "selected_factor_first_replica": {
-        "traversals": 8010,
-        "mean": 0.9981830573012385,
-        "cv": 0.2014375118643783,
+        "traversals": 8007,
+        "mean": 0.9978531906530064,
+        "cv": 0.2005306582959105,
         "within_prespecified_smoke_tolerance": true
       },
       "cumulative_stream_draws": [
-        95937,
-        95524,
-        14928,
-        0,
+        95697,
+        95284,
+        14794,
         0
       ],
       "input_sha256": "754f68b558c2dc67df3cb9898fb083bf5232f89060c60d3f8480846f33e4b6a2"
@@ -332,65 +326,64 @@
       "replicas": 4,
       "metrics": [
         {
-          "arrivals": 76341,
-          "boarded": 73704,
-          "unserved": 2637,
-          "completed": 67367,
-          "onboard": 6337,
-          "reserved": 9,
-          "mean_wait": 458.4517013711751,
-          "queue_area": 34998661.33437689,
-          "restricted_wait_sum": 34998661.33437688,
-          "environment_keys": 0
-        },
-        {
-          "arrivals": 76444,
-          "boarded": 73844,
-          "unserved": 2600,
-          "completed": 67561,
-          "onboard": 6283,
-          "reserved": 12,
-          "mean_wait": 454.3713135583536,
-          "queue_area": 34733960.693654776,
-          "restricted_wait_sum": 34733960.69365478,
-          "environment_keys": 0
-        },
-        {
-          "arrivals": 76129,
-          "boarded": 73570,
-          "unserved": 2559,
-          "completed": 67160,
-          "onboard": 6410,
-          "reserved": 13,
-          "mean_wait": 458.1489645326232,
-          "queue_area": 34878422.52090401,
-          "restricted_wait_sum": 34878422.52090407,
-          "environment_keys": 0
-        },
-        {
-          "arrivals": 76486,
-          "boarded": 73909,
-          "unserved": 2577,
-          "completed": 67594,
-          "onboard": 6315,
+          "arrivals": 76376,
+          "boarded": 73751,
+          "unserved": 2625,
+          "completed": 67383,
+          "onboard": 6368,
           "reserved": 11,
-          "mean_wait": 452.0945282958119,
-          "queue_area": 34578902.09123343,
-          "restricted_wait_sum": 34578902.09123347,
+          "mean_wait": 458.7254167340901,
+          "queue_area": 35035612.428482845,
+          "restricted_wait_sum": 35035612.42848287,
+          "environment_keys": 0
+        },
+        {
+          "arrivals": 76083,
+          "boarded": 73343,
+          "unserved": 2740,
+          "completed": 66851,
+          "onboard": 6492,
+          "reserved": 9,
+          "mean_wait": 466.9238634176959,
+          "queue_area": 35524968.30040856,
+          "restricted_wait_sum": 35524968.30040856,
+          "environment_keys": 0
+        },
+        {
+          "arrivals": 76172,
+          "boarded": 73560,
+          "unserved": 2612,
+          "completed": 67323,
+          "onboard": 6237,
+          "reserved": 13,
+          "mean_wait": 463.65648325021215,
+          "queue_area": 35317641.64213523,
+          "restricted_wait_sum": 35317641.64213516,
+          "environment_keys": 0
+        },
+        {
+          "arrivals": 76780,
+          "boarded": 74022,
+          "unserved": 2758,
+          "completed": 67627,
+          "onboard": 6395,
+          "reserved": 14,
+          "mean_wait": 456.32521422700387,
+          "queue_area": 35036649.948349416,
+          "restricted_wait_sum": 35036649.94834936,
           "environment_keys": 0
         }
       ],
-      "wall_seconds": 0.9807958999881521,
+      "wall_seconds": 0.9751025000587106,
       "selected_factor_first_replica": {
-        "traversals": 8051,
+        "traversals": 8050,
         "mean": 1.0,
         "cv": 0.0,
         "within_prespecified_smoke_tolerance": true
       },
       "cumulative_stream_draws": [
-        307052,
-        305400,
-        0,
+        307063,
+        305411,
         0,
         0
       ],
@@ -402,29 +395,28 @@
       "replicas": 1,
       "metrics": [
         {
-          "arrivals": 76341,
-          "boarded": 73704,
-          "unserved": 2637,
-          "completed": 67367,
-          "onboard": 6337,
-          "reserved": 9,
-          "mean_wait": 469.1074957673711,
-          "queue_area": 35812135.33437689,
-          "restricted_wait_sum": 35812135.33437688,
+          "arrivals": 76376,
+          "boarded": 73750,
+          "unserved": 2626,
+          "completed": 67383,
+          "onboard": 6367,
+          "reserved": 11,
+          "mean_wait": 472.1821177920142,
+          "queue_area": 36063381.42848286,
+          "restricted_wait_sum": 36063381.428482875,
           "environment_keys": 0
         }
       ],
-      "wall_seconds": 0.2835967999417335,
+      "wall_seconds": 0.28489300003275275,
       "selected_factor_first_replica": {
-        "traversals": 8051,
+        "traversals": 8050,
         "mean": 1.0,
         "cv": 0.0,
         "within_prespecified_smoke_tolerance": true
       },
       "cumulative_stream_draws": [
-        76754,
-        76341,
-        0,
+        76789,
+        76376,
         0,
         0
       ],
@@ -436,67 +428,66 @@
       "replicas": 4,
       "metrics": [
         {
-          "arrivals": 76341,
-          "boarded": 73485,
-          "unserved": 2856,
-          "completed": 67024,
-          "onboard": 6461,
-          "reserved": 12,
-          "mean_wait": 481.6480568380105,
-          "queue_area": 36769494.30707055,
-          "restricted_wait_sum": 36769494.30707056,
-          "environment_keys": 6582
+          "arrivals": 76376,
+          "boarded": 73707,
+          "unserved": 2669,
+          "completed": 67462,
+          "onboard": 6245,
+          "reserved": 13,
+          "mean_wait": 479.53879224538707,
+          "queue_area": 36625254.79653367,
+          "restricted_wait_sum": 36625254.79653368,
+          "environment_keys": 6664
         },
         {
-          "arrivals": 76444,
-          "boarded": 73599,
-          "unserved": 2845,
-          "completed": 67212,
-          "onboard": 6387,
-          "reserved": 8,
-          "mean_wait": 459.4483065019086,
-          "queue_area": 35122066.342231885,
-          "restricted_wait_sum": 35122066.3422319,
-          "environment_keys": 6622
-        },
-        {
-          "arrivals": 76129,
-          "boarded": 73526,
-          "unserved": 2603,
-          "completed": 67041,
-          "onboard": 6485,
+          "arrivals": 76083,
+          "boarded": 73111,
+          "unserved": 2972,
+          "completed": 66679,
+          "onboard": 6432,
           "reserved": 11,
-          "mean_wait": 482.41101499249737,
-          "queue_area": 36725468.160363674,
-          "restricted_wait_sum": 36725468.16036383,
-          "environment_keys": 6545
+          "mean_wait": 481.6426475985162,
+          "queue_area": 36644817.55723791,
+          "restricted_wait_sum": 36644817.55723791,
+          "environment_keys": 6548
         },
         {
-          "arrivals": 76486,
-          "boarded": 73690,
-          "unserved": 2796,
-          "completed": 67336,
-          "onboard": 6354,
-          "reserved": 12,
-          "mean_wait": 464.12942415181976,
-          "queue_area": 35499403.13567607,
-          "restricted_wait_sum": 35499403.135676086,
-          "environment_keys": 6622
+          "arrivals": 76172,
+          "boarded": 73410,
+          "unserved": 2762,
+          "completed": 67275,
+          "onboard": 6135,
+          "reserved": 6,
+          "mean_wait": 484.631221490941,
+          "queue_area": 36915329.40340807,
+          "restricted_wait_sum": 36915329.40340796,
+          "environment_keys": 6574
+        },
+        {
+          "arrivals": 76780,
+          "boarded": 74032,
+          "unserved": 2748,
+          "completed": 67901,
+          "onboard": 6131,
+          "reserved": 11,
+          "mean_wait": 466.20126673429303,
+          "queue_area": 35794933.259859055,
+          "restricted_wait_sum": 35794933.25985902,
+          "environment_keys": 6683
         }
       ],
-      "wall_seconds": 1.0947661999380216,
+      "wall_seconds": 0.9865544999483973,
       "selected_factor_first_replica": {
-        "traversals": 8045,
-        "mean": 1.0005127961187925,
-        "cv": 0.20259654329749024,
+        "traversals": 8064,
+        "mean": 1.0021915149045777,
+        "cv": 0.20258088018207776,
         "within_prespecified_smoke_tolerance": true
       },
       "cumulative_stream_draws": [
-        307052,
-        305400,
+        307063,
+        305411,
         0,
-        52742,
-        0
+        52938
       ],
       "input_sha256": "691211f2b6004d5ccae5871af35052ee06b08f18f2defcde49acdf2351174890"
     },
@@ -506,31 +497,30 @@
       "replicas": 1,
       "metrics": [
         {
-          "arrivals": 76341,
-          "boarded": 73606,
-          "unserved": 2735,
-          "completed": 67158,
-          "onboard": 6448,
-          "reserved": 8,
-          "mean_wait": 483.4026648304246,
-          "queue_area": 36903442.83581942,
-          "restricted_wait_sum": 36903442.835819446,
-          "environment_keys": 6600
+          "arrivals": 76376,
+          "boarded": 73696,
+          "unserved": 2680,
+          "completed": 67191,
+          "onboard": 6505,
+          "reserved": 6,
+          "mean_wait": 485.9857984974444,
+          "queue_area": 37117651.34604077,
+          "restricted_wait_sum": 37117651.346040815,
+          "environment_keys": 6627
         }
       ],
-      "wall_seconds": 0.302412600023672,
+      "wall_seconds": 0.28728249995037913,
       "selected_factor_first_replica": {
-        "traversals": 8053,
-        "mean": 0.9987565442925171,
-        "cv": 0.2027478018494922,
+        "traversals": 8055,
+        "mean": 1.0018090835407307,
+        "cv": 0.2018374279881907,
         "within_prespecified_smoke_tolerance": true
       },
       "cumulative_stream_draws": [
-        76754,
-        76341,
+        76789,
+        76376,
         0,
-        13200,
-        0
+        13254
       ],
       "input_sha256": "bb51877423babfae2e0ff6817672ab9ed26fd4e7dcaf5773778e57578d988f22"
     },
@@ -540,67 +530,66 @@
       "replicas": 4,
       "metrics": [
         {
-          "arrivals": 95524,
-          "boarded": 88895,
-          "unserved": 6629,
-          "completed": 81004,
-          "onboard": 7891,
-          "reserved": 13,
-          "mean_wait": 688.5128885221745,
-          "queue_area": 65769505.16319217,
-          "restricted_wait_sum": 65769505.163192205,
-          "environment_keys": 6591
-        },
-        {
-          "arrivals": 95280,
-          "boarded": 88669,
-          "unserved": 6611,
-          "completed": 80492,
-          "onboard": 8177,
+          "arrivals": 95284,
+          "boarded": 88977,
+          "unserved": 6307,
+          "completed": 81074,
+          "onboard": 7903,
           "reserved": 8,
-          "mean_wait": 698.7066647381425,
-          "queue_area": 66572771.016249985,
-          "restricted_wait_sum": 66572771.01625022,
-          "environment_keys": 6545
+          "mean_wait": 688.3304595177503,
+          "queue_area": 65586879.50468906,
+          "restricted_wait_sum": 65586879.50468932,
+          "environment_keys": 6611
         },
         {
-          "arrivals": 95609,
-          "boarded": 88701,
-          "unserved": 6908,
-          "completed": 80761,
-          "onboard": 7940,
+          "arrivals": 95224,
+          "boarded": 88518,
+          "unserved": 6706,
+          "completed": 80605,
+          "onboard": 7913,
+          "reserved": 8,
+          "mean_wait": 712.6870471282523,
+          "queue_area": 67864911.37574075,
+          "restricted_wait_sum": 67864911.37574069,
+          "environment_keys": 6559
+        },
+        {
+          "arrivals": 95692,
+          "boarded": 89007,
+          "unserved": 6685,
+          "completed": 81154,
+          "onboard": 7853,
+          "reserved": 19,
+          "mean_wait": 695.3569349103393,
+          "queue_area": 66540095.81544027,
+          "restricted_wait_sum": 66540095.81544019,
+          "environment_keys": 6700
+        },
+        {
+          "arrivals": 95343,
+          "boarded": 88914,
+          "unserved": 6429,
+          "completed": 80897,
+          "onboard": 8017,
           "reserved": 15,
-          "mean_wait": 713.3803007197874,
-          "queue_area": 68205577.17151804,
-          "restricted_wait_sum": 68205577.17151816,
-          "environment_keys": 6545
-        },
-        {
-          "arrivals": 95393,
-          "boarded": 88811,
-          "unserved": 6582,
-          "completed": 80755,
-          "onboard": 8056,
-          "reserved": 11,
-          "mean_wait": 711.317627132015,
-          "queue_area": 67854722.40500417,
-          "restricted_wait_sum": 67854722.40500431,
-          "environment_keys": 6573
+          "mean_wait": 716.5909300174185,
+          "queue_area": 68321929.04065071,
+          "restricted_wait_sum": 68321929.04065073,
+          "environment_keys": 6603
         }
       ],
-      "wall_seconds": 1.3275055000558496,
+      "wall_seconds": 1.3017640998587012,
       "selected_factor_first_replica": {
-        "traversals": 7995,
-        "mean": 1.001504806429224,
-        "cv": 0.2035689142871707,
+        "traversals": 8010,
+        "mean": 1.001212414959984,
+        "cv": 0.20225841390817753,
         "within_prespecified_smoke_tolerance": true
       },
       "cumulative_stream_draws": [
-        383458,
-        381806,
+        383195,
+        381543,
         0,
-        52508,
-        0
+        52946
       ],
       "input_sha256": "20daa199b56add9cd796968e86f9f5b41de976e9f9e3504b6e6ac150e9cdfcba"
     },
@@ -610,31 +599,30 @@
       "replicas": 1,
       "metrics": [
         {
-          "arrivals": 95524,
-          "boarded": 88709,
-          "unserved": 6815,
-          "completed": 80686,
-          "onboard": 8023,
-          "reserved": 17,
-          "mean_wait": 745.2916911910148,
-          "queue_area": 71193243.50933042,
-          "restricted_wait_sum": 71193243.5093305,
-          "environment_keys": 6549
+          "arrivals": 95284,
+          "boarded": 88482,
+          "unserved": 6802,
+          "completed": 80513,
+          "onboard": 7969,
+          "reserved": 8,
+          "mean_wait": 756.440379568008,
+          "queue_area": 72076665.126758,
+          "restricted_wait_sum": 72076665.12675807,
+          "environment_keys": 6561
         }
       ],
-      "wall_seconds": 0.3624958998989314,
+      "wall_seconds": 0.34264530008658767,
       "selected_factor_first_replica": {
-        "traversals": 8000,
-        "mean": 1.0004592992480186,
-        "cv": 0.20323321698204136,
+        "traversals": 8001,
+        "mean": 1.0020247283079702,
+        "cv": 0.2011721357344154,
         "within_prespecified_smoke_tolerance": true
       },
       "cumulative_stream_draws": [
-        95937,
-        95524,
+        95697,
+        95284,
         0,
-        13098,
-        0
+        13122
       ],
       "input_sha256": "ec74096b3513ced4f3bf414c1c0646b5c4c4f7d60edf5ccb86171653f5f88bf1"
     }

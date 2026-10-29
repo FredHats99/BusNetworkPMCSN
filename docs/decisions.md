@@ -82,3 +82,29 @@
   applicabili. Specifica di Fase 2 completa, nessuna replica o implementazione
   del simulatore dichiarata. RNG e marginali effettive restano gate di Fase 3;
   lo studio obbligatorio del transitorio resta in Fase 4.
+
+## Studio del transitorio completato - 2026-10-29
+
+- Eseguite tutte le 192 repliche congelate (16 x 6 scenari x 2 stati), senza
+  selezione, ripetizione o estensione. Audit di hash, contatori, checkpoint,
+  griglia e bilanci in `../reports/phase4_completion.json`; analisi in
+  `../reports/transient_analysis.md`. Lezioni e pagine in `phase4_academic_basis.md`.
+- D125 e SHARED_D125 mostrano accumulo nella finestra e differenze di coda
+  nell'ultima ora ancora visibili fra vuoto e caricato. Smaltimento dei
+  passeggeri iniziali non equivale a scomparsa dell'effetto sui nuovi arrivi.
+  Nessun regime stazionario/periodico o tempo universale di convergenza certificato.
+- Confermati 07:00-11:00, warm-up zero e arresto senza drenaggio: oggetto
+  dello studio e' il mattino finito. Scartate le alternative di eliminare
+  un tratto iniziale a posteriori o allungare fino a osservare un plateau:
+  cambierebbero la statistica e richiederebbero nuovi input e budget.
+- Stato vuoto scelto come controllo convenzionale per il confronto principale
+  successivo, senza aggiungere un carico sintetico preesistente non osservato.
+  Non e' dichiarato piu' realistico o equivalente al caricato; le conclusioni
+  future saranno condizionate a tale scelta e accompagnate dalla sensibilita
+  caricata separata. Non scegliere lo stato in base all'attesa piu' favorevole.
+- Precisione finale non rivendicata: N=16 e' diagnostico; nei casi D125 le
+  semiampiezze marginali dell'attesa superano ancora 10 s. Pilota di Fase 5
+  nuovo, poi produzione nuova a N fissato, senza pooling con gate o transitorio.
+- Prossimo cursore RNG `[673381021,669931629,66381872,40754238]`, dal ledger
+  completato. Slot inutilizzati bruciati; riserve future ancora coperte.
+  Nessuna modifica al modello C o alle evidenze del gate 3.8.

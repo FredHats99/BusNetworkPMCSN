@@ -133,6 +133,8 @@ class Accumulator:
 def prepare(args):
     criteria_path = args.criteria.resolve()
     criteria = json.loads(criteria_path.read_text())
+    require(criteria.get("rng_version") == "lehmer48271-m2147483647-network-partition-v2",
+            "Current collector requires Lehmer criteria; historical MRG campaigns are analysis-only")
     require(criteria["root_seed"] == 123456789, "C diagnostic batch root differs from criteria")
     require(criteria["replicas_per_case"] >= criteria["inference"]["minimum_replicas"], "Insufficient planned replicas")
     directory = args.output_dir.resolve()
@@ -155,7 +157,7 @@ def prepare(args):
     plan.write_text(f"PMDIAG1 {len(cases)} {criteria['replicas_per_case']} {criteria['discard_draws_each_used_stream']}\n" +
                     "\n".join(c["input"] for c in cases) + "\n", encoding="ascii")
     sources = [*sorted((ROOT / "src/simulation").glob("*.c")), ROOT / "include/rome_bus_pmcsn/simulation.h",
-               ROOT / "scripts/gate38.py", ROOT / "scripts/gate38_statistics.py", ROOT / "scripts/export_simulation.py",
+               ROOT / "scripts/gate38.py", ROOT / "scripts/gate38_statistics.py", ROOT / "scripts/export_simulation.py", ROOT / "scripts/verify_network.py",
                ROOT / criteria.get("protocol", "docs/gate38_protocol.md")]
     manifest = dict(criteria_sha256=sha(criteria_path), criteria_source=str(criteria_path.relative_to(ROOT)),
                     inventory_sha256=sha(directory / "assertion_inventory.json"),
@@ -163,6 +165,20 @@ def prepare(args):
                     arc_groups=arcs, broad_groups=broad_groups, assertion_count=len(checks),
                     source_sha256={str(p.relative_to(ROOT)): sha(p) for p in sources}, status="prepared_before_run")
     write_json(directory / "manifest.json", manifest)
+    if "rng_version" in criteria:
+        historical = json.loads((ROOT / "configs/gate38_confirmation.json").read_text())
+        for key in ("margins", "cdf_probabilities", "comparisons", "stochastic_comparisons", "scenarios", "initializations", "replicas_per_case", "inference"):
+            require(criteria[key] == historical[key], f"Changed v1.1 design: {key}")
+        old = ROOT / "data/processed/phase3/gate38_confirmation_v1_1/assertion_inventory.json"
+        require(sha(directory / "assertion_inventory.json") == sha(old), "Lehmer inventory differs from frozen v1.1")
+        smoke_path = ROOT / "reports/phase3_network_checks.json"
+        smoke = json.loads(smoke_path.read_text())
+        require(smoke["rng"] == criteria["rng_version"], "Missing Lehmer verification")
+        require(all(max(c["cumulative_stream_draws"]) < criteria["discard_draws_each_used_stream"] for c in smoke["cases"]),
+                "Verification exceeds reserved Lehmer prefix")
+        manifest["verification_prefix"] = dict(report_sha256=sha(smoke_path),
+            maximum_draws=max(max(c["cumulative_stream_draws"]) for c in smoke["cases"]))
+        write_json(directory / "manifest.json", manifest)
     if "planning_campaign" in criteria:
         prior = ROOT / criteria["planning_campaign"]
         prior_manifest = json.loads((prior / "manifest.json").read_text())
@@ -215,6 +231,10 @@ def collect(directory, criteria, manifest):
     require(sha(directory / "assertion_inventory.json") == manifest["inventory_sha256"], "Assertion inventory changed")
     for name, digest in manifest["raw_sha256"].items():
         require(sha(directory / name) == digest, f"Raw file changed: {name}")
+    if "rng_version" in criteria:
+        require(sha(manifest["executable"]) == manifest["exe_sha256"], "Executable changed since collection")
+        for name, digest in manifest["source_sha256"].items():
+            require(sha(ROOT / name) == digest, f"Source changed since collection: {name}")
     cases = manifest["cases"]
     replicas = criteria["replicas_per_case"]
     skip = criteria["discard_draws_each_used_stream"]
@@ -223,6 +243,15 @@ def collect(directory, criteria, manifest):
     with (directory / "results.jsonl").open() as f:
         for i, line in enumerate(f):
             result = json.loads(line)
+            if "rng_version" in criteria:
+                from verify_network import check_streams, check_recurrence
+                require(result["rng_version"] == criteria["rng_version"], "Wrong generator")
+                require(result["root_seed"] == criteria["root_seed"], "Wrong root seed")
+                require(criteria["rng_offsets"] == [s["offset"] for s in result["rng_initial"]], "Changed partition")
+                require(criteria["rng_block_lengths"] == [s["limit"]+1 for s in result["rng_initial"]], "Changed budgets")
+                check_streams(result["rng_initial"], criteria["root_seed"], expected_draws=None)
+                check_streams(result["rng_final"], criteria["root_seed"], expected_draws=None)
+                check_recurrence(result["rng_initial"], result["rng_final"])
             require(result["replica"] == i and result["root_seed"] == criteria["root_seed"], "Replica/root mismatch")
             require(result["arrivals"] == result["boarded"]+result["unserved"], "Passenger balance")
             require(result["rng_final"][1]["draws"]-result["rng_initial"][1]["draws"] == result["arrivals"], "Destination draw accounting")
@@ -383,11 +412,18 @@ def analyse(directory):
                   elapsed_collection_seconds=manifest["elapsed_seconds"],
                   limitations=criteria["limitations"], assertions_file=str(directory / "assertions.json"),
                   diagnostics_file=str(directory / "diagnostics.json"))
-    if "planning_campaign" in criteria:
-        report["confirmation"] = dict(planning_campaign=criteria["planning_campaign"], planning_data_included=False,
+    if "planning" in criteria:
+        report["confirmation"] = dict(planning_campaign=criteria.get("planning_campaign"), planning_data_included=False,
                                       target_halfwidth_fraction=criteria["planning"]["target_halfwidth_fraction"],
                                       precision_targets_met=sum((x.get("interval_deviation", [0, math.inf])[1]-x.get("interval_deviation", [0, math.inf])[0])/2 <= x["margin"]*criteria["planning"]["target_halfwidth_fraction"] for x in outcomes),
                                       precision_targets_total=len(outcomes))
+    if "rng_version" in criteria:
+        report["rng_version"] = criteria["rng_version"]
+        with (directory / "results.jsonl").open() as raw:
+            last = None
+            for line in raw:
+                last = json.loads(line)
+        report["rng_final"] = last["rng_final"]
     write_json(directory / "assertions.json", outcomes)
     write_json(directory / "diagnostics.json", diagnostics)
     write_json(directory / "gate38_results.json", report)
@@ -413,8 +449,8 @@ def analyse(directory):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--exe", type=Path, default=ROOT / "build/debug/rome_bus_pmcsn.exe")
-    parser.add_argument("--output-dir", type=Path, default=ROOT / "data/processed/phase3/gate38_v1")
-    parser.add_argument("--criteria", type=Path, default=ROOT / "configs/gate38_criteria.json")
+    parser.add_argument("--output-dir", type=Path, default=ROOT / "data/processed/phase3/gate38_lehmer_v2")
+    parser.add_argument("--criteria", type=Path, default=ROOT / "configs/gate38_lehmer.json")
     parser.add_argument("--analyze-only", type=Path)
     args = parser.parse_args()
     run_directory = args.analyze_only.resolve() if args.analyze_only else prepare(args)

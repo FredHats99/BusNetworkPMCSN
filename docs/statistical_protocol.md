@@ -1,20 +1,30 @@
 # Protocollo statistico preliminare consolidato per lo studio
 
-Revisione di Fase 3, 2026-10-22: il candidato Lehmer descritto sotto resta nel
-solo riferimento controllato. Il suo budget non è adeguato alla campagna di rete;
-per la rete si adotta MRG32k3a con stream distanti 2^127, radice vettoriale con
-sei componenti 123456789, medesima assegnazione funzionale dei flussi e
-continuazione fra repliche. Motivazione, fonti e verifiche in
-[implementazione di Fase 3](phase3_implementation.md). Questa revisione prevale
-sulla scelta candidata sotto; disegno, IC e ordine della campagna non cambiano.
-Le prove eseguite sono diagnostiche, non pilota o produzione.
+Aggiornamento 2026-10-29: [Fase 4 completata](../reports/transient_analysis.md)
+con 192 repliche nuove, senza pooling con il gate. Per la Fase 5 si mantengono
+finestra [07:00,11:00), warm-up 0 e arresto senza drenaggio. Il confronto
+principale e' condizionato a `empty_passengers`, come condizione di controllo
+che non aggiunge una popolazione preesistente sintetica non osservata; non
+e' una stima dello stato reale delle 07:00. `loaded_synthetic` resta una
+sensibilita distinta: l'effetto iniziale persiste soprattutto ad alta domanda.
+Nessuna equivalenza, stazionarieta o tempo di warm-up certificati. Risultati
+e precisione del campione diagnostico non sostituiscono pilota e produzione.
+Prossimo RNG: ledger completato `data/processed/phase4/campaign_v1/ledger.json`,
+contatori `[673381021,669931629,66381872,40754238]`; gli slot inutilizzati
+restano bruciati. Numerosita futura da dimensionare sul residuo aggiornato.
+Le note di preparazione e mancata esecuzione sotto sono datate storicamente.
 
-Gate 3.8 accettato nella conferma indipendente v1.1: 672 nuove repliche per
-ciascuno dei dodici casi, 8064 totali. Tutti gli 8904 asserti entro i margini
-prefissati con IC simultanei Bonferroni; tutte le semiampiezze entro metà margine.
-Le 384 repliche v1 sono usate solo per dimensionare la conferma e non entrano
-negli IC decisionali. Protocollo in `gate38_confirmation_protocol.md`, esiti in
-`../reports/gate38_results.md`. Il pilota e la produzione qui sotto restano futuri.
+Aggiornamento 2026-10-28: la rete usa ora Lehmer a=48271, m=2147483647,
+con quattro blocchi disgiunti; [piano completo](lehmer_migration.md).
+Gate corrente Lehmer v2.0 accettato: 8064 nuove repliche, tutti gli 8904
+asserti e tutti gli obiettivi di precisione superati. Audit e budget residui
+in [migrazione completata](../reports/lehmer_migration.md). I riferimenti MRG32k3a
+sotto riguardano soltanto la versione storica v1.1, conservata separatamente.
+
+
+La conferma storica MRG v1.1 resta in `../reports/mrg32k3a_v1_1`.
+La conferma Lehmer v2.0 ha criteri in `../configs/gate38_lehmer.json`;
+nessun dato storico viene incluso negli intervalli decisionali.
 
 Aggiornamento 2026-10-22: la specifica eseguibile degli input è congelata nel
 [contratto operativo](phase2_operational_contract.md). Per l'attesa primaria
@@ -121,39 +131,28 @@ Nessun tetto arbitrario di 500 run; la fattibilità si valuta con il costo misur
 
 ## RNG e seed
 
-Generatore candidato scelto per la prima specifica: Lehmer multi-stream rngs
-del libro, `a=48271`, `m=2147483647`, 256 stream, jump 8.367.782,
-moltiplicatore di jump 22925 (tabella a p. 114).
-Usare implementazione del generatore accademico, non progettare un PRNG nuovo.
-Questa scelta è condizionata al gate di adeguatezza sotto; non è ancora codice.
+Generatore della rete: Lehmer a=48271, m=2147483647, come nelle lezioni
+16/17. Il caso controllato conserva i 256 stream storici; la rete usa
+quattro blocchi del ciclo completo, con offset e budget nel
+[piano di migrazione](lehmer_migration.md). La partizione e i salti sono
+scelte locali, non contenuti attribuiti alle due slide.
 
-Seed radice deterministico scelto: 123456789, valido fra 1 e m-1, senza proprietà
-speciali attribuitegli. PlantSeeds una volta all'avvio della campagna. Usare:
+Seed radice 123456789. Continuare gli stati fra repliche e scenari;
+mai resettare o cambiare seed per aggirare il budget. Registrare stato,
+contatore cumulativo, offset e limite di ogni blocco. La rete attuale usa
+stati iniziali deterministici, quindi non richiede uno stream aggiuntivo.
 
-| Stream | Uso |
-|---|---|
-| 0 | Arrivi passeggeri |
-| 1 | Destinazioni |
-| 2 | Tempi/perturbazioni di viaggio indipendenti |
-| 3 | Ambiente condiviso tra linee |
-| 4 | Stato iniziale casuale, quando previsto |
+Il gate Lehmer usa 672 repliche per ciascuno dei 12 casi, dopo un prefisso
+riservato di 4000000 estrazioni per sorgente. Margini e inventario v1.1
+immutati, campioni nuovi e nessun pooling con MRG. I blocchi sono disgiunti,
+ma questa proprieta non dimostra indipendenza statistica; IC nominali e
+approssimazioni mantengono i limiti dichiarati.
 
-Ordine campagna: tutti i piloti per scenario nell'ordine YAML, poi produzione
-nello stesso ordine. Continuare gli stati di tutti gli stream fra repliche,
-scenari e fasi pilota/produzione come descritto in 8.3; non richiamare PlantSeeds
-con lo stesso seed a ogni replica/scenario. Salvare stati iniziali/finali di
-tutti i flussi, consumi, scenario, indice, fase, versione RNG e configurazione.
-Ripetere volontariamente l'intera campagna con la stessa radice è riproduzione,
-non una nuova campagna indipendente.
-
-**Gate RNG prima del pilota e della produzione:** verificare l'implementazione con TestRandom
-e riferimento noto; contare tutte le estrazioni, incluse quelle scartate; il
-consumo cumulativo di ogni stream della campagna deve restare sotto 8.367.782,
-senza wrap né sovrapposizione. Verificare inoltre adeguatezza statistica e
-dimensionale rispetto agli input (Kurkowski III.A.3). Il solo budget non basta
-a dimostrarla. Se il gate fallisce, scegliere un generatore accademico a periodo
-maggiore con strategia documentata, aggiornando il protocollo prima di produrre
-risultati. Nessun seed arbitrario aggiunto per aggirare il limite.
+Prima di transitorio, pilota e produzione occorre dimensionare il consumo
+residuo, dopo quello del gate. Il periodo non si rinnova cambiando processo
+o seed. Se il budget non basta, il disegno deve essere rivisto e motivato
+prima di raccogliere dati. Non avviare una campagna che presupponga spazio
+illimitato o stream separati senza verifica dei salti e dei consumi.
 
 ## Tempo, transitorio e tracciabilità
 
@@ -167,3 +166,18 @@ Registrare fonte e stato dei parametri: gli IC quantificano Monte Carlo a input
 fissati, non l'incertezza di domanda, capacità, topologia o modello.
 Il piano di Fase 1 è completo come protocollo preliminare; i gate esecutivi non
 sono risultati già ottenuti e non completano le Fasi 2–5.
+
+## Preparazione del transitorio e riserve finite
+
+Piano congelato in `configs/phase4_plan.json`, consumi misurati e riserve in
+`reports/phase4_budget.json`, protocollo operativo in `phase4_protocol.md`.
+Sono pianificate 192 repliche (16 per caso), riservate 40 repliche pilota
+per scenario e capacita provvisoria per 80 repliche di produzione/scenario.
+N di produzione non e' ancora fissato. La capacita massima pianificata,
+lasciando una riserva del 20%, e' 92 per scenario nelle condizioni attuali.
+Se il dimensionamento statistico ne richiede di piu, occorre rivedere il
+disegno prima della produzione, senza dichiarare precisione non raggiunta.
+Gli slot sono assegnati prima delle run e limitati nel C; anche le parti
+inutilizzate restano riservate, compresi gli slot interrotti. Il periodo
+residuo non viene riutilizzato dopo una ripartenza del processo.
+La campagna di Fase 4 non e' stata eseguita durante questa preparazione.

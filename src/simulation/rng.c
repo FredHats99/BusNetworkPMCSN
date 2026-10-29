@@ -1,67 +1,71 @@
 #include "rome_bus_pmcsn/simulation.h"
 #include <string.h>
 
-/* MRG32k3a recurrences and published 2^127 stream jumps: L'Ecuyer (1999),
- * L'Ecuyer et al. (2002), umontreal-simul/RngStreams. Integer C17 implementation
- * of the specified generator; no new PRNG or arbitrary per-stream seeds. */
-static const uint32_t jump[2][3][3] = {
-    {{2427906178u,3580155704u,949770784u},{226153695u,1230515664u,3580155704u},{1988835001u,986791581u,1230515664u}},
-    {{1464411153u,277697599u,1610723613u},{32183930u,1464411153u,1022607788u},{2824425944u,32183930u,2093834863u}}
-};
+/* Lehmer, as in course lectures 16/17. Network blocks partition one period;
+ * jumps change the initial position, never the recurrence or multiplier. */
+static const uint64_t offsets[4] = {0, 800000000, 1600000000, 1900000000};
+static const uint64_t lengths[4] = {800000000, 800000000, 300000000, 247483646};
 
+static uint32_t power(uint64_t exponent) {
+    uint64_t result = 1, base = 48271;
+    while (exponent) {
+        if (exponent & 1) result = result*base % UINT64_C(2147483647);
+        base = base*base % UINT64_C(2147483647);
+        exponent >>= 1;
+    }
+    return (uint32_t)result;
+}
+uint64_t pm_rng_network_offset(unsigned stream) {
+    return stream < 4 ? offsets[stream] : 0;
+}
+uint64_t pm_rng_limit(const PmRng *rng, unsigned stream) {
+    if (!rng || rng->algorithm > 1 || stream >= (rng->algorithm ? 4u : PMCSN_STREAMS)) return 0;
+    return (rng->algorithm ? lengths[stream] : PMCSN_STREAM_SPACING)-1;
+}
 int pm_rng_init_network(PmRng *rng, uint32_t seed) {
-    if (!rng || !seed || seed >= UINT32_C(4294944443)) return -1;
+    if (!rng || !seed || seed >= UINT32_C(2147483647)) return -1;
     memset(rng, 0, sizeof(*rng)); rng->algorithm = 1; rng->root_seed = seed;
-    for (unsigned j = 0; j < 6; ++j) rng->mrg[0][j] = seed;
-    for (unsigned s = 1; s < PMCSN_STREAMS; ++s) {
-        for (unsigned c = 0; c < 2; ++c) {
-            uint64_t modulus = c ? UINT64_C(4294944443) : UINT64_C(4294967087);
-            for (unsigned row = 0; row < 3; ++row) {
-                uint64_t total = 0;
-                for (unsigned j = 0; j < 3; ++j)
-                    total = (total + ((uint64_t)jump[c][row][j]*rng->mrg[s-1][3*c+j]) % modulus) % modulus;
-                rng->mrg[s][3*c+row] = (uint32_t)total;
-            }
-        }
+    for (unsigned s = 0; s < 4; ++s) {
+        rng->state[s] = (uint32_t)((uint64_t)power(offsets[s])*seed % UINT64_C(2147483647));
+        rng->ceiling[s] = lengths[s]-1;
     }
     return 0;
 }
-
 int pm_rng_init(PmRng *rng, uint32_t seed) {
-    if (!rng || seed == 0 || seed >= UINT32_C(2147483647)) return -1;
-    memset(rng, 0, sizeof(*rng));
-    rng->root_seed = seed;
-    rng->state[0] = seed;
+    if (!rng || !seed || seed >= UINT32_C(2147483647)) return -1;
+    memset(rng, 0, sizeof(*rng)); rng->root_seed = seed; rng->state[0] = seed;
     for (unsigned i = 1; i < PMCSN_STREAMS; ++i)
-        rng->state[i] = (uint32_t)((UINT64_C(22925) * rng->state[i-1]) % UINT64_C(2147483647));
+        rng->state[i] = (uint32_t)((UINT64_C(22925)*rng->state[i-1]) % UINT64_C(2147483647));
     return 0;
 }
-
+int pm_rng_set_ceiling(PmRng *rng, const uint64_t ceiling[4]) {
+    if (!rng || !ceiling || rng->algorithm != 1) return -1;
+    for (unsigned i = 0; i < 4; ++i)
+        if (ceiling[i] < rng->draws[i] || ceiling[i] > pm_rng_limit(rng, i)) return -1;
+    for (unsigned i = 0; i < 4; ++i) rng->ceiling[i] = ceiling[i];
+    return 0;
+}
+static uint64_t effective_limit(const PmRng *rng, unsigned stream) {
+    uint64_t limit = pm_rng_limit(rng, stream);
+    if (limit && rng->algorithm == 1 && rng->ceiling[stream] < limit) limit = rng->ceiling[stream];
+    return limit;
+}
+int pm_rng_advance(PmRng *rng, unsigned stream, uint64_t count) {
+    uint64_t limit = effective_limit(rng, stream);
+    if (!pm_rng_limit(rng, stream) || !rng->state[stream] || rng->state[stream] >= UINT32_C(2147483647) ||
+        rng->draws[stream] > limit || count > limit-rng->draws[stream]) return -1;
+    rng->state[stream] = (uint32_t)((uint64_t)power(count)*rng->state[stream] % UINT64_C(2147483647));
+    rng->draws[stream] += count;
+    return 0;
+}
 int pm_rng_uniform(PmRng *rng, unsigned stream, double *value) {
-    if (!rng || !value || stream >= PMCSN_STREAMS) return -1;
-    if (rng->algorithm == 1) {
-        /* Hard limit 2^64-1 draws is strictly below the 2^127 stream spacing. */
-        if (rng->draws[stream] == UINT64_MAX) return -1;
-        uint32_t *s = rng->mrg[stream];
-        for (unsigned j = 0; j < 6; ++j)
-            if (s[j] >= (j < 3 ? UINT32_C(4294967087) : UINT32_C(4294944443))) return -1;
-        if (!(s[0] || s[1] || s[2]) || !(s[3] || s[4] || s[5])) return -1;
-        int64_t p = (INT64_C(1403580)*s[1]-INT64_C(810728)*s[0]) % INT64_C(4294967087);
-        int64_t q = (INT64_C(527612)*s[5]-INT64_C(1370589)*s[3]) % INT64_C(4294944443);
-        if (p < 0) p += INT64_C(4294967087);
-        if (q < 0) q += INT64_C(4294944443);
-        s[0] = s[1]; s[1] = s[2]; s[2] = (uint32_t)p;
-        s[3] = s[4]; s[4] = s[5]; s[5] = (uint32_t)q;
-        int64_t difference = p-q;
-        if (difference <= 0) difference += INT64_C(4294967087);
-        *value = (double)difference/4294967088.0;
-        ++rng->draws[stream]; return 0;
-    }
-    if (rng->algorithm != 0 ||
-        rng->state[stream] == 0 || rng->state[stream] >= UINT32_C(2147483647) ||
-        rng->draws[stream] >= PMCSN_STREAM_SPACING - 1) return -1;
-    rng->state[stream] = (uint32_t)((UINT64_C(48271) * rng->state[stream]) % UINT64_C(2147483647));
+    uint64_t limit = effective_limit(rng, stream);
+    if (!value || !limit || !rng->state[stream] || rng->state[stream] >= UINT32_C(2147483647) ||
+        rng->draws[stream] >= limit) return -1;
+    /* Schrage decomposition: intermediate magnitudes fit signed 32 bits. */
+    int64_t t = INT64_C(48271)*(rng->state[stream] % 44488) - INT64_C(3399)*(rng->state[stream]/44488);
+    rng->state[stream] = (uint32_t)(t > 0 ? t : t+INT64_C(2147483647));
     ++rng->draws[stream];
-    *value = rng->state[stream] / 2147483647.0;
+    *value = rng->state[stream]/2147483647.0;
     return 0;
 }
